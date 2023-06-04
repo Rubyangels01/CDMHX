@@ -131,5 +131,24 @@ namespace CDMHX
             pn_main.Controls.Add(myForm);
             myForm.Show();
         }
+        // BUTTON FORM CHIẾN DỊCH
+        private void barButtonItem4_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            pn_main.Controls.Clear();
+
+            CHIENDICH myForm = new CHIENDICH();
+            myForm.TopLevel = false;
+            myForm.FormBorderStyle = FormBorderStyle.None;
+
+
+
+
+            // Đặt Anchor để myForm căn giữa trong pn_main
+            myForm.Anchor = AnchorStyles.None;
+
+            myForm.Dock = DockStyle.Fill;
+            pn_main.Controls.Add(myForm);
+            myForm.Show();
+        }
     }
 }

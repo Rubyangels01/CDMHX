@@ -51,6 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CHIENDICH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CHIENDICH.Designer.cs">
+      <DependentUpon>CHIENDICH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CHIENDICHDAO.cs" />
     <Compile Include="CONGVIEC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +65,13 @@
       <DependentUpon>CONGVIEC.cs</DependentUpon>
     </Compile>
     <Compile Include="CongViecDAO.cs" />
+    <Compile Include="CT_CDDAO.cs" />
+    <Compile Include="CT_CHIENDICH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CT_CHIENDICH.Designer.cs">
+      <DependentUpon>CT_CHIENDICH.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataConnection.cs" />
     <Compile Include="GIAOVIEN.cs">
       <SubType>Form</SubType>
@@ -108,8 +122,14 @@
       <DependentUpon>THEMSVNHOM.cs</DependentUpon>
     </Compile>
     <Compile Include="THEMSVNHOMDAO.cs" />
+    <EmbeddedResource Include="CHIENDICH.resx">
+      <DependentUpon>CHIENDICH.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CONGVIEC.resx">
       <DependentUpon>CONGVIEC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CT_CHIENDICH.resx">
+      <DependentUpon>CT_CHIENDICH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GIAOVIEN.resx">
       <DependentUpon>GIAOVIEN.cs</DependentUpon>

@@ -120,7 +120,7 @@ namespace CDMHX
             if (listSVNhom.RowCount >= 3 && listSVNhom.RowCount <= 6)
             {
                 NHÓM nhom = new NHÓM(listSVNhom);
-                nhom.ShowAllSVNhom();
+               // nhom.ShowDialog();
                 this.Close();                           
             }
             else
