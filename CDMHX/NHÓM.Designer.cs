@@ -56,7 +56,6 @@ namespace CDMHX
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.listSVNhom = new System.Windows.Forms.DataGridView();
-            this.MaNhomSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MaSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenKhoa = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -291,9 +290,9 @@ namespace CDMHX
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(417, 74);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 17);
+            this.label5.Size = new System.Drawing.Size(85, 17);
             this.label5.TabIndex = 3;
-            this.label5.Text = "CHỨC VỤ";
+            this.label5.Text = "CHIẾN DỊCH";
             // 
             // label4
             // 
@@ -336,7 +335,6 @@ namespace CDMHX
             // 
             this.listSVNhom.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.listSVNhom.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MaNhomSV,
             this.MaSV,
             this.TenSV,
             this.TenKhoa,
@@ -348,14 +346,6 @@ namespace CDMHX
             this.listSVNhom.RowTemplate.Height = 24;
             this.listSVNhom.Size = new System.Drawing.Size(603, 507);
             this.listSVNhom.TabIndex = 0;
-            // 
-            // MaNhomSV
-            // 
-            this.MaNhomSV.DataPropertyName = "MaNhomSV";
-            this.MaNhomSV.HeaderText = "MÃ NHÓM";
-            this.MaNhomSV.MinimumWidth = 6;
-            this.MaNhomSV.Name = "MaNhomSV";
-            this.MaNhomSV.Width = 125;
             // 
             // MaSV
             // 
@@ -442,7 +432,6 @@ namespace CDMHX
         private System.Windows.Forms.DataGridViewTextBoxColumn TenNhom;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenCD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaNhomSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenKhoa;

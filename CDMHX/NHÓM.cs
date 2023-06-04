@@ -19,6 +19,17 @@ namespace CDMHX
         {
             InitializeComponent();
         }
+
+        public NHÓM(DataGridView list1)
+        {
+            InitializeComponent();
+
+
+            listSVNhom.DataSource = list1;
+            
+            // Sử dụng dữ liệu từ GridView để hiển thị trên form NHÓM
+            // ...
+        }
         public void KhoaControl()
         {
             btnThem.Enabled = true;
@@ -65,7 +76,7 @@ namespace CDMHX
         {
 
             DataTable list = nhomdao.GetAllSvThemNhom();
-
+            
             listSVNhom.DataSource = list;
 
 
@@ -74,8 +85,7 @@ namespace CDMHX
         {
             KhoaControl();
             ShowAllNhom();
-            cbChucVu.Items.Add("Nhóm Trưởng");
-            cbChucVu.Items.Add("Không");
+            
             cbSoLuong.Items.Add(3);
             cbSoLuong.Items.Add(4);
             cbSoLuong.Items.Add(5);

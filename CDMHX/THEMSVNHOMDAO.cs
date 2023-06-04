@@ -17,7 +17,16 @@ namespace CDMHX
             dc = new DataConnection();
         }
 
+        public DataTable createTB()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("MaSVNhom");
+            dt.Columns.Add("TenSVNhom");
+            dt.Columns.Add("GioiTinhSV");
 
+            dt.Columns.Add("TenKhoaNhom");
+            return dt;
+        }
 
         public void SaveSVNhom(int MaSV, string TenSV, string GioiTinh, string TenKhoa)
         {
@@ -71,8 +80,60 @@ VALUES (@MaSV, @TenSV, @GioiTinh, @TenKhoa);";
             }
         }
 
+        public DataTable GetAllSvThem()
+        {
 
 
+            listSV = createTB();
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "GetViewDataSVNhom";
+
+
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                tbThanhVienNhom tvnhom = new tbThanhVienNhom();
+                // Xử lý dữ liệu lấy được từ công việc
+
+
+                tvnhom.sv.MaSV = (int)reader["MaSV"];
+                tvnhom.sv.TenSV = (string)reader["TenSV"];
+
+                tvnhom.sv.Khoa.TenKhoa = (string)reader["TenKhoa"];
+                tvnhom.ChucVu = "Không";
+
+                listSV.Rows.Add(tvnhom.sv.MaSV, tvnhom.sv.TenSV, tvnhom.sv.GioiTinh,tvnhom.sv.Khoa.TenKhoa );
+            }
+
+
+            reader.Close();
+            dc.getConnec().Close();
+            return listSV;
+        }
+        public bool DeleteSV(tbSinhVien sv)
+        {
+            using (SqlCommand command = new SqlCommand("SP_XOASVDUOCHON", dc.getConnec()))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@MaSV", SqlDbType.NVarChar).Value = sv.MaSV;
+                try
+                {
+                    command.ExecuteNonQuery();
+                    return true;
+                }
+                catch (SqlException ex)
+                {
+                    // Xử lý lỗi
+                    Console.WriteLine("Lỗi khi xoá sinh viên: " + ex.Message);
+                    return false;
+                }
+            }
+        }
         public void XoaBangTam()
         {
             using (SqlConnection connection = dc.getConnec())

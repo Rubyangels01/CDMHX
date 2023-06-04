@@ -40,13 +40,13 @@ namespace CDMHX
             this.Sdt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listSVNhom = new System.Windows.Forms.DataGridView();
-            this.btnThem = new System.Windows.Forms.Button();
-            this.btnXoa = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
             this.MaSVNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenSVNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GioiTinhSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenKhoaNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnThem = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listSV)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -163,35 +163,7 @@ namespace CDMHX
             this.listSVNhom.RowTemplate.Height = 24;
             this.listSVNhom.Size = new System.Drawing.Size(615, 540);
             this.listSVNhom.TabIndex = 0;
-            // 
-            // btnThem
-            // 
-            this.btnThem.Location = new System.Drawing.Point(776, 215);
-            this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(98, 54);
-            this.btnThem.TabIndex = 2;
-            this.btnThem.Text = "THÊM";
-            this.btnThem.UseVisualStyleBackColor = true;
-            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
-            // 
-            // btnXoa
-            // 
-            this.btnXoa.Location = new System.Drawing.Point(776, 347);
-            this.btnXoa.Name = "btnXoa";
-            this.btnXoa.Size = new System.Drawing.Size(98, 56);
-            this.btnXoa.TabIndex = 3;
-            this.btnXoa.Text = "XOÁ";
-            this.btnXoa.UseVisualStyleBackColor = true;
-            // 
-            // btnOK
-            // 
-            this.btnOK.Location = new System.Drawing.Point(753, 625);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(157, 45);
-            this.btnOK.TabIndex = 4;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.listSVNhom.SelectionChanged += new System.EventHandler(this.listSVNhom_SelectionChanged);
             // 
             // MaSVNhom
             // 
@@ -224,6 +196,36 @@ namespace CDMHX
             this.TenKhoaNhom.MinimumWidth = 6;
             this.TenKhoaNhom.Name = "TenKhoaNhom";
             this.TenKhoaNhom.Width = 200;
+            // 
+            // btnThem
+            // 
+            this.btnThem.Location = new System.Drawing.Point(776, 215);
+            this.btnThem.Name = "btnThem";
+            this.btnThem.Size = new System.Drawing.Size(98, 54);
+            this.btnThem.TabIndex = 2;
+            this.btnThem.Text = "THÊM";
+            this.btnThem.UseVisualStyleBackColor = true;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
+            // 
+            // btnXoa
+            // 
+            this.btnXoa.Location = new System.Drawing.Point(776, 347);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(98, 56);
+            this.btnXoa.TabIndex = 3;
+            this.btnXoa.Text = "XOÁ";
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            // 
+            // btnOK
+            // 
+            this.btnOK.Location = new System.Drawing.Point(753, 625);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(157, 45);
+            this.btnOK.TabIndex = 4;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // THEMSVNHOM
             // 

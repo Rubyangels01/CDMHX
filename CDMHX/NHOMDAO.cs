@@ -30,7 +30,7 @@ namespace CDMHX
         public DataTable createTBSV()
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("MaNhomSV");
+           
             dt.Columns.Add("MaSV");
             dt.Columns.Add("TenSV");         
             dt.Columns.Add("TenKhoa");
@@ -92,13 +92,13 @@ namespace CDMHX
                 tbThanhVienNhom tvnhom = new tbThanhVienNhom();
                 // Xử lý dữ liệu lấy được từ công việc
 
-                tvnhom.nhom.MaNhom = (int)reader["MaNhom"];
+               
                 tvnhom.sv.MaSV = (int)reader["MaSV"];
                 tvnhom.sv.TenSV = (string)reader["TenSV"];
                 tvnhom.sv.Khoa.TenKhoa = (string)reader["TenKhoa"];
                 tvnhom.ChucVu = (string)reader["ChucVu"];
 
-                listSVNhom.Rows.Add(tvnhom.nhom.MaNhom, tvnhom.sv.MaSV, tvnhom.sv.TenSV, tvnhom.sv.Khoa.TenKhoa, tvnhom.ChucVu);
+                listSVNhom.Rows.Add( tvnhom.sv.MaSV, tvnhom.sv.TenSV, tvnhom.sv.Khoa.TenKhoa, tvnhom.ChucVu);
             }
 
 
@@ -109,8 +109,8 @@ namespace CDMHX
         public DataTable GetAllSvThemNhom()
         {
 
-            listSVNhom = createTBSV();
 
+            listSVNhom = createTBSV();
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
@@ -131,9 +131,9 @@ namespace CDMHX
                 tvnhom.sv.TenSV = (string)reader["TenSV"];
                
                 tvnhom.sv.Khoa.TenKhoa = (string)reader["TenKhoa"];
-               
+                tvnhom.ChucVu = "Không";
 
-                listSVNhom.Rows.Add(3, tvnhom.sv.MaSV, tvnhom.sv.TenSV, tvnhom.sv.Khoa.TenKhoa,"Không");
+                listSVNhom.Rows.Add(tvnhom.sv.MaSV, tvnhom.sv.TenSV, tvnhom.sv.Khoa.TenKhoa,tvnhom.ChucVu);
             }
 
 

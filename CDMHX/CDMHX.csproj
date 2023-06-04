@@ -88,6 +88,12 @@
       <DependentUpon>SINHVIEN.cs</DependentUpon>
     </Compile>
     <Compile Include="SINHVIENDAO.cs" />
+    <Compile Include="TAONHOMSV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TAONHOMSV.Designer.cs">
+      <DependentUpon>TAONHOMSV.cs</DependentUpon>
+    </Compile>
     <Compile Include="tbChienDich.cs" />
     <Compile Include="tbCongViec.cs" />
     <Compile Include="tbGiaoVien.cs" />
@@ -128,6 +134,9 @@
     <EmbeddedResource Include="SINHVIEN.resx">
       <DependentUpon>SINHVIEN.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TAONHOMSV.resx">
+      <DependentUpon>TAONHOMSV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="THEMSVNHOM.resx">
       <DependentUpon>THEMSVNHOM.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\themsv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SP SQL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

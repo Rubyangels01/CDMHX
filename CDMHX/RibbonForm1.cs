@@ -112,5 +112,24 @@ namespace CDMHX
             pn_main.Controls.Add(myForm);
             myForm.Show();
         }
+        // TẠO NHÓM SINH VIÊN
+        private void barButtonItem5_ItemClick_1(object sender, ItemClickEventArgs e)
+        {
+            pn_main.Controls.Clear();
+
+            THEMSVNHOM myForm = new THEMSVNHOM();
+            myForm.TopLevel = false;
+            myForm.FormBorderStyle = FormBorderStyle.None;
+
+
+
+
+            // Đặt Anchor để myForm căn giữa trong pn_main
+            myForm.Anchor = AnchorStyles.None;
+
+            myForm.Dock = DockStyle.Fill;
+            pn_main.Controls.Add(myForm);
+            myForm.Show();
+        }
     }
 }
