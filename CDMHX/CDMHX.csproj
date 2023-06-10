@@ -72,6 +72,13 @@
     <Compile Include="CT_CHIENDICH.Designer.cs">
       <DependentUpon>CT_CHIENDICH.cs</DependentUpon>
     </Compile>
+    <Compile Include="DANGNHAP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DANGNHAP.Designer.cs">
+      <DependentUpon>DANGNHAP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DANGNHAPDAO.cs" />
     <Compile Include="DataConnection.cs" />
     <Compile Include="GIAOVIEN.cs">
       <SubType>Form</SubType>
@@ -130,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CT_CHIENDICH.resx">
       <DependentUpon>CT_CHIENDICH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DANGNHAP.resx">
+      <DependentUpon>DANGNHAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GIAOVIEN.resx">
       <DependentUpon>GIAOVIEN.cs</DependentUpon>
