@@ -150,5 +150,24 @@ namespace CDMHX
             pn_main.Controls.Add(myForm);
             myForm.Show();
         }
+
+        private void btnTaoCD_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            pn_main.Controls.Clear();
+
+            TAOCHIENDICH myForm = new TAOCHIENDICH();
+            myForm.TopLevel = false;
+            myForm.FormBorderStyle = FormBorderStyle.None;
+
+
+
+
+            // Đặt Anchor để myForm căn giữa trong pn_main
+            myForm.Anchor = AnchorStyles.None;
+
+            myForm.Dock = DockStyle.Fill;
+            pn_main.Controls.Add(myForm);
+            myForm.Show();
+        }
     }
 }

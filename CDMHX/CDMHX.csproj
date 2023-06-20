@@ -58,6 +58,12 @@
       <DependentUpon>CHIENDICH.cs</DependentUpon>
     </Compile>
     <Compile Include="CHIENDICHDAO.cs" />
+    <Compile Include="CHITIETCV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CHITIETCV.Designer.cs">
+      <DependentUpon>CHITIETCV.cs</DependentUpon>
+    </Compile>
     <Compile Include="CONGVIEC.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,12 @@
       <DependentUpon>SINHVIEN.cs</DependentUpon>
     </Compile>
     <Compile Include="SINHVIENDAO.cs" />
+    <Compile Include="TAOCHIENDICH.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TAOCHIENDICH.Designer.cs">
+      <DependentUpon>TAOCHIENDICH.cs</DependentUpon>
+    </Compile>
     <Compile Include="TAONHOMSV.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +143,9 @@
     <Compile Include="THEMSVNHOMDAO.cs" />
     <EmbeddedResource Include="CHIENDICH.resx">
       <DependentUpon>CHIENDICH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CHITIETCV.resx">
+      <DependentUpon>CHITIETCV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CONGVIEC.resx">
       <DependentUpon>CONGVIEC.cs</DependentUpon>
@@ -163,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SINHVIEN.resx">
       <DependentUpon>SINHVIEN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TAOCHIENDICH.resx">
+      <DependentUpon>TAOCHIENDICH.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TAONHOMSV.resx">
       <DependentUpon>TAONHOMSV.cs</DependentUpon>
