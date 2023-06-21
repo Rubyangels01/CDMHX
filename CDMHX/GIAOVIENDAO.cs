@@ -12,7 +12,7 @@ namespace CDMHX
     {
         
         
-            DataTable listSV;
+            DataTable listGV;
             DataConnection dc;
             public GIAOVIENDAO()
             {
@@ -31,7 +31,7 @@ namespace CDMHX
             public DataTable GetAllGV()
             {
 
-                listSV = createTB();
+                listGV = createTB();
 
                 SqlCommand command = new SqlCommand();
                 command.Connection = dc.getConnec();
@@ -55,13 +55,13 @@ namespace CDMHX
 
 
 
-                    listSV.Rows.Add(gv.MaGV, gv.TenGV,gv.Khoa.TenKhoa);
+                    listGV.Rows.Add(gv.MaGV, gv.TenGV,gv.Khoa.TenKhoa);
 
                 }
 
                 reader.Close();
                 dc.getConnec().Close();
-                return listSV;
+                return listGV;
             }
             public bool ThemGV(tbGiaoVien gv1)
             {
@@ -93,8 +93,8 @@ namespace CDMHX
                 command.Connection = dc.getConnec();
 
             // Thêm các tham số và truyền giá trị từ đối tượng cv1
-            command.Parameters.Add("@MaGV", SqlDbType.Int).Value = gv1.MaGV;
-            command.Parameters.Add("@TenGV", SqlDbType.NVarChar).Value = gv1.TenGV;
+                command.Parameters.Add("@MaGV", SqlDbType.Int).Value = gv1.MaGV;
+                command.Parameters.Add("@TenGV", SqlDbType.NVarChar).Value = gv1.TenGV;
                 command.Parameters.Add("@TenKhoa", SqlDbType.NVarChar).Value = gv1.Khoa.TenKhoa;
                 
 

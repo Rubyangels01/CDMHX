@@ -40,13 +40,13 @@ namespace CDMHX
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listboxCV = new System.Windows.Forms.ListBox();
             this.btnThemCV = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.listGS = new System.Windows.Forms.ListBox();
             this.btnThemGS = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.listCV = new System.Windows.Forms.ListBox();
-            this.listGS = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -152,7 +152,7 @@ namespace CDMHX
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.listCV);
+            this.groupBox2.Controls.Add(this.listboxCV);
             this.groupBox2.Controls.Add(this.btnThemCV);
             this.groupBox2.Location = new System.Drawing.Point(52, 262);
             this.groupBox2.Name = "groupBox2";
@@ -160,6 +160,16 @@ namespace CDMHX
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PHÂN CÔNG CÔNG VIỆC";
+            // 
+            // listboxCV
+            // 
+            this.listboxCV.FormattingEnabled = true;
+            this.listboxCV.ItemHeight = 16;
+            this.listboxCV.Location = new System.Drawing.Point(6, 70);
+            this.listboxCV.Name = "listboxCV";
+            this.listboxCV.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listboxCV.Size = new System.Drawing.Size(423, 292);
+            this.listboxCV.TabIndex = 4;
             // 
             // btnThemCV
             // 
@@ -181,6 +191,15 @@ namespace CDMHX
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PHÂN CÔNG GIÁM SÁT";
+            // 
+            // listGS
+            // 
+            this.listGS.FormattingEnabled = true;
+            this.listGS.ItemHeight = 16;
+            this.listGS.Location = new System.Drawing.Point(6, 79);
+            this.listGS.Name = "listGS";
+            this.listGS.Size = new System.Drawing.Size(458, 276);
+            this.listGS.TabIndex = 1;
             // 
             // btnThemGS
             // 
@@ -209,29 +228,11 @@ namespace CDMHX
             this.button3.Text = "SỬA CHIẾN DỊCH";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // listCV
-            // 
-            this.listCV.FormattingEnabled = true;
-            this.listCV.ItemHeight = 16;
-            this.listCV.Location = new System.Drawing.Point(6, 70);
-            this.listCV.Name = "listCV";
-            this.listCV.Size = new System.Drawing.Size(423, 292);
-            this.listCV.TabIndex = 4;
-            // 
-            // listGS
-            // 
-            this.listGS.FormattingEnabled = true;
-            this.listGS.ItemHeight = 16;
-            this.listGS.Location = new System.Drawing.Point(6, 79);
-            this.listGS.Name = "listGS";
-            this.listGS.Size = new System.Drawing.Size(458, 276);
-            this.listGS.TabIndex = 1;
-            // 
             // TAOCHIENDICH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1042, 707);
+            this.ClientSize = new System.Drawing.Size(1701, 707);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnThem);
             this.Controls.Add(this.groupBox3);
@@ -268,7 +269,7 @@ namespace CDMHX
         private System.Windows.Forms.Button btnThemGS;
         private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ListBox listCV;
+        private System.Windows.Forms.ListBox listboxCV;
         private System.Windows.Forms.ListBox listGS;
     }
 }

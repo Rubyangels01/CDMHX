@@ -24,14 +24,7 @@ namespace CDMHX
             InitializeComponent();
             
         }
-        public CHITIETCV(TAOCHIENDICH form)
-        {
-            dc = new DataConnection();
-            connection = dc.getConnec();
-
-            InitializeComponent();
-            parentForm = form;
-        }
+        
         public void LayTenCV()
         {
             
@@ -187,12 +180,11 @@ namespace CDMHX
                 MessageBox.Show("Chưa chọn mục để xoá.");
             }
         }
-
-
         private void btnOK_Click(object sender, EventArgs e)
         {
-            parentForm.showCV();
-            this.Close();
+            // lưu vô chi tiết cv
+            parentForm.showCV(listboxCTCV);
+            this.Hide();
         }
 
     }

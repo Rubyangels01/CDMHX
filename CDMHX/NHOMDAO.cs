@@ -38,6 +38,17 @@ namespace CDMHX
             
             return dt;
         }
+        /*
+        public void saveNhom()
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "SaveNhom";
+            command.Parameters.Add("@MaNhom", SqlDbType.Int).Value = maNhom;
+            dc.getConnec().Close();
+        }*/
         public DataTable GetAllNhom()
         {
 
