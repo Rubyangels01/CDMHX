@@ -185,6 +185,21 @@ namespace CDMHX
         {
             pn_main.Controls.Clear();
 
+            DSKHENTHUONG myForm = new DSKHENTHUONG();
+            myForm.TopLevel = false;
+            myForm.FormBorderStyle = FormBorderStyle.None;
+            // Đặt Anchor để myForm căn giữa trong pn_main
+            myForm.Anchor = AnchorStyles.None;
+
+            myForm.Dock = DockStyle.Fill;
+            pn_main.Controls.Add(myForm);
+            myForm.Show();
+        }
+
+        private void btnKT_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            pn_main.Controls.Clear();
+
             KHENTHUONG myForm = new KHENTHUONG();
             myForm.TopLevel = false;
             myForm.FormBorderStyle = FormBorderStyle.None;

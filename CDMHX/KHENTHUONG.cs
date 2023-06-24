@@ -137,7 +137,7 @@ namespace CDMHX
 
             // Tạo một danh sách các hàng để chứa các hàng được chọn
             List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
-            if(MessageBox.Show("Bạn có muốn xoá sinh viên này?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if(MessageBox.Show("Bạn có muốn xoá sinh viên ra khỏi danh sách?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 foreach (DataGridViewRow row in listSV2.SelectedRows)
                 {

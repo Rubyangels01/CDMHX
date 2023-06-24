@@ -87,6 +87,12 @@
     </Compile>
     <Compile Include="DANGNHAPDAO.cs" />
     <Compile Include="DataConnection.cs" />
+    <Compile Include="DSKHENTHUONG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DSKHENTHUONG.Designer.cs">
+      <DependentUpon>DSKHENTHUONG.cs</DependentUpon>
+    </Compile>
     <Compile Include="GIAOVIEN.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DANGNHAP.resx">
       <DependentUpon>DANGNHAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DSKHENTHUONG.resx">
+      <DependentUpon>DSKHENTHUONG.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GIAOVIEN.resx">
       <DependentUpon>GIAOVIEN.cs</DependentUpon>

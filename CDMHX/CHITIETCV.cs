@@ -201,28 +201,32 @@ namespace CDMHX
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (listboxNhom2.SelectedItem != null)
+            if (MessageBox.Show("Bạn có muốn xoá sinh viên ra khỏi danh sách?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                List<string> selectedItems = new List<string>();              
-                foreach (object selectedItem in listboxNhom2.SelectedItems)
-                {               
-                    string item = selectedItem.ToString();
-                    selectedItems.Add(item);
-                    ctcvdao.XOACV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, item);
-                    
-                }
-               
-              
-                foreach (string item in selectedItems)
+                if (listboxNhom2.SelectedItem != null)
                 {
-                    listboxNhom.Items.Add(item);
-                    listboxNhom2.Items.Remove(item);
-                    
-                    
-                }
-               
+                    List<string> selectedItems = new List<string>();
+                    foreach (object selectedItem in listboxNhom2.SelectedItems)
+                    {
+                        string item = selectedItem.ToString();
+                        selectedItems.Add(item);
+                        ctcvdao.XOACV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, item);
 
-            }
+                    }
+
+
+                    foreach (string item in selectedItems)
+                    {
+                        listboxNhom.Items.Add(item);
+                        listboxNhom2.Items.Remove(item);
+
+
+                    }
+
+
+                }
+            }    
+                
         }
     }
     
