@@ -15,7 +15,25 @@ namespace CDMHX
         {
             dc = new DataConnection();
         }
-        
+        public  DataTable createTB()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("MaSV");
+            dt.Columns.Add("TenSV");
+            dt.Columns.Add("Nhom");
+            
+            return dt;
+        }
+        public static DataTable createTBSVKT()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("MaSV2");
+            dt.Columns.Add("TenSV2");
+            dt.Columns.Add("TenNhom2");
+            dt.Columns.Add("TenKT");
+
+            return dt;
+        }
         public List<string> LayMaCD()
         {
             List<string> listMaCD = new List<string>();
@@ -83,10 +101,10 @@ namespace CDMHX
             return mdkt;
         }
 
-        public DataTable GetAllSV(int maCD, int maKT)
+        public DataTable GetAllSV(int maCD, string maKT)
         {
 
-            DataTable listSV = new DataTable();
+            DataTable listSV = createTB();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -95,7 +113,7 @@ namespace CDMHX
             command.CommandText = "DS_SV_NHOM";
 
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
-            command.Parameters.Add("@MaKT", SqlDbType.Int).Value = maKT;
+            command.Parameters.Add("@MaKT", SqlDbType.NChar).Value = maKT;
             SqlDataReader reader = command.ExecuteReader();
 
 
@@ -110,6 +128,61 @@ namespace CDMHX
             reader.Close();
             dc.getConnec().Close();
             return listSV;
+        }
+        public DataTable GetAllSVDaKT(int maCD, string maKT)
+        {
+
+            DataTable listSV2 = createTBSVKT();
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "DS_SVDAKT_NHOM";
+
+            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
+            command.Parameters.Add("@MaKT", SqlDbType.NChar).Value = maKT;
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                int MaSV = (int)reader["MaSV"];
+                string TenSV = reader["TenSV"].ToString();
+                string TenNhom = reader["TenNhom"].ToString();
+                string TenKT = reader["MaKT"].ToString();
+                listSV2.Rows.Add(MaSV, TenSV, TenNhom, TenKT);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listSV2;
+        }
+        public void InsertKT(int masv,int maCD, string maKT)
+        {          
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "SP_INSERTKT";
+            command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
+            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
+            command.Parameters.Add("@MaKT", SqlDbType.NChar).Value = maKT;
+            SqlDataReader reader = command.ExecuteReader();           
+            dc.getConnec().Close();         
+        }
+        public void DeleteSV_KT(int masv, int maCD, string maKT)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "SP_DELETE_SV_KT";
+            command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
+            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
+            command.Parameters.Add("@MaKT", SqlDbType.NChar).Value = maKT;
+            SqlDataReader reader = command.ExecuteReader();
+            dc.getConnec().Close();
         }
 
     }

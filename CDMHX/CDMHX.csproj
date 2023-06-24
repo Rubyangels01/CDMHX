@@ -142,6 +142,7 @@
     <Compile Include="tbKhoa.cs" />
     <Compile Include="tbNhomSV.cs" />
     <Compile Include="tbSinhVien.cs" />
+    <Compile Include="tbSVNhom.cs" />
     <Compile Include="tbThanhVienNhom.cs" />
     <Compile Include="THEMSVNHOM.cs">
       <SubType>Form</SubType>
