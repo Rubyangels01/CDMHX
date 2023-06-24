@@ -41,12 +41,12 @@ namespace CDMHX
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listChienDich = new System.Windows.Forms.DataGridView();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbTimKiem = new System.Windows.Forms.ComboBox();
             this.MaCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NgayBD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NgayKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbTimKiem = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listChienDich)).BeginInit();
@@ -176,43 +176,12 @@ namespace CDMHX
             this.listChienDich.Name = "listChienDich";
             this.listChienDich.RowHeadersWidth = 51;
             this.listChienDich.RowTemplate.Height = 24;
+            this.listChienDich.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.listChienDich.Size = new System.Drawing.Size(873, 222);
             this.listChienDich.TabIndex = 0;
             this.listChienDich.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listChienDich_CellClick);
             this.listChienDich.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listChienDich_CellDoubleClick_1);
             this.listChienDich.SelectionChanged += new System.EventHandler(this.listChienDich_SelectionChanged);
-            // 
-            // MaCD
-            // 
-            this.MaCD.DataPropertyName = "MaCD";
-            this.MaCD.HeaderText = "MÃ CHIẾN DỊCH";
-            this.MaCD.MinimumWidth = 6;
-            this.MaCD.Name = "MaCD";
-            this.MaCD.Width = 125;
-            // 
-            // TenCD
-            // 
-            this.TenCD.DataPropertyName = "TenCD";
-            this.TenCD.HeaderText = "TÊN CHIẾN DỊCH";
-            this.TenCD.MinimumWidth = 6;
-            this.TenCD.Name = "TenCD";
-            this.TenCD.Width = 300;
-            // 
-            // NgayBD
-            // 
-            this.NgayBD.DataPropertyName = "NgayBD";
-            this.NgayBD.HeaderText = "NGÀY BẮT ĐẦU ";
-            this.NgayBD.MinimumWidth = 6;
-            this.NgayBD.Name = "NgayBD";
-            this.NgayBD.Width = 175;
-            // 
-            // NgayKT
-            // 
-            this.NgayKT.DataPropertyName = "NgayKT";
-            this.NgayKT.HeaderText = "NGÀY KẾT THÚC";
-            this.NgayKT.MinimumWidth = 6;
-            this.NgayKT.Name = "NgayKT";
-            this.NgayKT.Width = 175;
             // 
             // groupBox3
             // 
@@ -234,6 +203,42 @@ namespace CDMHX
             this.cbTimKiem.TabIndex = 0;
             this.cbTimKiem.SelectedIndexChanged += new System.EventHandler(this.cbTimKiem_SelectedIndexChanged);
             this.cbTimKiem.TextChanged += new System.EventHandler(this.cbTimKiem_TextChanged);
+            // 
+            // MaCD
+            // 
+            this.MaCD.DataPropertyName = "MaCD";
+            this.MaCD.HeaderText = "MÃ CHIẾN DỊCH";
+            this.MaCD.MinimumWidth = 6;
+            this.MaCD.Name = "MaCD";
+            this.MaCD.ReadOnly = true;
+            this.MaCD.Width = 125;
+            // 
+            // TenCD
+            // 
+            this.TenCD.DataPropertyName = "TenCD";
+            this.TenCD.HeaderText = "TÊN CHIẾN DỊCH";
+            this.TenCD.MinimumWidth = 6;
+            this.TenCD.Name = "TenCD";
+            this.TenCD.ReadOnly = true;
+            this.TenCD.Width = 300;
+            // 
+            // NgayBD
+            // 
+            this.NgayBD.DataPropertyName = "NgayBD";
+            this.NgayBD.HeaderText = "NGÀY BẮT ĐẦU ";
+            this.NgayBD.MinimumWidth = 6;
+            this.NgayBD.Name = "NgayBD";
+            this.NgayBD.ReadOnly = true;
+            this.NgayBD.Width = 175;
+            // 
+            // NgayKT
+            // 
+            this.NgayKT.DataPropertyName = "NgayKT";
+            this.NgayKT.HeaderText = "NGÀY KẾT THÚC";
+            this.NgayKT.MinimumWidth = 6;
+            this.NgayKT.Name = "NgayKT";
+            this.NgayKT.ReadOnly = true;
+            this.NgayKT.Width = 175;
             // 
             // CHIENDICH
             // 

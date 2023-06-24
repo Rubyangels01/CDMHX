@@ -31,25 +31,17 @@ namespace CDMHX
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.dateNgayKT = new System.Windows.Forms.DateTimePicker();
+            this.dateNgayBD = new System.Windows.Forms.DateTimePicker();
+            this.txtTenCD = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listboxCV = new System.Windows.Forms.ListBox();
-            this.btnThemCV = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.listGS = new System.Windows.Forms.ListBox();
-            this.btnThemGS = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.cbMaCD = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -65,10 +57,10 @@ namespace CDMHX
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.dateTimePicker2);
-            this.groupBox1.Controls.Add(this.dateTimePicker1);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.cbMaCD);
+            this.groupBox1.Controls.Add(this.dateNgayKT);
+            this.groupBox1.Controls.Add(this.dateNgayBD);
+            this.groupBox1.Controls.Add(this.txtTenCD);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
@@ -80,39 +72,31 @@ namespace CDMHX
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TẠO CHIẾN DỊCH";
             // 
-            // dateTimePicker2
+            // dateNgayKT
             // 
-            this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker2.Location = new System.Drawing.Point(688, 90);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 26);
-            this.dateTimePicker2.TabIndex = 7;
+            this.dateNgayKT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateNgayKT.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateNgayKT.Location = new System.Drawing.Point(688, 90);
+            this.dateNgayKT.Name = "dateNgayKT";
+            this.dateNgayKT.Size = new System.Drawing.Size(200, 26);
+            this.dateNgayKT.TabIndex = 7;
             // 
-            // dateTimePicker1
+            // dateNgayBD
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(688, 25);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 26);
-            this.dateTimePicker1.TabIndex = 6;
+            this.dateNgayBD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateNgayBD.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateNgayBD.Location = new System.Drawing.Point(688, 39);
+            this.dateNgayBD.Name = "dateNgayBD";
+            this.dateNgayBD.Size = new System.Drawing.Size(200, 26);
+            this.dateNgayBD.TabIndex = 6;
             // 
-            // textBox2
+            // txtTenCD
             // 
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(198, 87);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(225, 26);
-            this.textBox2.TabIndex = 5;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(198, 34);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(225, 26);
-            this.textBox1.TabIndex = 4;
+            this.txtTenCD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTenCD.Location = new System.Drawing.Point(198, 87);
+            this.txtTenCD.Name = "txtTenCD";
+            this.txtTenCD.Size = new System.Drawing.Size(225, 26);
+            this.txtTenCD.TabIndex = 5;
             // 
             // label5
             // 
@@ -126,7 +110,7 @@ namespace CDMHX
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(510, 30);
+            this.label4.Location = new System.Drawing.Point(510, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(111, 17);
             this.label4.TabIndex = 2;
@@ -150,93 +134,40 @@ namespace CDMHX
             this.label2.TabIndex = 0;
             this.label2.Text = "MÃ CHIẾN DỊCH";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.listboxCV);
-            this.groupBox2.Controls.Add(this.btnThemCV);
-            this.groupBox2.Location = new System.Drawing.Point(52, 262);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(439, 368);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "PHÂN CÔNG CÔNG VIỆC";
-            // 
-            // listboxCV
-            // 
-            this.listboxCV.FormattingEnabled = true;
-            this.listboxCV.ItemHeight = 16;
-            this.listboxCV.Location = new System.Drawing.Point(6, 70);
-            this.listboxCV.Name = "listboxCV";
-            this.listboxCV.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listboxCV.Size = new System.Drawing.Size(423, 292);
-            this.listboxCV.TabIndex = 4;
-            // 
-            // btnThemCV
-            // 
-            this.btnThemCV.Location = new System.Drawing.Point(266, 21);
-            this.btnThemCV.Name = "btnThemCV";
-            this.btnThemCV.Size = new System.Drawing.Size(167, 33);
-            this.btnThemCV.TabIndex = 3;
-            this.btnThemCV.Text = "THÊM CÔNG VIỆC";
-            this.btnThemCV.UseVisualStyleBackColor = true;
-            this.btnThemCV.Click += new System.EventHandler(this.btnThemCV_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.listGS);
-            this.groupBox3.Controls.Add(this.btnThemGS);
-            this.groupBox3.Location = new System.Drawing.Point(527, 262);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(470, 368);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "PHÂN CÔNG GIÁM SÁT";
-            // 
-            // listGS
-            // 
-            this.listGS.FormattingEnabled = true;
-            this.listGS.ItemHeight = 16;
-            this.listGS.Location = new System.Drawing.Point(6, 79);
-            this.listGS.Name = "listGS";
-            this.listGS.Size = new System.Drawing.Size(458, 276);
-            this.listGS.TabIndex = 1;
-            // 
-            // btnThemGS
-            // 
-            this.btnThemGS.Location = new System.Drawing.Point(332, 21);
-            this.btnThemGS.Name = "btnThemGS";
-            this.btnThemGS.Size = new System.Drawing.Size(132, 33);
-            this.btnThemGS.TabIndex = 0;
-            this.btnThemGS.Text = "THÊM GIÁM SÁT";
-            this.btnThemGS.UseVisualStyleBackColor = true;
-            // 
             // btnThem
             // 
-            this.btnThem.Location = new System.Drawing.Point(284, 649);
+            this.btnThem.Location = new System.Drawing.Point(272, 295);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(166, 46);
             this.btnThem.TabIndex = 4;
             this.btnThem.Text = "THÊM CHIẾN DỊCH";
             this.btnThem.UseVisualStyleBackColor = true;
+            this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(578, 649);
+            this.button3.Location = new System.Drawing.Point(565, 295);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(152, 46);
             this.button3.TabIndex = 5;
             this.button3.Text = "SỬA CHIẾN DỊCH";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // cbMaCD
+            // 
+            this.cbMaCD.FormattingEnabled = true;
+            this.cbMaCD.Location = new System.Drawing.Point(198, 44);
+            this.cbMaCD.Name = "cbMaCD";
+            this.cbMaCD.Size = new System.Drawing.Size(225, 24);
+            this.cbMaCD.TabIndex = 8;
+            // 
             // TAOCHIENDICH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1701, 707);
+            this.ClientSize = new System.Drawing.Size(1063, 373);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnThem);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Name = "TAOCHIENDICH";
@@ -244,8 +175,6 @@ namespace CDMHX
             this.Load += new System.EventHandler(this.TAOCHIENDICH_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,21 +184,15 @@ namespace CDMHX
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.DateTimePicker dateNgayKT;
+        private System.Windows.Forms.DateTimePicker dateNgayBD;
+        private System.Windows.Forms.TextBox txtTenCD;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnThemCV;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button btnThemGS;
         private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ListBox listboxCV;
-        private System.Windows.Forms.ListBox listGS;
+        private System.Windows.Forms.ComboBox cbMaCD;
     }
 }

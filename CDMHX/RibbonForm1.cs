@@ -158,10 +158,36 @@ namespace CDMHX
             TAOCHIENDICH myForm = new TAOCHIENDICH();
             myForm.TopLevel = false;
             myForm.FormBorderStyle = FormBorderStyle.None;
+            // Đặt Anchor để myForm căn giữa trong pn_main
+            myForm.Anchor = AnchorStyles.None;
 
+            myForm.Dock = DockStyle.Fill;
+            pn_main.Controls.Add(myForm);
+            myForm.Show();
+        }
 
+        private void btnPCCV_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            pn_main.Controls.Clear();
 
+            CHITIETCV myForm = new CHITIETCV();
+            myForm.TopLevel = false;
+            myForm.FormBorderStyle = FormBorderStyle.None;
+            // Đặt Anchor để myForm căn giữa trong pn_main
+            myForm.Anchor = AnchorStyles.None;
 
+            myForm.Dock = DockStyle.Fill;
+            pn_main.Controls.Add(myForm);
+            myForm.Show();
+        }
+
+        private void btnKhenThuong_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            pn_main.Controls.Clear();
+
+            KHENTHUONG myForm = new KHENTHUONG();
+            myForm.TopLevel = false;
+            myForm.FormBorderStyle = FormBorderStyle.None;
             // Đặt Anchor để myForm căn giữa trong pn_main
             myForm.Anchor = AnchorStyles.None;
 

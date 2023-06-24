@@ -13,179 +13,217 @@ namespace CDMHX
 {
     public partial class CHITIETCV : Form
     {
-        DataConnection dc ;
+        DataConnection dc;
         SqlConnection connection;
-        private TAOCHIENDICH parentForm = new TAOCHIENDICH();
+        CHITIETCVDAO ctcvdao = new CHITIETCVDAO();
+
         public CHITIETCV()
         {
             dc = new DataConnection();
-            connection = dc.getConnec(); 
-            
+            connection = dc.getConnec();
             InitializeComponent();
-            
         }
-        
-        public void LayTenCV()
-        {
-            
+        public void LayMaCD()
+        {         
+            using (SqlCommand command = new SqlCommand("SELECT MaCD FROM CDMHX WHERE MaCD >= YEAR(GETDATE())", connection))
             {
-               
+                command.CommandType = CommandType.Text;
 
-                using (SqlCommand command = new SqlCommand("SELECT TenCV from CongViec", connection))
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    command.CommandType = CommandType.Text;
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            string tenCongViec = reader["TenCV"].ToString();
-                            listboxCongViec.Items.Add(tenCongViec);
-                        }
+                        string maNhom = reader["MaCD"].ToString();
+                        cbNamCD.Items.Add(maNhom);
+                        cbNamCD.SelectedIndex = 0;
                     }
-                }
-            }
-
-        }
-        public void LayTenNhom()
-        {                     
-                using (SqlCommand command = new SqlCommand("SELECT TenNhom from NhomSV", connection))
-                {
-                    command.CommandType = CommandType.Text;
-
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string tenNhom = reader["TenNhom"].ToString();
-                            listboxNhom.Items.Add(tenNhom);
-                        }
-                    }
-                }          
-        }
-        public void LayDiaBan()
-        {
-            using (SqlConnection connection = dc.getConnec())
-            {
-                using (SqlCommand command = new SqlCommand("SELECT Ap.TenAp, Xa.TenXa, DiaBan.TenDB from Ap,Xa,DiaBan where Ap.MaXa = Xa.MaXa and Xa.MaDB = DiaBan.MaDB", connection))
-                {
-                    command.CommandType = CommandType.Text;
-
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            string tenAp = reader["TenAp"].ToString();
-                            string tenXa = reader["TenXa"].ToString();
-                            string tenDiaBan = reader["TenDB"].ToString();
-
-                            string itemText = $"{tenAp}, {tenXa}, {tenDiaBan}"; // Ghép các thuộc tính thành một chuỗi
-
-                            listboxDiaBan.Items.Add(itemText);
-                        }
-                    }
+                    reader.Close();
                 }
             }
         }
 
-
-        private void listboxCongViec_SelectedIndexChanged(object sender, EventArgs e)
+        public void LayCongViec()
         {
-           
+            using (SqlCommand command = new SqlCommand("SELECT TenCV FROM CongViec", connection))
+            {
+                command.CommandType = CommandType.Text;
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string tencv = reader["TenCV"].ToString();
+                        cbCV.Items.Add(tencv);
+                        cbCV.SelectedIndex = 0;
+                    }
+                    reader.Close();
+                }
+            }
+        }
+
+        public void LayDB()
+        {
+            using (SqlCommand command = new SqlCommand("SELECT TenDB FROM DiaBan", connection))
+            {
+                command.CommandType = CommandType.Text;
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string tendb = reader["TenDB"].ToString();
+                        cbDiaBan.Items.Add(tendb);
+                        cbDiaBan.SelectedIndex = 0;
+                    }
+                    reader.Close();
+                }
+            }
+            
+
+        }
+
+
+        public void DSNhom()
+        {
+            int namcd;
+            int.TryParse(cbNamCD.Text, out namcd);
+            
+            listboxNhom.Items.Clear();
+            List<string> dsNhom = ctcvdao.LayNhom(cbXa.Text,cbCV.Text,dateNgay.Value,cbBuoi.Text, namcd);
+
+            foreach (string nhom in dsNhom)
+            {
+                
+                listboxNhom.Items.Add(nhom);
+            }
+        }
+        public void DSNhomDaPC()
+        {
+            int namcd;
+            int.TryParse(cbNamCD.Text, out namcd);
+
+            listboxNhom2.Items.Clear();
+            List<string> dsNhom = ctcvdao.LayNhomDaPC(cbXa.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, namcd);
+
+            foreach (string nhom in dsNhom)
+            {
+
+                listboxNhom2.Items.Add(nhom);
+            }
         }
 
         private void CHITIETCV_Load(object sender, EventArgs e)
         {
+            LayMaCD();
+            LayCongViec();
             cbBuoi.Items.Add("Buổi Sáng");
             cbBuoi.Items.Add("Buổi Chiều");
             cbBuoi.Items.Add("Buổi Tối");
             cbBuoi.SelectedIndex = 0;
-            LayTenCV();
-            LayTenNhom();
-            LayDiaBan();
-
-            //listboxCongViec.Items.Add("Xoài");
-        }
-        public List<string> CTCV = new List<string>();
-        private void btnChuyenmot_Click(object sender, EventArgs e)
-        {
-            List<string> listnhom = new List<string>();
-            List<string> listDB = new List<string>();
+            LayDB();
             
-            string cv;
+            
+        }
 
-            // Kiểm tra danh mục Công việc đã được chọn
-            if (listboxCongViec.SelectedIndices.Count > 0)
-            {
-                cv = listboxCongViec.SelectedItem.ToString();
-            }
-            else
-            {
-                MessageBox.Show("Chưa chọn danh mục trong Công việc.");
-                return;
-            }
+        private void cbDiaBan_TextChanged(object sender, EventArgs e)
+        {
+            cbXa.Items.Clear();
 
-            // Kiểm tra danh mục đã được chọn trong listboxNhom
-            if (listboxNhom.SelectedIndices.Count > 0)
+            // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
+            if (cbDiaBan.SelectedItem != null)
             {
+               cbXa.Items.AddRange(ctcvdao.LayXa(cbDiaBan.Text).ToArray());
+                cbXa.SelectedIndex = 0;
+
+            }
+        }
+
+
+        private void cbXa_TextChanged(object sender, EventArgs e)
+        {
+            cbAp.Items.Clear();
+
+            // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
+            if (cbDiaBan.SelectedItem != null)
+            {
+                cbAp.Items.AddRange(ctcvdao.LayAp(cbXa.Text).ToArray());
+                cbAp.SelectedIndex = 0;
+
+            }
+            
+        }
+
+        private void cbDiaBan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+                // Xóa các mục hiện có trong combo box "cbXa"
+                
+            
+
+        }
+
+        private void btnXem_Click(object sender, EventArgs e)
+        {
+            DSNhom();
+            DSNhomDaPC();
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            if(listboxNhom.SelectedItem != null)
+            {
+                List<string> selectedItems = new List<string>();
+                // Lặp qua các mục đã chọn trong listboxNhom
                 foreach (object selectedItem in listboxNhom.SelectedItems)
                 {
+                    // Lấy nội dung của mục đã chọn
                     string item = selectedItem.ToString();
-                    listnhom.Add(item);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Chưa chọn danh mục trong Nhóm.");
-                return;
-            }
+                    selectedItems.Add(item);
 
-            // Kiểm tra danh mục đã được chọn trong listboxDiaBan
-            if (listboxDiaBan.SelectedIndices.Count > 0)
-            {
-                foreach (object selectedItem in listboxDiaBan.SelectedItems)
+                    // Thêm nội dung vào ListBox chi tiết công việc
+                    listboxNhom2.Items.Add(item);
+                    ctcvdao.PhanCongCV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, item);
+                }
+                
+                // Xóa các mục đã chọn khỏi listboxNhom
+                foreach (string item in selectedItems)
                 {
-                    string item = selectedItem.ToString();
-                    listDB.Add(item);
+                    
+                    listboxNhom.Items.Remove(item);
                 }
-            }
-            else
-            {
-                MessageBox.Show("Chưa chọn danh mục trong Địa Bàn.");
-                return;
+                
+                // Gọi phương thức PhanCongCV để thêm dữ liệu vào CSDL
+                
             }
 
-            string chiTietCV = $"{cv} - {string.Join(", ", listnhom)} - {string.Join(", ", listDB)} - {cbBuoi.SelectedItem} - {dateNgayChon.Text}";
-            listboxCTCV.Items.Add(chiTietCV);
-            CTCV.Add(chiTietCV);
-            // Xoá các mục đã chọn trong ListBox gốc
-            listboxCongViec.ClearSelected();
-            listboxNhom.ClearSelected();
-            listboxDiaBan.ClearSelected();
+
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (listboxCTCV.SelectedIndices.Count > 0)
+            if (listboxNhom2.SelectedItem != null)
             {
-                // Xoá từng mục đã chọn trong listboxCTCV
-                for (int i = listboxCTCV.SelectedIndices.Count - 1; i >= 0; i--)
-                {
-                    int selectedIndex = listboxCTCV.SelectedIndices[i];
-                    listboxCTCV.Items.RemoveAt(selectedIndex);
+                List<string> selectedItems = new List<string>();              
+                foreach (object selectedItem in listboxNhom2.SelectedItems)
+                {               
+                    string item = selectedItem.ToString();
+                    selectedItems.Add(item);
+                    ctcvdao.XOACV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, item);
+                    
                 }
-            }
-            else
-            {
-                MessageBox.Show("Chưa chọn mục để xoá.");
-            }
-        }
-        private void btnOK_Click(object sender, EventArgs e)
-        {
-            // lưu vô chi tiết cv
-            parentForm.showCV(listboxCTCV);
-            this.Hide();
-        }
+               
+              
+                foreach (string item in selectedItems)
+                {
+                    listboxNhom.Items.Add(item);
+                    listboxNhom2.Items.Remove(item);
+                    
+                    
+                }
+               
 
+            }
+        }
     }
+    
 }

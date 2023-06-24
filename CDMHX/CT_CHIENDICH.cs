@@ -12,8 +12,8 @@ namespace CDMHX
 {
     public partial class CT_CHIENDICH : Form
     {
-        int index = 0;
-        string flag;
+       
+       
         CT_CDDAO ctcddao = new CT_CDDAO();
         public CT_CHIENDICH()
         {
@@ -31,7 +31,7 @@ namespace CDMHX
         public void ShowAllNhom()
         {
             CHIENDICH parentForm = Application.OpenForms.OfType<CHIENDICH>().FirstOrDefault();
-
+            
             DataTable listCT_NHOMCD = ctcddao.GetAllNhom(parentForm.MaCD1);
 
             listNhom.DataSource = listCT_NHOMCD;
@@ -92,8 +92,8 @@ namespace CDMHX
             {
                 // Gán dữ liệu cho DataGridView trên tab Nhom
                 ShowAllNhom();
-            }
-            */
+            }*/
+            
         }
     }
 }
