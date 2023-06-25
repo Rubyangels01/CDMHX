@@ -12,9 +12,9 @@ namespace CDMHX
 {
     public partial class DANGNHAP : Form
     {
-        private string tenkh = "TV";
-        private string mk = "123";
-        DANGNHAPDAO dnd = new DANGNHAPDAO();
+       // private string tenkh = "TV"; 
+       // private string mk = "123";
+       DANGNHAPDAO dnd = new DANGNHAPDAO(); 
         public DANGNHAP()
         {
             InitializeComponent();
@@ -46,33 +46,26 @@ namespace CDMHX
         }
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
+            if (txtTK.Text.Trim() == "" || txtMk.Text.Trim() == "")
+            {
+                MessageBox.Show("Tên đăng nhập và mật khẩu không được trống", "Thông Báo", MessageBoxButtons.OK);
+                return;
+            }  
+            
+            // đăng nhập giáo viên
             if (rdGiaoVien.Checked)
             {
-                if (dnd.LayThongTinDangNhap(txtTK.Text, txtMk.Text, rdGiaoVien.Text))
-                {
-                    MessageBox.Show("Đăng Nhập Thành Công!");
-                    RibbonForm1 main = new RibbonForm1();
-                    main.ShowDialog();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Đã có lỗi xảy ra, xin vui lòng thử lại sau", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                
+
+                 if(dnd.LayThongTinDangNhap(txtTK.Text, txtMk.Text))
+                 {
+                        RibbonForm1 main = new RibbonForm1();
+                        main.ShowDialog();
+                 }    
             }
             else if (rdSinhVien.Checked)
             {
-                if (dnd.LayThongTinDangNhap(txtTK.Text, txtMk.Text, rdSinhVien.Text))
-                {
-                    MessageBox.Show("Đăng Nhập Thành Công!");
-                    RibbonForm1 main = new RibbonForm1();
-                    main.Show();
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("Đã có lỗi xảy ra, xin vui lòng thử lại sau", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                
             }
            
         }

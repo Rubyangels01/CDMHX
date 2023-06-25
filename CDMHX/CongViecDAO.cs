@@ -36,8 +36,8 @@ namespace CDMHX
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
             
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "GetAllCongViec";
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT * FROM CongViec";
 
           
             SqlDataReader reader = command.ExecuteReader();
@@ -123,6 +123,28 @@ namespace CDMHX
 
             return true;
         }
+        public int KiemTraDuLieu(int ma)
+        {
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEUCV] ({0})", ma);
+            command.Connection = dc.getConnec();
+
+            int kq = 0;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    kq = reader.GetInt32(0);
+                }
+            }
+
+            command.Connection.Close();
+
+            return kq;
+        }
+
         public DataTable TimKiem(string Tukhoa)
         {
             DataTable listTimKiem = createTB();

@@ -15,14 +15,14 @@ namespace CDMHX
         {
             dc = new DataConnection();
         }
-        public bool LayThongTinDangNhap(string TaiKhoan, string pass,string role)
+        public bool LayThongTinDangNhap(string TaiKhoan, string pass)
         {
             using (SqlCommand command = new SqlCommand("SP_DANGNHAP", dc.getConnec()))
             {
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@Username", SqlDbType.NVarChar).Value = TaiKhoan;
                 command.Parameters.Add("@Password", SqlDbType.NVarChar).Value = pass;
-                command.Parameters.Add("@Role", SqlDbType.NVarChar).Value = role;
+                //command.Parameters.Add("@Role", SqlDbType.NVarChar).Value = role;
                 try
                 {
                     command.ExecuteNonQuery();

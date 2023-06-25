@@ -38,8 +38,8 @@ namespace CDMHX
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "GetAllStudents";
+            command.CommandType = CommandType.Text;
+            command.CommandText = "select * from V_DSSV";
 
 
             SqlDataReader reader = command.ExecuteReader();

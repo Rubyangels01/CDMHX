@@ -198,20 +198,30 @@ namespace CDMHX
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn xoá công việc này?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            tbCongViec cv = new tbCongViec();
+            cv.MaCV = ID;
+           
+            if ((cvdao.KiemTraDuLieu(cv.MaCV)) == 1)
             {
-                tbCongViec cv = new tbCongViec();
-                cv.MaCV = ID;
-                if (cvdao.DeleteCV(cv))
+                MessageBox.Show("Dữ Liệu Này Không Được Xoá!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }  
+            else
+            {
+                if (MessageBox.Show("Bạn có muốn xoá công việc này?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    ShowAllCV();
-                }
-                else
-                {
-                    MessageBox.Show("Đã có lỗi xảy ra, xin vui lòng thử lại sau", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
 
+                    if (cvdao.DeleteCV(cv))
+                    {
+                        ShowAllCV();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Đã có lỗi xảy ra, xin vui lòng thử lại sau", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                }
             }
+           
         }
 
         private void btnTimKiem_Click(object sender, EventArgs e)

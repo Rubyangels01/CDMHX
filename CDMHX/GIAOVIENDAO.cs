@@ -36,11 +36,12 @@ namespace CDMHX
                 SqlCommand command = new SqlCommand();
                 command.Connection = dc.getConnec();
 
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "GetAllTeachers";
+                command.CommandType = CommandType.Text;
+                command.CommandText = "select * from V_DSGV";
 
 
-                SqlDataReader reader = command.ExecuteReader();
+
+            SqlDataReader reader = command.ExecuteReader();
 
                 
                 while (reader.Read())

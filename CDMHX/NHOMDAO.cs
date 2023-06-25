@@ -57,8 +57,8 @@ namespace CDMHX
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "GetAllNhom";
+            command.CommandType = CommandType.Text;
+            command.CommandText = "select * from V_DSNHOM";
 
 
             SqlDataReader reader = command.ExecuteReader();
