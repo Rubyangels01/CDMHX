@@ -110,7 +110,7 @@ namespace CDMHX
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "DS_SV_NHOM";
+            command.CommandText = "DS_SV_CHUAKT";
 
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
             command.Parameters.Add("@MaKT", SqlDbType.NChar).Value = maKT;

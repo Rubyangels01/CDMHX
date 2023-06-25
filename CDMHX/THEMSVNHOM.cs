@@ -16,7 +16,7 @@ namespace CDMHX
         int index = 0;
         string flag;
         THEMSVNHOMDAO themsvdao = new THEMSVNHOMDAO();
-        SINHVIENDAO svdao = new SINHVIENDAO();
+       
         public THEMSVNHOM()
         {
             InitializeComponent();
@@ -24,69 +24,76 @@ namespace CDMHX
         public void ShowAllSV()
         {
 
-            DataTable listSV1 = svdao.GetAllSV();
+            int namcd;
+            int.TryParse(cbNamCD.Text, out namcd);
 
-            listSV.DataSource = listSV1;
+            DataTable list = themsvdao.GetAllSV(namcd, cbNamCD.Text);
+
+            listSV.DataSource = list;
 
         }
         public void ShowAllSVThem()
         {
-
-            DataTable listSV1 = themsvdao.GetAllSvThem();
+            int namcd;
+            int.TryParse(cbNamCD.Text, out namcd);
+            DataTable listSV1 = themsvdao.GetAllSVDaCoNhom(namcd);
 
             listSVNhom.DataSource = listSV1;
 
         }
         private void THEMSVNHOM_Load(object sender, EventArgs e)
         {
-            ShowAllSV();
-            ShowAllSVThem();
+            cbNamCD.Items.AddRange(themsvdao.LayMaCD().ToArray()); 
+           
         }
-        public DataTable createTB()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("MaSVNhom");
-            dt.Columns.Add("TenSVNhom");
-            dt.Columns.Add("GioiTinhSV");
-            
-            dt.Columns.Add("TenKhoaNhom");
-            return dt;
-        }
+        
 
         
         private void btnThem_Click(object sender, EventArgs e)
         {
             THEMSVNHOMDAO themsvdao = new THEMSVNHOMDAO();
-            index = listSV.CurrentCell.RowIndex;
-            if (listSV.SelectedRows.Count > 0)
+            List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
+            if(txtMaNhom.Text != null && txtTenNhom.Text != null)
             {
-                // Lấy dòng được chọn
-                DataGridViewRow selectedRow = listSV.SelectedRows[0];
+                themsvdao.InsertNhom(txtMaNhom.Text, txtTenNhom.Text, cbSoLuong.Text, cbNamCD.Text, cbAp.Text);
+            }    
+            // Lưu trữ các hàng được chọn vào danh sách tạm thời
+            foreach (DataGridViewRow row in listSV.SelectedRows)
+            {
 
-                tbSinhVien sv = new tbSinhVien();
-                int maSV;
-                int.TryParse(selectedRow.Cells["MaSV"].Value.ToString(), out maSV);
-                sv.MaSV = maSV;
-                sv.TenSV = selectedRow.Cells["TenSV"].Value.ToString();
-                sv.GioiTinh = selectedRow.Cells["GioiTinh"].Value.ToString();
-                sv.Khoa.TenKhoa = selectedRow.Cells["TenKhoa"].Value.ToString();
-
-                // Thêm dữ liệu vào nguồn dữ liệu của DataGridView
-                DataTable dataSource = (DataTable)listSVNhom.DataSource;
-                DataRow newRow = dataSource.NewRow();
-                newRow["MaSVNhom"] = sv.MaSV;
-                newRow["TenSVNhom"] = sv.TenSV;
-                newRow["GioiTinhSV"] = sv.GioiTinh;
-                newRow["TenKhoaNhom"] = sv.Khoa.TenKhoa;
-                dataSource.Rows.Add(newRow);
-
-                // Lưu dữ liệu vào cơ sở dữ liệu
-                themsvdao.SaveSVNhom(sv.MaSV, sv.TenSV, sv.GioiTinh, sv.Khoa.TenKhoa);
-
-                // Làm mới hiển thị DataGridView
-                listSVNhom.Refresh();
+                selectedRows.Add(row);
             }
-            listSV.Rows.RemoveAt(index);
+            
+            // Xóa các hàng được chọn khỏi DataGridView
+
+
+            // Thêm dữ liệu vào DataGridView2
+            foreach (DataGridViewRow row in listSV.SelectedRows)
+            {
+                int masv = 0;
+                int index = row.Index;
+
+                if (row.Cells[0].Value != null && int.TryParse(row.Cells[0].Value.ToString(), out masv))
+                {
+                    string tensv = row.Cells[1].Value?.ToString();
+                    string tennhom = row.Cells[2].Value?.ToString();
+
+                    themsvdao.InsertSV(txtMaNhom.Text, masv.ToString(), cbChucVu.Text);
+
+                }
+                else
+                {
+                    MessageBox.Show("Khen Thưởng Thất Bại!");
+                }
+                //listSV2.Rows.Add(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString(), cbMaKT.Text);
+            }
+            foreach (DataGridViewRow row in selectedRows)
+            {
+                // listSV2.Rows.Add(row.Cells[0].Value, row.Cells[1].Value, row.Cells[2].Value, cbMaKT.Text);
+                listSV.Rows.Remove(row);
+                ShowAllSV();
+                ShowAllSVDAKT();
+            }
         }
         int maSV;
         private void listSVNhom_SelectionChanged(object sender, EventArgs e)
@@ -147,8 +154,12 @@ namespace CDMHX
 
             }
         }
-      
-       
+
+        private void btnXem_Click(object sender, EventArgs e)
+        {
+            ShowAllSV();
+            //ShowAllSVThem();
+        }
     }
 }
 

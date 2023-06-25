@@ -86,6 +86,8 @@ namespace CDMHX
             this.HOTEN = new System.Windows.Forms.ToolStripStatusLabel();
             this.NHOM = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ribbonPageGroup15 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.btnTaoNhom = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemPictureEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemColorEdit1)).BeginInit();
@@ -128,10 +130,11 @@ namespace CDMHX
             this.barButtonItem15,
             this.btnKhenThuong,
             this.barButtonItem21,
-            this.btnKT});
+            this.btnKT,
+            this.btnTaoNhom});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.Margin = new System.Windows.Forms.Padding(30, 30, 30, 30);
-            this.ribbon.MaxItemId = 32;
+            this.ribbon.Margin = new System.Windows.Forms.Padding(38, 38, 38, 38);
+            this.ribbon.MaxItemId = 33;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.rbTaiKhoan,
@@ -450,7 +453,8 @@ namespace CDMHX
             this.ribbonPageGroup3,
             this.ribbonPageGroup11,
             this.ribbonPageGroup13,
-            this.ribbonPageGroup14});
+            this.ribbonPageGroup14,
+            this.ribbonPageGroup15});
             this.rbChucNang.Name = "rbChucNang";
             this.rbChucNang.Text = "CHỨC NĂNG";
             // 
@@ -473,12 +477,11 @@ namespace CDMHX
             // 
             this.ribbonPageGroup14.ItemLinks.Add(this.btnKT);
             this.ribbonPageGroup14.Name = "ribbonPageGroup14";
-            this.ribbonPageGroup14.Text = "ribbonPageGroup14";
             // 
             // ribbonStatusBar
             // 
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 609);
-            this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(30, 30, 30, 30);
+            this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(38, 38, 38, 38);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
             this.ribbonStatusBar.Size = new System.Drawing.Size(1500, 30);
@@ -527,9 +530,22 @@ namespace CDMHX
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1283, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1322, 20);
             this.toolStripStatusLabel1.Spring = true;
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // ribbonPageGroup15
+            // 
+            this.ribbonPageGroup15.ItemLinks.Add(this.btnTaoNhom);
+            this.ribbonPageGroup15.Name = "ribbonPageGroup15";
+            // 
+            // btnTaoNhom
+            // 
+            this.btnTaoNhom.Caption = "TẠO NHÓM SINH VIÊN";
+            this.btnTaoNhom.Id = 32;
+            this.btnTaoNhom.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem16.ImageOptions.SvgImage")));
+            this.btnTaoNhom.Name = "btnTaoNhom";
+            this.btnTaoNhom.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnTaoNhom_ItemClick);
             // 
             // RibbonForm1
             // 
@@ -614,5 +630,7 @@ namespace CDMHX
         private System.Windows.Forms.ToolStripStatusLabel HOTEN;
         private System.Windows.Forms.ToolStripStatusLabel NHOM;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private DevExpress.XtraBars.BarButtonItem btnTaoNhom;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup15;
     }
 }

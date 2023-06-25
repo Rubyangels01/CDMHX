@@ -31,7 +31,7 @@ namespace CDMHX
             // ...
         }
         public void KhoaControl()
-        {
+        {/*
             btnThem.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
@@ -45,11 +45,12 @@ namespace CDMHX
             cbChucVu.Enabled = false;  
             
             btnThem.Focus();
+            */
         }
 
 
         public void UnlockControl()
-        {
+        {/*
             btnThem.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
@@ -62,7 +63,7 @@ namespace CDMHX
             cbSoLuong.Enabled = true;
             cbChucVu.Enabled = true;
             txtMaNhom.Focus();
-
+            */
         }
         public void ShowAllNhom()
         {
@@ -85,12 +86,12 @@ namespace CDMHX
         {
             KhoaControl();
             ShowAllNhom();
-            
+            /*
             cbSoLuong.Items.Add(3);
             cbSoLuong.Items.Add(4);
             cbSoLuong.Items.Add(5);
             cbSoLuong.Items.Add(6);
-            
+            */
         }
         int ID;
         private void listNhom_SelectionChanged(object sender, EventArgs e)
@@ -100,11 +101,11 @@ namespace CDMHX
             if (dt.Rows.Count > 0 || dt.Rows != null)
             {
                 int.TryParse(listNhom.Rows[index].Cells[0].Value.ToString(), out ID);
-                txtMaNhom.Text = ID.ToString();
-                txtTenNhom.Text = listNhom.Rows[index].Cells[1].Value.ToString();
+                //txtMaNhom.Text = ID.ToString();
+                //txtTenNhom.Text = listNhom.Rows[index].Cells[1].Value.ToString();
                 
-                cbSoLuong.Text = listNhom.Rows[index].Cells[2].Value.ToString(); // Gán dữ liệu vào ComboBox
-                cbChucVu.Text = listNhom.Rows[index].Cells[3].Value.ToString();
+                //cbSoLuong.Text = listNhom.Rows[index].Cells[2].Value.ToString(); // Gán dữ liệu vào ComboBox
+                //cbChucVu.Text = listNhom.Rows[index].Cells[3].Value.ToString();
                 DataTable listSVnhom = nhomdao.GetAllSVNhom(ID);
                 listSVNhom.DataSource = listSVnhom;
 
@@ -117,11 +118,13 @@ namespace CDMHX
             UnlockControl();
 
             flag = "add";
+            /*
             txtMaNhom.Text = "";
             txtTenNhom.Text = "";
             cbSoLuong.Text = "";
             cbChucVu.Text = "";
             btnThemSV.Text = "THÊM SV NHÓM";
+            */
             DataTable emptyDataTable = new DataTable();
             emptyDataTable = nhomdao.createTBSV();
             listSVNhom.DataSource = emptyDataTable; 
@@ -131,13 +134,13 @@ namespace CDMHX
         {
             KhoaControl();
             ShowAllNhom();
-            btnThemSV.Text = "CHỈNH SỬA DSSV NHÓM";
+            //btnThemSV.Text = "CHỈNH SỬA DSSV NHÓM";
         }
 
         
 
         public bool checkData()
-        {
+        {/*
 
             if (string.IsNullOrWhiteSpace(txtTenNhom.Text))
             {
@@ -156,7 +159,7 @@ namespace CDMHX
                 MessageBox.Show("Bạn chưa chọn chức vụ nhóm", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 cbChucVu.Focus();
                 return false;
-            }
+            }*/
             return true;
         }
         private void btnLuu_Click(object sender, EventArgs e)

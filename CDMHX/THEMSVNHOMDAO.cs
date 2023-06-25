@@ -17,7 +17,7 @@ namespace CDMHX
             dc = new DataConnection();
         }
 
-        public DataTable createTB()
+        public DataTable createTBSVNhom()
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("MaSVNhom");
@@ -25,7 +25,129 @@ namespace CDMHX
             dt.Columns.Add("GioiTinhSV");
 
             dt.Columns.Add("TenKhoaNhom");
+            dt.Columns.Add("MaNhom");
+            dt.Columns.Add("ChucVu");
             return dt;
+        }
+        public static DataTable createTBSV()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("MaSV");
+            dt.Columns.Add("TenSV");
+            dt.Columns.Add("GioiTinh");
+            dt.Columns.Add("TenKhoa");
+
+            return dt;
+        }
+        public List<string> LayMaCD()
+        {
+            List<string> listMaCD = new List<string>();
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT MaCD FROM CDMHX WHERE MaCD >= YEAR(GETDATE())";
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string macd = reader["MaCD"].ToString();
+                listMaCD.Add(macd);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listMaCD;
+        }
+        public DataTable GetAllSV(int maCD, string maKT)
+        {
+
+            DataTable listSV = createTBSV();
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "DS_SV_CHUACONHOM";
+
+            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
+            
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                int MaSV = (int)reader["MaSV"];
+                string TenSV = reader["TenSV"].ToString();
+                string GioiTinh = reader["GioiTinh"].ToString();
+                string TenKhoa = reader["MaKhoa"].ToString();
+                listSV.Rows.Add(MaSV, TenSV, GioiTinh, TenKhoa);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listSV;
+        }
+
+        public DataTable GetAllSVDaCoNhom(int maCD)
+        {
+
+            DataTable listSV2 = createTBSVNhom();
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "DS_SV_DACONHOM";
+
+            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
+            
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                int MaSV = (int)reader["MaSV"];
+                string TenSV = reader["TenSV"].ToString();
+                string GioiTinh = reader["GioiTinh"].ToString();
+                string TenKhoa = reader["MaKhoa"].ToString();
+                string MaNhom = reader["MaNhom"].ToString();
+                string ChucVu = reader["ChucVu"].ToString();
+                listSV2.Rows.Add(MaSV, TenSV, GioiTinh, TenKhoa, MaNhom, ChucVu);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listSV2;
+        }
+
+        public void InsertNhom(string manhom, string tennhom, string soluong, string macd, string maap)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "SP_INSERTNHOM";
+            command.Parameters.Add("@MaNhom", SqlDbType.Int).Value = manhom;
+            command.Parameters.Add("@TenNhom", SqlDbType.NVarChar).Value = tennhom;
+            command.Parameters.Add("@SoLuong", SqlDbType.Int).Value = soluong;
+            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = macd;
+            command.Parameters.Add("@MaAp", SqlDbType.Int).Value = maap;          
+            SqlDataReader reader = command.ExecuteReader();
+            dc.getConnec().Close();
+        }
+        public void InsertSV(string manhom,string masv, string chucvu)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;       
+
+            command.CommandText = "SP_INSERTSV_NHOM";
+            command.Parameters.Add("@MaNhom", SqlDbType.Int).Value = manhom;
+            command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
+            command.Parameters.Add("@ChucVu", SqlDbType.NChar).Value = chucvu;
+            SqlDataReader reader = command.ExecuteReader();
+            dc.getConnec().Close();
         }
 
         public void SaveSVNhom(int MaSV, string TenSV, string GioiTinh, string TenKhoa)
@@ -84,7 +206,7 @@ VALUES (@MaSV, @TenSV, @GioiTinh, @TenKhoa);";
         {
 
 
-            listSV = createTB();
+            listSV = createTBSV();
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
