@@ -35,6 +35,9 @@ namespace CDMHX
             listChienDich.DataSource = listCV;
 
         }
+        ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+        ToolStripMenuItem menuItemDelete = new ToolStripMenuItem("Xóa");
+        
         private void CHIENDICH_Load(object sender, EventArgs e)
         {
             listChienDich.CellDoubleClick += listChienDich_CellDoubleClick_1;
@@ -43,9 +46,42 @@ namespace CDMHX
             cbTimKiem.Items.Add("2021");
             cbTimKiem.Items.Add("2022");
             cbTimKiem.Items.Add("2023");
+
+            menuItemDelete.Click += MenuItemDelete_Click;
+            contextMenuStrip.Items.Add(menuItemDelete);
+
+            // Thêm các lựa chọn khác nếu cần
+
         }
-       
-        int ID;
+        
+        
+        private void MenuItemDelete_Click(object sender, EventArgs e)
+        {
+            int ID;
+            index = listChienDich.CurrentCell.RowIndex;
+            int.TryParse(listChienDich.Rows[index].Cells[0].Value.ToString(), out ID);
+            
+            if ((cddao.KiemTraDuLieu(ID)) == 1)
+            {
+                MessageBox.Show("Dữ Liệu Này Không Được Xoá!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn có muốn xoá chiến dịch này?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    if (listChienDich.SelectedCells.Count > 0)
+                    {
+                        DataGridViewCell selectedCell = listChienDich.SelectedCells[0];
+                        int rowIndex = selectedCell.RowIndex;                     
+                        listChienDich.Rows.RemoveAt(rowIndex);
+                    }
+                }    
+            }
+
+            
+        }
+
+        
         private void listChienDich_SelectionChanged(object sender, EventArgs e)
         {
             /*
@@ -74,7 +110,7 @@ namespace CDMHX
            }*/
 
         }
-        
+
 
 
         private void cbTimKiem_SelectedIndexChanged(object sender, EventArgs e)
@@ -172,5 +208,16 @@ namespace CDMHX
 
             }
         }
+
+        private void listChienDich_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                listChienDich.CurrentCell = listChienDich.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                e.ContextMenuStrip = contextMenuStrip;
+            }
+        }
+        
+
     }
 }

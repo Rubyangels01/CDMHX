@@ -93,6 +93,27 @@ namespace CDMHX
             dc.getConnec().Close();
             return listTimKiem;
         }
+        public int KiemTraDuLieu(int ma)
+        {
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEUCD] ({0})", ma);
+            command.Connection = dc.getConnec();
+
+            int kq = 0;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    kq = reader.GetInt32(0);
+                }
+            }
+
+            command.Connection.Close();
+
+            return kq;
+        }
 
     }
 }

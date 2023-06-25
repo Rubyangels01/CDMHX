@@ -41,12 +41,12 @@ namespace CDMHX
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listChienDich = new System.Windows.Forms.DataGridView();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbTimKiem = new System.Windows.Forms.ComboBox();
             this.MaCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NgayBD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NgayKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbTimKiem = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listChienDich)).BeginInit();
@@ -180,29 +180,9 @@ namespace CDMHX
             this.listChienDich.Size = new System.Drawing.Size(873, 222);
             this.listChienDich.TabIndex = 0;
             this.listChienDich.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listChienDich_CellClick);
+            this.listChienDich.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.listChienDich_CellContextMenuStripNeeded);
             this.listChienDich.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listChienDich_CellDoubleClick_1);
             this.listChienDich.SelectionChanged += new System.EventHandler(this.listChienDich_SelectionChanged);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.cbTimKiem);
-            this.groupBox3.Location = new System.Drawing.Point(21, 236);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(870, 85);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "TÌM KIẾM";
-            // 
-            // cbTimKiem
-            // 
-            this.cbTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbTimKiem.FormattingEnabled = true;
-            this.cbTimKiem.Location = new System.Drawing.Point(247, 35);
-            this.cbTimKiem.Name = "cbTimKiem";
-            this.cbTimKiem.Size = new System.Drawing.Size(368, 28);
-            this.cbTimKiem.TabIndex = 0;
-            this.cbTimKiem.SelectedIndexChanged += new System.EventHandler(this.cbTimKiem_SelectedIndexChanged);
-            this.cbTimKiem.TextChanged += new System.EventHandler(this.cbTimKiem_TextChanged);
             // 
             // MaCD
             // 
@@ -240,11 +220,32 @@ namespace CDMHX
             this.NgayKT.ReadOnly = true;
             this.NgayKT.Width = 175;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.cbTimKiem);
+            this.groupBox3.Location = new System.Drawing.Point(21, 236);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(870, 85);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "TÌM KIẾM";
+            // 
+            // cbTimKiem
+            // 
+            this.cbTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbTimKiem.FormattingEnabled = true;
+            this.cbTimKiem.Location = new System.Drawing.Point(247, 35);
+            this.cbTimKiem.Name = "cbTimKiem";
+            this.cbTimKiem.Size = new System.Drawing.Size(368, 28);
+            this.cbTimKiem.TabIndex = 0;
+            this.cbTimKiem.SelectedIndexChanged += new System.EventHandler(this.cbTimKiem_SelectedIndexChanged);
+            this.cbTimKiem.TextChanged += new System.EventHandler(this.cbTimKiem_TextChanged);
+            // 
             // CHIENDICH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(916, 584);
+            this.ClientSize = new System.Drawing.Size(912, 584);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label1);
