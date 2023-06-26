@@ -120,14 +120,14 @@ namespace CDMHX
             return listSV2;
         }
 
-        public void InsertNhom(string manhom, string tennhom, string soluong, string macd, string maap)
+        public void InsertNhom(string tennhom, string soluong, string macd, string maap)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "SP_INSERTNHOM";
-            command.Parameters.Add("@MaNhom", SqlDbType.Int).Value = manhom;
+            
             command.Parameters.Add("@TenNhom", SqlDbType.NVarChar).Value = tennhom;
             command.Parameters.Add("@SoLuong", SqlDbType.Int).Value = soluong;
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = macd;
@@ -135,7 +135,7 @@ namespace CDMHX
             SqlDataReader reader = command.ExecuteReader();
             dc.getConnec().Close();
         }
-        public void InsertSV(string manhom,string masv, string chucvu)
+        public void InsertSV(string masv, string chucvu)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -143,7 +143,7 @@ namespace CDMHX
             command.CommandType = CommandType.StoredProcedure;       
 
             command.CommandText = "SP_INSERTSV_NHOM";
-            command.Parameters.Add("@MaNhom", SqlDbType.Int).Value = manhom;
+           
             command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
             command.Parameters.Add("@ChucVu", SqlDbType.NChar).Value = chucvu;
             SqlDataReader reader = command.ExecuteReader();

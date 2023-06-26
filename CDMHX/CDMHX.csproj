@@ -114,6 +114,19 @@
     <Compile Include="NHÓM.Designer.cs">
       <DependentUpon>NHÓM.cs</DependentUpon>
     </Compile>
+    <Compile Include="PHANCONGGS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PHANCONGGS.Designer.cs">
+      <DependentUpon>PHANCONGGS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PHANCONGSV_GS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PHANCONGSV_GS.Designer.cs">
+      <DependentUpon>PHANCONGSV_GS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PHANCONGSV_GSDAO.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RibbonForm1.cs">
@@ -183,6 +196,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NHÓM.resx">
       <DependentUpon>NHÓM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PHANCONGGS.resx">
+      <DependentUpon>PHANCONGGS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PHANCONGSV_GS.resx">
+      <DependentUpon>PHANCONGSV_GS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

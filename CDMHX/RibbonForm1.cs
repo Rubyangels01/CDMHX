@@ -27,25 +27,30 @@ namespace CDMHX
 
         }
         // BUTTON CÔNG VIỆC
-        private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
+        public void OpenForm(Form form)
         {
             pn_main.Controls.Clear();
 
-            CONGVIEC myForm = new CONGVIEC();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
+            
+            form.TopLevel = false;
+            form.FormBorderStyle = FormBorderStyle.None;
 
             // Tính toán margin để căn giữa myForm trong pn_main
-            int leftMargin = (pn_main.Width - myForm.Width) / 2;
-            int topMargin = (pn_main.Height - myForm.Height) / 2;
-            myForm.Margin = new Padding(leftMargin, topMargin, leftMargin, topMargin);
+            int leftMargin = (pn_main.Width - form.Width) / 2;
+            int topMargin = (pn_main.Height - form.Height) / 2;
+            form.Margin = new Padding(leftMargin, topMargin, leftMargin, topMargin);
 
             // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
+            form.Anchor = AnchorStyles.None;
 
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            form.Dock = DockStyle.Fill;
+            pn_main.Controls.Add(form);
+            form.Show();
+        }
+        private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            CONGVIEC form = new CONGVIEC();
+            OpenForm(form);
         }
 
 
@@ -56,174 +61,74 @@ namespace CDMHX
         // BUTTON GIÁO VIÊN
         private void barButtonItem11_ItemClick(object sender, ItemClickEventArgs e)
         {
-            pn_main.Controls.Clear();
-
             GIAOVIEN myForm = new GIAOVIEN();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-
-            // Tính toán margin để căn giữa myForm trong pn_main
-            int leftMargin = (pn_main.Width - myForm.Width) / 2;
-            int topMargin = (pn_main.Height - myForm.Height) / 2;
-            myForm.Margin = new Padding(leftMargin, topMargin, leftMargin, topMargin);
-
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
         // BUTTON SINH VIÊN
         private void barButtonItem13_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {          
             SINHVIEN myForm = new SINHVIEN();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-
-            
-
-
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);          
         }
         // BUTTON NHÓM
         private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {          
             NHÓM myForm = new NHÓM();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-
-
-
-
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
         // TẠO NHÓM SINH VIÊN
         private void barButtonItem5_ItemClick_1(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {           
             THEMSVNHOM myForm = new THEMSVNHOM();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-
-
-
-
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
         // BUTTON FORM CHIẾN DỊCH
         private void barButtonItem4_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {          
             CHIENDICH myForm = new CHIENDICH();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-
-
-
-
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
 
         private void btnTaoCD_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {        
             TAOCHIENDICH myForm = new TAOCHIENDICH();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
 
         private void btnPCCV_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {          
             CHITIETCV myForm = new CHITIETCV();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
 
         private void btnKhenThuong_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {          
             DSKHENTHUONG myForm = new DSKHENTHUONG();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
 
         private void btnKT_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {          
             KHENTHUONG myForm = new KHENTHUONG();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
-
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+            OpenForm(myForm);
         }
 
         private void btnTaoNhom_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            pn_main.Controls.Clear();
-
+        {          
             THEMSVNHOM myForm = new THEMSVNHOM();
-            myForm.TopLevel = false;
-            myForm.FormBorderStyle = FormBorderStyle.None;
-            // Đặt Anchor để myForm căn giữa trong pn_main
-            myForm.Anchor = AnchorStyles.None;
+            OpenForm(myForm);
+        }
 
-            myForm.Dock = DockStyle.Fill;
-            pn_main.Controls.Add(myForm);
-            myForm.Show();
+        private void btnPhanCongGS_ItemClick(object sender, ItemClickEventArgs e)
+        {          
+            PHANCONGGS myForm = new PHANCONGGS();
+            OpenForm(myForm);
+        }
+
+        private void barButtonItem16_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            PHANCONGSV_GS myForm = new PHANCONGSV_GS();
+            OpenForm(myForm);
         }
     }
 }

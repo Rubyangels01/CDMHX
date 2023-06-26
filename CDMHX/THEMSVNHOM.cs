@@ -53,9 +53,9 @@ namespace CDMHX
         {
             THEMSVNHOMDAO themsvdao = new THEMSVNHOMDAO();
             List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
-            if(txtMaNhom.Text != null && txtTenNhom.Text != null)
+            if(txtTenNhom.Text != null)
             {
-                themsvdao.InsertNhom(txtMaNhom.Text, txtTenNhom.Text, cbSoLuong.Text, cbNamCD.Text, cbAp.Text);
+                themsvdao.InsertNhom(txtTenNhom.Text, cbSoLuong.Text, cbNamCD.Text, cbAp.Text);
             }    
             // Lưu trữ các hàng được chọn vào danh sách tạm thời
             foreach (DataGridViewRow row in listSV.SelectedRows)
@@ -78,7 +78,7 @@ namespace CDMHX
                     string tensv = row.Cells[1].Value?.ToString();
                     string tennhom = row.Cells[2].Value?.ToString();
 
-                    themsvdao.InsertSV(txtMaNhom.Text, masv.ToString(), cbChucVu.Text);
+                    themsvdao.InsertSV(masv.ToString(), cbChucVu.Text);
 
                 }
                 else
@@ -92,7 +92,7 @@ namespace CDMHX
                 // listSV2.Rows.Add(row.Cells[0].Value, row.Cells[1].Value, row.Cells[2].Value, cbMaKT.Text);
                 listSV.Rows.Remove(row);
                 ShowAllSV();
-                ShowAllSVDAKT();
+                
             }
         }
         int maSV;
