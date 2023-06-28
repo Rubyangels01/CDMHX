@@ -15,13 +15,13 @@ namespace CDMHX
         {
             dc = new DataConnection();
         }
-        public  DataTable createTB()
+        public DataTable createTB()
         {
             DataTable dt = new DataTable();
             dt.Columns.Add("MaSV");
             dt.Columns.Add("TenSV");
             dt.Columns.Add("Nhom");
-            
+
             return dt;
         }
         public static DataTable createTBSVKT()
@@ -158,8 +158,8 @@ namespace CDMHX
             dc.getConnec().Close();
             return listSV2;
         }
-        public void InsertKT(int masv,int maCD, string maKT)
-        {          
+        public void InsertKT(string masv, string maCD, string maKT)
+        {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
@@ -168,8 +168,8 @@ namespace CDMHX
             command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
             command.Parameters.Add("@MaKT", SqlDbType.NChar).Value = maKT;
-            SqlDataReader reader = command.ExecuteReader();           
-            dc.getConnec().Close();         
+            SqlDataReader reader = command.ExecuteReader();
+            dc.getConnec().Close();
         }
         public void DeleteSV_KT(int masv, int maCD, string maKT)
         {

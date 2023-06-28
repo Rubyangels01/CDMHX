@@ -20,24 +20,24 @@ namespace CDMHX
         }
         public void ShowAllSV()
         {
-           
+
             int namcd;
             int.TryParse(cbNamCD.Text, out namcd);
-            
+
             DataTable list = ktdao.GetAllSV(namcd, cbMaKT.Text);
-            
+
             listSV.DataSource = list;
 
         }
 
         DataTable list = new DataTable();
-        
+
         public void ShowAllSVDAKT()
-        {         
+        {
 
             int.TryParse(cbNamCD.Text, out namcd);
 
-             list = ktdao.GetAllSVDaKT(namcd, cbMaKT.Text);
+            list = ktdao.GetAllSVDaKT(namcd, cbMaKT.Text);
 
             listSV2.DataSource = list;
 
@@ -45,17 +45,17 @@ namespace CDMHX
         private void KHENTHUONG_Load(object sender, EventArgs e)
         {
             txtMucDoKT.ReadOnly = true;
-           cbMaKT.Items.AddRange(ktdao.LayMaKT().ToArray());
+            cbMaKT.Items.AddRange(ktdao.LayMaKT().ToArray());
             cbMaKT.SelectedIndex = 0;
             cbNamCD.Items.AddRange(ktdao.LayMaCD().ToArray());
             cbNamCD.SelectedIndex = 0;
             listSV.MultiSelect = true;
             listSV2.MultiSelect = true;
         }
-        
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void cbMaKT_TextChanged(object sender, EventArgs e)
@@ -78,53 +78,24 @@ namespace CDMHX
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-           
-            List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
-
-            // Lưu trữ các hàng được chọn vào danh sách tạm thời
-            foreach (DataGridViewRow row in listSV.SelectedRows)
-            {
-                
-                selectedRows.Add(row);
-            }
-
-            // Xóa các hàng được chọn khỏi DataGridView
-            
-           
+            int count = 0;
             // Thêm dữ liệu vào DataGridView2
             foreach (DataGridViewRow row in listSV.SelectedRows)
             {
-                int masv = 0;
-                int index = row.Index;
+                MessageBox.Show(row.Cells[0].Value.ToString());
+                MessageBox.Show(listSV.SelectedRows.Count.ToString());
+                count += 1;
+                ktdao.InsertKT(row.Cells[0].Value.ToString(), cbNamCD.Text, cbMaKT.Text);
 
-                if (row.Cells[0].Value != null && int.TryParse(row.Cells[0].Value.ToString(), out masv))
+                if (count == listSV.SelectedRows.Count)
                 {
-                    string tensv = row.Cells[1].Value?.ToString();
-                    string tennhom = row.Cells[2].Value?.ToString();
-                   
-                                                           
-                        ktdao.InsertKT(masv, namcd, cbMaKT.Text);                  
+                    break;
                 }
-                else
-                {
-                    MessageBox.Show("Khen Thưởng Thất Bại!");
-                }
-                //listSV2.Rows.Add(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString(), cbMaKT.Text);
+
             }
-            foreach (DataGridViewRow row in selectedRows)
-            {
-                // listSV2.Rows.Add(row.Cells[0].Value, row.Cells[1].Value, row.Cells[2].Value, cbMaKT.Text);
-                listSV.Rows.Remove(row);
-                ShowAllSV();
-                ShowAllSVDAKT();
-            }
-           
-            /*
-            foreach (DataGridViewRow row in listSV2.SelectedRows)
-            {
-                 
-                
-            }*/
+            ShowAllSV();
+            ShowAllSVDAKT();
+
 
         }
 
@@ -137,7 +108,7 @@ namespace CDMHX
 
             // Tạo một danh sách các hàng để chứa các hàng được chọn
             List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
-            if(MessageBox.Show("Bạn có muốn xoá sinh viên ra khỏi danh sách?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("Bạn có muốn xoá sinh viên ra khỏi danh sách?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 foreach (DataGridViewRow row in listSV2.SelectedRows)
                 {
@@ -161,8 +132,8 @@ namespace CDMHX
                     listSV2.Rows.Remove(row);
                     ShowAllSV();
                 }
-            }    
-            
+            }
+
         }
     }
 }

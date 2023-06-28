@@ -120,6 +120,7 @@
     <Compile Include="PHANCONGGS.Designer.cs">
       <DependentUpon>PHANCONGGS.cs</DependentUpon>
     </Compile>
+    <Compile Include="PHANCONGGS_DAO.cs" />
     <Compile Include="PHANCONGSV_GS.cs">
       <SubType>Form</SubType>
     </Compile>

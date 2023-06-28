@@ -8,33 +8,42 @@ using System.Threading.Tasks;
 
 namespace CDMHX
 {
-    class PHANCONGSV_GSDAO
+    class PHANCONGGS_DAO
     {
         DataConnection dc;
-        public PHANCONGSV_GSDAO()
+        public PHANCONGGS_DAO()
         {
             dc = new DataConnection();
         }
         public DataTable createTB()
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("MaSV");
-            dt.Columns.Add("TenSV");
-            dt.Columns.Add("TenXa");
+            dt.Columns.Add("MaGV");
+            dt.Columns.Add("TenGV");
+            dt.Columns.Add("MaKhoa");
 
             return dt;
         }
-        public DataTable createTBSVGS()
+        public DataTable createTBGS()
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("MaSV2");
-            dt.Columns.Add("TenSV2");
-            dt.Columns.Add("TenXa2");
-            dt.Columns.Add("ChucVu");
+            dt.Columns.Add("MaGV1");
+            dt.Columns.Add("TenGV1");
+            dt.Columns.Add("MaKhoa1");
+            dt.Columns.Add("MaXa");
 
             return dt;
         }
+        public DataTable createTBSV()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("MaSV");
+            dt.Columns.Add("TenSV");
+            dt.Columns.Add("ChucVu");
 
+
+            return dt;
+        }
         public List<string> LayMaCD()
         {
             List<string> listMaCD = new List<string>();
@@ -84,7 +93,7 @@ namespace CDMHX
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "SP_PCGS_XA";
+            command.CommandText = "SP_PCBGS_XA";
             command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
             command.Parameters.Add("@TENDB", SqlDbType.NVarChar).Value = diaban;
             SqlDataReader reader = command.ExecuteReader();
@@ -100,8 +109,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listXa;
         }
-
-        public DataTable GetAllSV(int maCD, string maXa)
+        public DataTable GetAllGV()
         {
 
             DataTable listSV = createTB();
@@ -110,38 +118,32 @@ namespace CDMHX
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "SP_PHANCONGSV_GS";
-
-            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
-            command.Parameters.Add("@TENXA", SqlDbType.NVarChar).Value = maXa;
+            command.CommandText = "SP_DS_BGS_CHUAPC";
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
-                int MaSV = (int)reader["MaSV"];
-                string TenSV = reader["TenSV"].ToString();
-                string TenXa = reader["MaXa"].ToString();
-                listSV.Rows.Add(MaSV, TenSV, TenXa);
+                int MaSV = (int)reader["MaGV"];
+                string TenSV = reader["TenGV"].ToString();
+                string MaKhoa = reader["MaKhoa"].ToString();
+                listSV.Rows.Add(MaSV, TenSV, MaKhoa);
 
             }
             reader.Close();
             dc.getConnec().Close();
             return listSV;
         }
-        public DataTable GetAllSVDAGS(int maCD, string maXa)
+        public DataTable GetAllSV(int maCD, string tenxa)
         {
 
-            DataTable listSV = createTBSVGS();
+            DataTable listSV = createTBSV();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "SP_PHANCONGSV_DAGS";
-
-            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
-            command.Parameters.Add("@TENXA", SqlDbType.NVarChar).Value = maXa;
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("SELECT SINHVIEN.MASV, SINHVIEN.TENSV,GIAMSAT_SV.CHUCVU FROM SINHVIEN JOIN GIAMSAT_SV ON GIAMSAT_SV.MASV = SINHVIEN.MASV WHERE GIAMSAT_SV.MACD = {0} AND GIAMSAT_SV.MAXA =(SELECT MAXA FROM XA WHERE TENXA = N'{1}')", maCD, tenxa);
             SqlDataReader reader = command.ExecuteReader();
 
 
@@ -149,36 +151,74 @@ namespace CDMHX
             {
                 int MaSV = (int)reader["MaSV"];
                 string TenSV = reader["TenSV"].ToString();
-                string TenXa = reader["MaXa"].ToString();
                 string ChucVu = reader["ChucVu"].ToString();
-                listSV.Rows.Add(MaSV, TenSV, TenXa, ChucVu);
+                listSV.Rows.Add(MaSV, TenSV, ChucVu);
 
             }
             reader.Close();
             dc.getConnec().Close();
             return listSV;
         }
+        public DataTable GetAllGVDAGS(int maCD,string tenxa)
+        {
 
-        public void InsertSV_GS(int masv, int macd, int maxa, string chucvu)
+            DataTable listSV = createTBGS();
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "SP_DS_GV_PC";
+
+            command.Parameters.Add("@MACD", SqlDbType.Int).Value = maCD;
+            command.Parameters.Add("@TENXA", SqlDbType.NVarChar).Value = tenxa;
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                int MaGV = (int)reader["MaGV"];
+                string TenGV = reader["TenGV"].ToString();
+                string MaKhoa = reader["MaKhoa"].ToString();
+                string MaXa = reader["MaXa"].ToString();
+                listSV.Rows.Add(MaGV, TenGV, MaKhoa, MaXa);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listSV;
+        }
+        public void Insert_BGS(string magv, string masv)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "SP_INSERTSV_GS";
+            command.CommandText = "SP_INSERT_BGS";
+            command.Parameters.Add("@MaGV", SqlDbType.Int).Value = magv;
             command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
-            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = macd;
-            command.Parameters.Add("@MaXa", SqlDbType.Int).Value = maxa;
-            command.Parameters.Add("@ChucVu", SqlDbType.NVarChar).Value = chucvu;
+
             SqlDataReader reader = command.ExecuteReader();
             dc.getConnec().Close();
         }
-        public int KiemTraDuLieu(int macd, string maxa)
+        public void Delete_GVGS(string magv, string masv)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "";
+            command.Parameters.Add("@MaGV", SqlDbType.Int).Value = magv;
+            command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
+
+            SqlDataReader reader = command.ExecuteReader();
+            dc.getConnec().Close();
+        }
+        public int KiemTraDuLieu(string maSV)
         {
             SqlCommand command = new SqlCommand();
             command.CommandType = CommandType.Text;
-            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEU_GS] ({0}, N'{1}')", macd, maxa);
-
+            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEUCT_GS] ({0})", maSV);
             command.Connection = dc.getConnec();
 
             int kq = 0;
