@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BAOCAO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BAOCAO.Designer.cs">
+      <DependentUpon>BAOCAO.cs</DependentUpon>
+    </Compile>
     <Compile Include="CHIENDICH.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,12 @@
       <DependentUpon>GIAOVIEN.cs</DependentUpon>
     </Compile>
     <Compile Include="GIAOVIENDAO.cs" />
+    <Compile Include="HIENTHICTCV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HIENTHICTCV.Designer.cs">
+      <DependentUpon>HIENTHICTCV.cs</DependentUpon>
+    </Compile>
     <Compile Include="KHENTHUONG.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +195,9 @@
       <DependentUpon>THEMSVNHOM.cs</DependentUpon>
     </Compile>
     <Compile Include="THEMSVNHOMDAO.cs" />
+    <EmbeddedResource Include="BAOCAO.resx">
+      <DependentUpon>BAOCAO.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CHIENDICH.resx">
       <DependentUpon>CHIENDICH.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GIAOVIEN.resx">
       <DependentUpon>GIAOVIEN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HIENTHICTCV.resx">
+      <DependentUpon>HIENTHICTCV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KHENTHUONG.resx">
       <DependentUpon>KHENTHUONG.cs</DependentUpon>

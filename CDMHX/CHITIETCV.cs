@@ -125,6 +125,7 @@ namespace CDMHX
             cbXa.Items.AddRange(ctcvdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), parentForm.magv).ToArray());
             cbXa.SelectedIndex = 0;
             cbAp.Items.AddRange(ctcvdao.LayAp(cbXa.Text).ToArray());
+            cbAp.SelectedIndex = 0;
             LayCongViec();
             cbBuoi.Items.Add("Buổi Sáng");
             cbBuoi.Items.Add("Buổi Chiều");
@@ -182,64 +183,64 @@ namespace CDMHX
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            if(listboxNhom.SelectedItem != null)
+            if (listboxNhom.SelectedItem != null)
             {
                 List<string> selectedItems = new List<string>();
+
                 // Lặp qua các mục đã chọn trong listboxNhom
-                foreach (object selectedItem in listboxNhom.SelectedItems)
+                foreach (string selectedItem in listboxNhom.SelectedItems)
                 {
-                    // Lấy nội dung của mục đã chọn
-                    string item = selectedItem.ToString();
-                    selectedItems.Add(item);
+                    selectedItems.Add(selectedItem);
+                }
 
-                    // Thêm nội dung vào ListBox chi tiết công việc
-                    
-                    ctcvdao.PhanCongCV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, item);
-                    DSNhom();
-                    DSNhomDaPC();
-                }
-                
-                // Xóa các mục đã chọn khỏi listboxNhom
-                foreach (string item in selectedItems)
+                // Thêm các mục đã chọn vào CSDL và làm các thay đổi khác
+                foreach (string selectedItem in selectedItems)
                 {
-                    
-                    listboxNhom.Items.Remove(item);
+                    ctcvdao.PhanCongCV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, selectedItem);
+                   
                 }
-                
-                // Gọi phương thức PhanCongCV để thêm dữ liệu vào CSDL
-                
+                DSNhom();
+                DSNhomDaPC();
+
             }
-
-
+            else
+            {
+                MessageBox.Show("Bạn chưa chọn nhóm để thêm!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }    
         }
+
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn xoá sinh viên ra khỏi danh sách?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            
+            
                 if (listboxNhom2.SelectedItem != null)
                 {
-                    List<string> selectedItems = new List<string>();
-                    foreach (object selectedItem in listboxNhom2.SelectedItems)
+                    if (MessageBox.Show("Bạn có muốn xoá sinh viên ra khỏi danh sách?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                     {
-                        string item = selectedItem.ToString();
-                        selectedItems.Add(item);
-                        ctcvdao.XOACV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, item);
+                        List<string> selectedItems = new List<string>();
+                        foreach (string selectedItem in listboxNhom2.SelectedItems)
+                        {
+                            selectedItems.Add(selectedItem);
+                        }
+                        foreach (string selectedItem in selectedItems)
+                        {
 
+
+                            ctcvdao.XOACV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, selectedItem);
+
+                        }
+                        DSNhom();
+                        DSNhomDaPC();
                     }
-
-
-                    foreach (string item in selectedItems)
-                    {
-                        listboxNhom.Items.Add(item);
-                        listboxNhom2.Items.Remove(item);
-
-
-                    }
-
-
-                }
+                } 
+                else
+            {
+                MessageBox.Show("Bạn chưa chọn nhóm để xoá!", "Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }    
+                        
+             
+                
                 
         }
     }

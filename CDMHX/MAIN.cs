@@ -160,7 +160,8 @@ namespace CDMHX
 
         private void btnBaoCao_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            BAOCAO form = new BAOCAO();
+            OpenForm(form);
         }
 
         private void btnXemNhom_ItemClick(object sender, ItemClickEventArgs e)
@@ -171,7 +172,8 @@ namespace CDMHX
 
         private void btnChiTietCV_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            HIENTHICTCV form = new HIENTHICTCV();
+            OpenForm(form);
         }
 
         private void btnDangXuat_ItemClick(object sender, ItemClickEventArgs e)
