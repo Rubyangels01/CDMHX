@@ -15,18 +15,18 @@ namespace CDMHX
         {
             dc = new DataConnection();
         }
-        public List<string> LayXa(string diaban)
+        public List<string> LayXa(int macd, int magv)
         {
 
             List<string> listXa = new List<string>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
-
-            command.CommandType = CommandType.Text;
-            command.CommandText = (string.Format("SELECT TenXa FROM Xa WHERE MaDB = (SELECT MaDB FROM DiaBan WHERE TenDB = N'{0}' )", diaban));
-
-
+            
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = ("SP_XA_CTCV");
+            command.Parameters.Add("@MACD", SqlDbType.Int).Value= macd;
+            command.Parameters.Add("@MAGV", SqlDbType.Int).Value = magv;
             SqlDataReader reader = command.ExecuteReader();
 
 
@@ -69,7 +69,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listXa;
         }
-        public List<string> LayNhom(string Xa,string tencv,DateTime ngay, string buoi, int maCD)
+        public List<string> LayNhom(string Xa,DateTime ngay, string buoi, int maCD)
         {
 
             List<string> listNhom = new List<string>();
@@ -80,7 +80,7 @@ namespace CDMHX
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "DS_CTCV_NHOM";
             command.Parameters.Add("@TenXa", SqlDbType.NVarChar).Value = Xa;
-            command.Parameters.Add("@TenCV", SqlDbType.NVarChar).Value = tencv;
+            
             command.Parameters.Add("@Ngay", SqlDbType.Date).Value = ngay;
             command.Parameters.Add("@Buoi", SqlDbType.NVarChar).Value = buoi;
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
@@ -100,7 +100,7 @@ namespace CDMHX
             return listNhom;
         }
 
-        public List<string> LayNhomDaPC(string Xa, string tencv, DateTime ngay, string buoi, int maCD)
+        public List<string> LayNhomDaPC(string Xa, DateTime ngay, string buoi, int maCD)
         {
 
             List<string> listNhom = new List<string>();
@@ -111,7 +111,7 @@ namespace CDMHX
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "DS_CTCVDAPC_NHOM";
             command.Parameters.Add("@TenXa", SqlDbType.NVarChar).Value = Xa;
-            command.Parameters.Add("@TenCV", SqlDbType.NVarChar).Value = tencv;
+            
             command.Parameters.Add("@Ngay", SqlDbType.Date).Value = ngay;
             command.Parameters.Add("@Buoi", SqlDbType.NVarChar).Value = buoi;
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;

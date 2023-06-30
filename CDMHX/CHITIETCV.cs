@@ -61,9 +61,9 @@ namespace CDMHX
             }
         }
 
-        public void LayDB()
+        public void LayDB(string tenxa)
         {
-            using (SqlCommand command = new SqlCommand("SELECT TenDB FROM DiaBan", connection))
+            using (SqlCommand command = new SqlCommand(string.Format("SELECT TenDB FROM DIABAN WHERE MADB = (SELECT MADB FROM XA WHERE TENXA = N'{0}')",tenxa), connection))
             {
                 command.CommandType = CommandType.Text;
 
@@ -89,7 +89,7 @@ namespace CDMHX
             int.TryParse(cbNamCD.Text, out namcd);
             
             listboxNhom.Items.Clear();
-            List<string> dsNhom = ctcvdao.LayNhom(cbXa.Text,cbCV.Text,dateNgay.Value,cbBuoi.Text, namcd);
+            List<string> dsNhom = ctcvdao.LayNhom(cbXa.Text,dateNgay.Value,cbBuoi.Text, namcd);
 
             foreach (string nhom in dsNhom)
             {
@@ -103,7 +103,7 @@ namespace CDMHX
             int.TryParse(cbNamCD.Text, out namcd);
 
             listboxNhom2.Items.Clear();
-            List<string> dsNhom = ctcvdao.LayNhomDaPC(cbXa.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, namcd);
+            List<string> dsNhom = ctcvdao.LayNhomDaPC(cbXa.Text, dateNgay.Value, cbBuoi.Text, namcd);
 
             foreach (string nhom in dsNhom)
             {
@@ -111,31 +111,43 @@ namespace CDMHX
                 listboxNhom2.Items.Add(nhom);
             }
         }
-
+        KIEMTRAPC_GV parentForm = Application.OpenForms.OfType<KIEMTRAPC_GV>().FirstOrDefault();
         private void CHITIETCV_Load(object sender, EventArgs e)
         {
+            int namcd;
+            
+            
+           
+            //cbXa.SelectedIndex = 0;
             LayMaCD();
+           
+            
+            cbXa.Items.AddRange(ctcvdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), parentForm.magv).ToArray());
+            cbXa.SelectedIndex = 0;
+            cbAp.Items.AddRange(ctcvdao.LayAp(cbXa.Text).ToArray());
             LayCongViec();
             cbBuoi.Items.Add("Buổi Sáng");
             cbBuoi.Items.Add("Buổi Chiều");
             cbBuoi.Items.Add("Buổi Tối");
             cbBuoi.SelectedIndex = 0;
-            LayDB();
+            LayDB(cbXa.Text);
+           
             
-            
-        }
+            //cbXa.SelectedIndex = 0;
 
+        }
+        
         private void cbDiaBan_TextChanged(object sender, EventArgs e)
         {
+            /*
             cbXa.Items.Clear();
 
             // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
             if (cbDiaBan.SelectedItem != null)
             {
-               cbXa.Items.AddRange(ctcvdao.LayXa(cbDiaBan.Text).ToArray());
-                cbXa.SelectedIndex = 0;
+               
 
-            }
+            }*/
         }
 
 
@@ -181,8 +193,10 @@ namespace CDMHX
                     selectedItems.Add(item);
 
                     // Thêm nội dung vào ListBox chi tiết công việc
-                    listboxNhom2.Items.Add(item);
+                    
                     ctcvdao.PhanCongCV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, item);
+                    DSNhom();
+                    DSNhomDaPC();
                 }
                 
                 // Xóa các mục đã chọn khỏi listboxNhom

@@ -37,32 +37,32 @@ namespace CDMHX
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnXem = new System.Windows.Forms.Button();
-            this.listSVGS = new System.Windows.Forms.DataGridView();
             this.listGV = new System.Windows.Forms.DataGridView();
-            this.listGVGS = new System.Windows.Forms.DataGridView();
-            this.btnThem = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.listGVGS = new System.Windows.Forms.DataGridView();
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.listSVGS = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnXem = new System.Windows.Forms.Button();
+            this.btnThem = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listGV)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.listGVGS)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listSVGS)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.listGV)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.listGVGS)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -144,51 +144,6 @@ namespace CDMHX
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "DSGV CHƯA THAM GIA GIÁM SÁT";
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.listGVGS);
-            this.groupBox5.Location = new System.Drawing.Point(741, 477);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(499, 232);
-            this.groupBox5.TabIndex = 4;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "DSGV ĐÃ THAM GIA GIÁM SÁT";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.listSVGS);
-            this.groupBox3.Location = new System.Drawing.Point(181, 234);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1058, 169);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "DSSV GIÁM SÁT";
-            // 
-            // btnXem
-            // 
-            this.btnXem.Location = new System.Drawing.Point(1068, 420);
-            this.btnXem.Name = "btnXem";
-            this.btnXem.Size = new System.Drawing.Size(171, 47);
-            this.btnXem.TabIndex = 6;
-            this.btnXem.Text = "XEM DANH SÁCH ";
-            this.btnXem.UseVisualStyleBackColor = true;
-            this.btnXem.Click += new System.EventHandler(this.btnXem_Click);
-            // 
-            // listSVGS
-            // 
-            this.listSVGS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.listSVGS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3});
-            this.listSVGS.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listSVGS.Location = new System.Drawing.Point(3, 18);
-            this.listSVGS.Name = "listSVGS";
-            this.listSVGS.RowHeadersWidth = 51;
-            this.listSVGS.RowTemplate.Height = 24;
-            this.listSVGS.Size = new System.Drawing.Size(1052, 148);
-            this.listSVGS.TabIndex = 0;
-            // 
             // listGV
             // 
             this.listGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -204,65 +159,6 @@ namespace CDMHX
             this.listGV.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.listGV.Size = new System.Drawing.Size(485, 211);
             this.listGV.TabIndex = 0;
-            // 
-            // listGVGS
-            // 
-            this.listGVGS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.listGVGS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column7,
-            this.Column8,
-            this.Column9,
-            this.Column10});
-            this.listGVGS.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listGVGS.Location = new System.Drawing.Point(3, 18);
-            this.listGVGS.Name = "listGVGS";
-            this.listGVGS.RowHeadersWidth = 51;
-            this.listGVGS.RowTemplate.Height = 24;
-            this.listGVGS.Size = new System.Drawing.Size(493, 211);
-            this.listGVGS.TabIndex = 0;
-            // 
-            // btnThem
-            // 
-            this.btnThem.Location = new System.Drawing.Point(590, 542);
-            this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(100, 51);
-            this.btnThem.TabIndex = 7;
-            this.btnThem.Text = "THÊM";
-            this.btnThem.UseVisualStyleBackColor = true;
-            this.btnThem.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(590, 625);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(100, 52);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "XOÁ";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // Column1
-            // 
-            this.Column1.DataPropertyName = "MaSV";
-            this.Column1.HeaderText = "MÃ SINH VIÊN";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 125;
-            // 
-            // Column2
-            // 
-            this.Column2.DataPropertyName = "TenSV";
-            this.Column2.HeaderText = "TÊN SINH VIÊN";
-            this.Column2.MinimumWidth = 6;
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 300;
-            // 
-            // Column3
-            // 
-            this.Column3.DataPropertyName = "ChucVu";
-            this.Column3.HeaderText = "CHỨC VỤ";
-            this.Column3.MinimumWidth = 6;
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 200;
             // 
             // Column4
             // 
@@ -287,6 +183,32 @@ namespace CDMHX
             this.Column6.MinimumWidth = 6;
             this.Column6.Name = "Column6";
             this.Column6.Width = 125;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.listGVGS);
+            this.groupBox5.Location = new System.Drawing.Point(741, 477);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(499, 232);
+            this.groupBox5.TabIndex = 4;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "DSGV ĐÃ THAM GIA GIÁM SÁT";
+            // 
+            // listGVGS
+            // 
+            this.listGVGS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.listGVGS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column7,
+            this.Column8,
+            this.Column9,
+            this.Column10});
+            this.listGVGS.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listGVGS.Location = new System.Drawing.Point(3, 18);
+            this.listGVGS.Name = "listGVGS";
+            this.listGVGS.RowHeadersWidth = 51;
+            this.listGVGS.RowTemplate.Height = 24;
+            this.listGVGS.Size = new System.Drawing.Size(493, 211);
+            this.listGVGS.TabIndex = 0;
             // 
             // Column7
             // 
@@ -320,6 +242,84 @@ namespace CDMHX
             this.Column10.Name = "Column10";
             this.Column10.Width = 125;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.listSVGS);
+            this.groupBox3.Location = new System.Drawing.Point(181, 234);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(1058, 169);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "DSSV GIÁM SÁT";
+            // 
+            // listSVGS
+            // 
+            this.listSVGS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.listSVGS.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3});
+            this.listSVGS.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listSVGS.Location = new System.Drawing.Point(3, 18);
+            this.listSVGS.Name = "listSVGS";
+            this.listSVGS.RowHeadersWidth = 51;
+            this.listSVGS.RowTemplate.Height = 24;
+            this.listSVGS.Size = new System.Drawing.Size(1052, 148);
+            this.listSVGS.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "MaSV";
+            this.Column1.HeaderText = "MÃ SINH VIÊN";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 125;
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "TenSV";
+            this.Column2.HeaderText = "TÊN SINH VIÊN";
+            this.Column2.MinimumWidth = 6;
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 300;
+            // 
+            // Column3
+            // 
+            this.Column3.DataPropertyName = "ChucVu";
+            this.Column3.HeaderText = "CHỨC VỤ";
+            this.Column3.MinimumWidth = 6;
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 200;
+            // 
+            // btnXem
+            // 
+            this.btnXem.Location = new System.Drawing.Point(1068, 420);
+            this.btnXem.Name = "btnXem";
+            this.btnXem.Size = new System.Drawing.Size(171, 47);
+            this.btnXem.TabIndex = 6;
+            this.btnXem.Text = "XEM DANH SÁCH ";
+            this.btnXem.UseVisualStyleBackColor = true;
+            this.btnXem.Click += new System.EventHandler(this.btnXem_Click);
+            // 
+            // btnThem
+            // 
+            this.btnThem.Location = new System.Drawing.Point(590, 542);
+            this.btnThem.Name = "btnThem";
+            this.btnThem.Size = new System.Drawing.Size(100, 51);
+            this.btnThem.TabIndex = 7;
+            this.btnThem.Text = "THÊM";
+            this.btnThem.UseVisualStyleBackColor = true;
+            this.btnThem.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(590, 625);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(100, 52);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "XOÁ";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // PHANCONGGS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -336,16 +336,17 @@ namespace CDMHX
             this.Controls.Add(this.groupBox1);
             this.Name = "PHANCONGGS";
             this.Text = "PHANCONGGS";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.PHANCONGGS_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.listGV)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.listGVGS)).EndInit();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.listSVGS)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.listGV)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.listGVGS)).EndInit();
             this.ResumeLayout(false);
 
         }

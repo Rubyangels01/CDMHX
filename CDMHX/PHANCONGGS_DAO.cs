@@ -214,11 +214,11 @@ namespace CDMHX
             SqlDataReader reader = command.ExecuteReader();
             dc.getConnec().Close();
         }
-        public int KiemTraDuLieu(string maSV)
+        public int KiemTraDuLieu(string maSV,string magv)
         {
             SqlCommand command = new SqlCommand();
             command.CommandType = CommandType.Text;
-            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEUCT_GS] ({0})", maSV);
+            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEUCT_GS] ({0}, {1})", maSV,magv);
             command.Connection = dc.getConnec();
 
             int kq = 0;

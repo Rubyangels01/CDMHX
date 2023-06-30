@@ -107,6 +107,18 @@
       <DependentUpon>KHENTHUONG.cs</DependentUpon>
     </Compile>
     <Compile Include="KHENTHUONGDAO.cs" />
+    <Compile Include="KIEMTRAPC_GV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KIEMTRAPC_GV.Designer.cs">
+      <DependentUpon>KIEMTRAPC_GV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MAIN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MAIN.Designer.cs">
+      <DependentUpon>MAIN.cs</DependentUpon>
+    </Compile>
     <Compile Include="NHOMDAO.cs" />
     <Compile Include="NHÓM.cs">
       <SubType>Form</SubType>
@@ -194,6 +206,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KHENTHUONG.resx">
       <DependentUpon>KHENTHUONG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KIEMTRAPC_GV.resx">
+      <DependentUpon>KIEMTRAPC_GV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MAIN.resx">
+      <DependentUpon>MAIN.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NHÓM.resx">
       <DependentUpon>NHÓM.cs</DependentUpon>

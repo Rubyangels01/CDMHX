@@ -120,7 +120,7 @@ namespace CDMHX
 
                         foreach (DataGridViewRow rowSVGS in listSVGS.Rows)
                         {
-                            if (pcgsdao.KiemTraDuLieu(rowSVGS.Cells[0].Value.ToString()) == 1)
+                            if (pcgsdao.KiemTraDuLieu(rowSVGS.Cells[0].Value.ToString(),rowGV.Cells[0].Value.ToString()) == 1)
                             {
                                 MessageBox.Show("Dữ Liệu Đã Tồn Tại Trong Hệ Thống!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }

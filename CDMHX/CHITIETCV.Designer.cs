@@ -164,7 +164,7 @@ namespace CDMHX
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(656, 59);
+            this.label6.Location = new System.Drawing.Point(656, 52);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(26, 17);
             this.label6.TabIndex = 5;
@@ -173,7 +173,7 @@ namespace CDMHX
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(361, 56);
+            this.label5.Location = new System.Drawing.Point(361, 49);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 17);
             this.label5.TabIndex = 4;
@@ -182,7 +182,7 @@ namespace CDMHX
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(41, 53);
+            this.label4.Location = new System.Drawing.Point(41, 46);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(62, 17);
             this.label4.TabIndex = 3;
@@ -191,7 +191,7 @@ namespace CDMHX
             // cbAp
             // 
             this.cbAp.FormattingEnabled = true;
-            this.cbAp.Location = new System.Drawing.Point(725, 56);
+            this.cbAp.Location = new System.Drawing.Point(725, 49);
             this.cbAp.Name = "cbAp";
             this.cbAp.Size = new System.Drawing.Size(228, 24);
             this.cbAp.TabIndex = 2;
@@ -199,7 +199,7 @@ namespace CDMHX
             // cbXa
             // 
             this.cbXa.FormattingEnabled = true;
-            this.cbXa.Location = new System.Drawing.Point(429, 53);
+            this.cbXa.Location = new System.Drawing.Point(429, 46);
             this.cbXa.Name = "cbXa";
             this.cbXa.Size = new System.Drawing.Size(200, 24);
             this.cbXa.TabIndex = 1;
@@ -208,7 +208,7 @@ namespace CDMHX
             // cbDiaBan
             // 
             this.cbDiaBan.FormattingEnabled = true;
-            this.cbDiaBan.Location = new System.Drawing.Point(121, 50);
+            this.cbDiaBan.Location = new System.Drawing.Point(121, 43);
             this.cbDiaBan.Name = "cbDiaBan";
             this.cbDiaBan.Size = new System.Drawing.Size(190, 24);
             this.cbDiaBan.TabIndex = 0;
