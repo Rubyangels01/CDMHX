@@ -33,10 +33,6 @@ namespace CDMHX
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.listNhom = new System.Windows.Forms.DataGridView();
-            this.MaNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TenNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TenCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.listSVNhom = new System.Windows.Forms.DataGridView();
@@ -44,6 +40,11 @@ namespace CDMHX
             this.TenSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenKhoa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChucVuSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MaNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TenNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TenCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listNhom)).BeginInit();
@@ -66,15 +67,15 @@ namespace CDMHX
             // 
             this.panel1.Controls.Add(this.groupBox4);
             this.panel1.Controls.Add(this.groupBox3);
-            this.panel1.Location = new System.Drawing.Point(13, 73);
+            this.panel1.Location = new System.Drawing.Point(13, 55);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1076, 528);
+            this.panel1.Size = new System.Drawing.Size(1076, 546);
             this.panel1.TabIndex = 2;
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.listNhom);
-            this.groupBox4.Location = new System.Drawing.Point(27, 293);
+            this.groupBox4.Location = new System.Drawing.Point(18, 294);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(1036, 232);
             this.groupBox4.TabIndex = 3;
@@ -88,7 +89,8 @@ namespace CDMHX
             this.MaNhom,
             this.TenNhom,
             this.SoLuong,
-            this.TenCD});
+            this.TenCD,
+            this.Column1});
             this.listNhom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listNhom.Location = new System.Drawing.Point(3, 18);
             this.listNhom.Name = "listNhom";
@@ -98,45 +100,11 @@ namespace CDMHX
             this.listNhom.TabIndex = 0;
             this.listNhom.SelectionChanged += new System.EventHandler(this.listNhom_SelectionChanged);
             // 
-            // MaNhom
-            // 
-            this.MaNhom.DataPropertyName = "MaNhom";
-            this.MaNhom.HeaderText = "MÃ NHÓM";
-            this.MaNhom.MinimumWidth = 6;
-            this.MaNhom.Name = "MaNhom";
-            this.MaNhom.ReadOnly = true;
-            this.MaNhom.Width = 200;
-            // 
-            // TenNhom
-            // 
-            this.TenNhom.DataPropertyName = "TenNhom";
-            this.TenNhom.HeaderText = "TÊN NHÓM";
-            this.TenNhom.MinimumWidth = 6;
-            this.TenNhom.Name = "TenNhom";
-            this.TenNhom.ReadOnly = true;
-            this.TenNhom.Width = 200;
-            // 
-            // SoLuong
-            // 
-            this.SoLuong.DataPropertyName = "SoLuong";
-            this.SoLuong.HeaderText = "SỐ LƯỢNG";
-            this.SoLuong.MinimumWidth = 6;
-            this.SoLuong.Name = "SoLuong";
-            this.SoLuong.Width = 125;
-            // 
-            // TenCD
-            // 
-            this.TenCD.DataPropertyName = "TenCD";
-            this.TenCD.HeaderText = "TÊN CD";
-            this.TenCD.MinimumWidth = 6;
-            this.TenCD.Name = "TenCD";
-            this.TenCD.Width = 200;
-            // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(27, 220);
+            this.groupBox3.Location = new System.Drawing.Point(558, 36);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1036, 79);
+            this.groupBox3.Size = new System.Drawing.Size(505, 68);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "TÌM KIẾM";
@@ -199,6 +167,48 @@ namespace CDMHX
             this.ChucVuSV.Name = "ChucVuSV";
             this.ChucVuSV.Width = 125;
             // 
+            // MaNhom
+            // 
+            this.MaNhom.DataPropertyName = "MaNhom";
+            this.MaNhom.HeaderText = "MÃ NHÓM";
+            this.MaNhom.MinimumWidth = 6;
+            this.MaNhom.Name = "MaNhom";
+            this.MaNhom.ReadOnly = true;
+            this.MaNhom.Width = 200;
+            // 
+            // TenNhom
+            // 
+            this.TenNhom.DataPropertyName = "TenNhom";
+            this.TenNhom.HeaderText = "TÊN NHÓM";
+            this.TenNhom.MinimumWidth = 6;
+            this.TenNhom.Name = "TenNhom";
+            this.TenNhom.ReadOnly = true;
+            this.TenNhom.Width = 200;
+            // 
+            // SoLuong
+            // 
+            this.SoLuong.DataPropertyName = "SoLuongSV";
+            this.SoLuong.HeaderText = "SỐ LƯỢNG";
+            this.SoLuong.MinimumWidth = 6;
+            this.SoLuong.Name = "SoLuong";
+            this.SoLuong.Width = 125;
+            // 
+            // TenCD
+            // 
+            this.TenCD.DataPropertyName = "TenCD";
+            this.TenCD.HeaderText = "TÊN CD";
+            this.TenCD.MinimumWidth = 6;
+            this.TenCD.Name = "TenCD";
+            this.TenCD.Width = 200;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "TenAp";
+            this.Column1.HeaderText = "AP";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 125;
+            // 
             // NHÓM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -229,13 +239,14 @@ namespace CDMHX
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.DataGridView listSVNhom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaNhom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TenNhom;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TenCD;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenKhoa;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChucVuSV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MaNhom;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TenNhom;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TenCD;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }

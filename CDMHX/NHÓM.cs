@@ -67,10 +67,12 @@ namespace CDMHX
         }
         public void ShowAllNhom()
         {
+            listNhom.DataSource = nhomdao.GetAllNhom();
 
-            DataTable listCV = nhomdao.GetAllNhom();
-
-            listNhom.DataSource = listCV;
+        }
+        public void ShowAllNhom_sv()
+        {
+            listNhom.DataSource = nhomdao.GetAllNhom_SV("2023");
 
         }
         public void ShowAllSVNhom()
@@ -85,7 +87,15 @@ namespace CDMHX
         private void NHÓM_Load(object sender, EventArgs e)
         {
             KhoaControl();
-            ShowAllNhom();
+            if(Program.loginLogin.Equals("GIAOVIEN") || Program.loginLogin.Equals("TRUONG"))
+            {
+                ShowAllNhom();
+            }
+            else if(Program.loginLogin.Equals("GIAMSAT") || Program.loginLogin.Equals("SINHVIEN"))
+            {
+                ShowAllNhom_sv();
+            }    
+            
             /*
             cbSoLuong.Items.Add(3);
             cbSoLuong.Items.Add(4);
@@ -100,6 +110,7 @@ namespace CDMHX
             DataTable dt = (DataTable)listNhom.DataSource;
             if (dt.Rows.Count > 0 || dt.Rows != null)
             {
+
                 int.TryParse(listNhom.Rows[index].Cells[0].Value.ToString(), out ID);
                 //txtMaNhom.Text = ID.ToString();
                 //txtTenNhom.Text = listNhom.Rows[index].Cells[1].Value.ToString();

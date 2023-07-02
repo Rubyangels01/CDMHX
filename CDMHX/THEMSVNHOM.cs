@@ -43,7 +43,17 @@ namespace CDMHX
         }
         private void THEMSVNHOM_Load(object sender, EventArgs e)
         {
-            cbNamCD.Items.AddRange(themsvdao.LayMaCD().ToArray()); 
+            listSV.MultiSelect = true;
+
+            cbNamCD.Items.AddRange(Program.LayMaCD().ToArray());
+            cbNamCD.SelectedIndex = 0;
+            cbSoLuong.Items.Add(3);
+            cbSoLuong.Items.Add(4);
+            cbSoLuong.Items.Add(5);
+            cbSoLuong.Items.Add(6);
+            cbSoLuong.SelectedIndex = 0;
+            cbDiaBan.Items.AddRange(themsvdao.LayDB().ToArray());
+            cbDiaBan.SelectedIndex = 0;
            
         }
         
@@ -51,48 +61,64 @@ namespace CDMHX
         
         private void btnThem_Click(object sender, EventArgs e)
         {
-            THEMSVNHOMDAO themsvdao = new THEMSVNHOMDAO();
-            List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
-            if(txtTenNhom.Text != null)
+            if (listSV.Rows.Count == 1)
             {
-                themsvdao.InsertNhom(txtTenNhom.Text, cbSoLuong.Text, cbNamCD.Text, cbAp.Text);
-            }    
-            // Lưu trữ các hàng được chọn vào danh sách tạm thời
-            foreach (DataGridViewRow row in listSV.SelectedRows)
-            {
-
-                selectedRows.Add(row);
+                MessageBox.Show("Danh sách rỗng!");
+                btnThem.Enabled = false;
             }
-            
-            // Xóa các hàng được chọn khỏi DataGridView
-
-
-            // Thêm dữ liệu vào DataGridView2
-            foreach (DataGridViewRow row in listSV.SelectedRows)
+            else
             {
-                int masv = 0;
-                int index = row.Index;
-
-                if (row.Cells[0].Value != null && int.TryParse(row.Cells[0].Value.ToString(), out masv))
+                if (listSV.SelectedRows.Count != Program.ConvertStringToInt(cbSoLuong.Text))
                 {
-                    string tensv = row.Cells[1].Value?.ToString();
-                    string tennhom = row.Cells[2].Value?.ToString();
-
-                    themsvdao.InsertSV(masv.ToString(), cbChucVu.Text);
-
+                    MessageBox.Show("Vui lòng chọn đủ số lượng sinh viên!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Khen Thưởng Thất Bại!");
+
+                    List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
+
+                    // Lưu trữ các hàng được chọn vào danh sách tạm thời
+                    foreach (DataGridViewRow row in listSV.SelectedRows)
+                    {
+
+                        selectedRows.Add(row);
+                    }
+                    if(txtTenNhom.Text != null)
+                    {
+                        themsvdao.InsertNhom(txtTenNhom.Text, cbSoLuong.Text, cbNamCD.Text, cbAp.Text);
+                           
+                    }    
+                    
+                    int count = 0;
+                    foreach (DataGridViewRow rowSV in listSV.SelectedRows)
+                    {
+                        if (rowSV.Index == 1)
+
+                        {
+                            themsvdao.InsertSV(themsvdao.manhom.ToString(), rowSV.Cells[0].Value.ToString(), "Trưởng Nhóm");
+                        }
+                        else
+                        {
+                            themsvdao.InsertSV(themsvdao.manhom.ToString(), rowSV.Cells[0].Value.ToString(), "Không");
+                        }
+                        count += 1;                               
+                                if (count == Program.ConvertStringToInt(cbSoLuong.Text))
+                                {
+                                    break;
+                                }
+                                
+                        
+
+                    }
+                    /*
+                    foreach (DataGridViewRow row in selectedRows)
+                    {
+
+                       
+                    }*/
+                    ShowAllSVThem();
+                    ShowAllSV();
                 }
-                //listSV2.Rows.Add(row.Cells[0].Value.ToString(), row.Cells[1].Value.ToString(), row.Cells[2].Value.ToString(), cbMaKT.Text);
-            }
-            foreach (DataGridViewRow row in selectedRows)
-            {
-                // listSV2.Rows.Add(row.Cells[0].Value, row.Cells[1].Value, row.Cells[2].Value, cbMaKT.Text);
-                listSV.Rows.Remove(row);
-                ShowAllSV();
-                
             }
         }
         int maSV;
@@ -158,7 +184,27 @@ namespace CDMHX
         private void btnXem_Click(object sender, EventArgs e)
         {
             ShowAllSV();
+            btnThem.Enabled = true;
             //ShowAllSVThem();
+        }
+
+        private void cbDiaBan_TextChanged(object sender, EventArgs e)
+        {
+            cbXa.Items.Clear();
+            cbXa.Items.AddRange(themsvdao.LayXa(cbDiaBan.Text).ToArray());
+            cbXa.SelectedIndex = 0;
+        }
+
+        private void cbAp_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void cbXa_TextChanged(object sender, EventArgs e)
+        {
+            cbAp.Items.Clear();
+            cbAp.Items.AddRange(themsvdao.LayAp(cbXa.Text).ToArray());
+            cbAp.SelectedIndex = 0;
         }
     }
 }

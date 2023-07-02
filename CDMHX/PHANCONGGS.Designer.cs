@@ -82,6 +82,7 @@ namespace CDMHX
             this.cbNamCD.Name = "cbNamCD";
             this.cbNamCD.Size = new System.Drawing.Size(344, 24);
             this.cbNamCD.TabIndex = 0;
+            this.cbNamCD.TextChanged += new System.EventHandler(this.cbNamCD_TextChanged);
             // 
             // groupBox2
             // 

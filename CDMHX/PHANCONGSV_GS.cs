@@ -43,11 +43,11 @@ namespace CDMHX
         }
         private void PHANCONGSV_GS_Load(object sender, EventArgs e)
         {
-
-            cbNamCD.Items.AddRange(pcdao.LayMaCD().ToArray());
-            cbNamCD.SelectedIndex = 0;
             cbDiaBan.Items.AddRange(pcdao.LayDB().ToArray());
             cbDiaBan.SelectedIndex = 0;
+            cbNamCD.Items.AddRange(pcdao.LayMaCD().ToArray());
+            cbNamCD.SelectedIndex = 0;
+            
 
             listsvgs.DataSource = pcdao.createTBSVGS();
         }
@@ -97,6 +97,7 @@ namespace CDMHX
             cbChucVu.Items.Clear();
             int namcd;
             int.TryParse(cbNamCD.Text, out namcd);
+            
             if (pcdao.KiemTraDuLieu(namcd, cbXa.Text) == 1)
             {
                 cbChucVu.Items.Add("ĐỘI PHÓ");
@@ -131,23 +132,39 @@ namespace CDMHX
                 MessageBox.Show("Đã tồn tại giám sát trong xã!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //listsv.Rows.Clear();
             }
+            
             if (listsv.Rows.Count == 1)
             {
                 btnThem.Enabled = false;
                 MessageBox.Show("Danh sách đang rỗng, hãy thêm nhóm vào địa bàn trước khi phân giám sát!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            
+           
+            // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
+            
         }
         private void cbDiaBan_TextChanged(object sender, EventArgs e)
         {
-            cbXa.Items.Clear();
+            
             int namcd;
             int.TryParse(cbNamCD.Text, out namcd);
             // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
             if (cbDiaBan.SelectedItem != null)
             {
-                cbXa.Items.AddRange(pcdao.LayXa(namcd, cbDiaBan.Text).ToArray());
-                cbXa.SelectedIndex = 0;
-                btnXem.Text = "Xem DSSV";
+                if(pcdao.LayXa(namcd,cbDiaBan.Text).Count == 0)
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.Add("Danh Sách Rỗng");
+                    cbXa.SelectedItem = "Danh Sách Rỗng";
+                }
+                else
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.AddRange(pcdao.LayXa(namcd, cbDiaBan.Text).ToArray());
+                    cbXa.SelectedIndex = 0;
+                    btnXem.Text = "Xem DSSV";
+                }    
+                
             }
         }
         private void btnThem_Click(object sender, EventArgs e)
@@ -197,6 +214,27 @@ namespace CDMHX
         private void cbXa_TextChanged(object sender, EventArgs e)
         {
             btnXem.Text = "Xem DSSV";
+        }
+
+        private void cbNamCD_TextChanged(object sender, EventArgs e)
+        {
+            if (cbDiaBan.SelectedItem != null)
+            {
+                if (pcdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).Count == 0)
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.Add("Danh Sách Rỗng");
+                    cbXa.SelectedItem = "Danh Sách Rỗng";
+                }
+                else
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.AddRange(pcdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).ToArray());
+                    cbXa.SelectedIndex = 0;
+                    btnXem.Text = "Xem DSSV";
+                }
+
+            }
         }
     }
 }

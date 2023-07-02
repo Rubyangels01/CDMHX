@@ -20,10 +20,11 @@ namespace CDMHX
 
         private void PHANCONGGS_Load(object sender, EventArgs e)
         {
-            cbNamCD.Items.AddRange(pcgsdao.LayMaCD().ToArray());
-            cbNamCD.SelectedIndex = 0;
             cbDiaBan.Items.AddRange(pcgsdao.LayDB().ToArray());
             cbDiaBan.SelectedIndex = 0;
+            cbNamCD.Items.AddRange(pcgsdao.LayMaCD().ToArray());
+            cbNamCD.SelectedIndex = 0;
+            
             listGV.MultiSelect = true;
             listGVGS.MultiSelect = true;
 
@@ -65,15 +66,22 @@ namespace CDMHX
 
         private void cbDiaBan_TextChanged(object sender, EventArgs e)
         {
-            cbXa.Items.Clear();
-            int namcd;
-            int.TryParse(cbNamCD.Text, out namcd);
-            // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
             if (cbDiaBan.SelectedItem != null)
             {
-                cbXa.Items.AddRange(pcgsdao.LayXa(namcd, cbDiaBan.Text).ToArray());
-                cbXa.SelectedIndex = 0;
-                btnXem.Text = "Xem DSGV";
+                if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).Count == 0)
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.Add("Danh Sách Rỗng");
+                    cbXa.SelectedItem = "Danh Sách Rỗng";
+                }
+                else
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.AddRange(pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).ToArray());
+                    cbXa.SelectedIndex = 0;
+                    btnXem.Text = "Xem DSSV";
+                }
+
             }
         }
 
@@ -115,6 +123,7 @@ namespace CDMHX
                         selectedRows.Add(row);
                     }
                     int count = 0;
+                    bool ktra = false;
                     foreach (DataGridViewRow rowGV in listGV.SelectedRows)
                     {
 
@@ -123,6 +132,8 @@ namespace CDMHX
                             if (pcgsdao.KiemTraDuLieu(rowSVGS.Cells[0].Value.ToString(),rowGV.Cells[0].Value.ToString()) == 1)
                             {
                                 MessageBox.Show("Dữ Liệu Đã Tồn Tại Trong Hệ Thống!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                ktra = true;
+                                break;
                             }
                             else
                             {
@@ -134,12 +145,21 @@ namespace CDMHX
                                     break;
                                 }
                             }
+                              
 
+                        }
+                        if (ktra == true)
+                        {
+                            break;
                         }
                     }
 
                     foreach (DataGridViewRow row in selectedRows)
                     {
+                        if (ktra == true)
+                        {
+                            break;
+                        }
                         listGV.Rows.Remove(row);
                     }
 
@@ -151,5 +171,25 @@ namespace CDMHX
 
         }
 
+        private void cbNamCD_TextChanged(object sender, EventArgs e)
+        {
+            if (cbDiaBan.SelectedItem != null)
+            {
+                if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).Count == 0)
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.Add("Danh Sách Rỗng");
+                    cbXa.SelectedItem = "Danh Sách Rỗng";
+                }
+                else
+                {
+                    cbXa.Items.Clear();
+                    cbXa.Items.AddRange(pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).ToArray());
+                    cbXa.SelectedIndex = 0;
+                    btnXem.Text = "Xem DSSV";
+                }
+
+            }
+        }
     }
 }

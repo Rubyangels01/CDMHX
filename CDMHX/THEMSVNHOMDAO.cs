@@ -119,23 +119,34 @@ namespace CDMHX
             dc.getConnec().Close();
             return listSV2;
         }
-
-        public void InsertNhom(string tennhom, string soluong, string macd, string maap)
+        public string manhom;
+        public void InsertNhom(string tennhom, string soluong, string macd, string tenap)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
-
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "SP_INSERTNHOM";
-            
-            command.Parameters.Add("@TenNhom", SqlDbType.NVarChar).Value = tennhom;
-            command.Parameters.Add("@SoLuong", SqlDbType.Int).Value = soluong;
-            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = macd;
-            command.Parameters.Add("@MaAp", SqlDbType.Int).Value = maap;          
-            SqlDataReader reader = command.ExecuteReader();
+
+            command.Parameters.Add("@TENNHOM", SqlDbType.NVarChar).Value = tennhom;
+            command.Parameters.Add("@SOLUONG", SqlDbType.Int).Value = Program.ConvertStringToInt(soluong);
+            command.Parameters.Add("@MACD", SqlDbType.Int).Value = Program.ConvertStringToInt(macd);
+            command.Parameters.Add("@TENAP", SqlDbType.NVarChar).Value = tenap;
+
+            SqlParameter outputParameter = new SqlParameter("@MaNhom", SqlDbType.Int);
+            outputParameter.Direction = ParameterDirection.Output;
+            command.Parameters.Add(outputParameter);
+
+            command.ExecuteNonQuery();
+
+             manhom = outputParameter.Value.ToString();
+
             dc.getConnec().Close();
+
+            
         }
-        public void InsertSV(string masv, string chucvu)
+
+
+        public void InsertSV(string manhom,string masv, string chucvu)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -143,65 +154,84 @@ namespace CDMHX
             command.CommandType = CommandType.StoredProcedure;       
 
             command.CommandText = "SP_INSERTSV_NHOM";
-           
-            command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
-            command.Parameters.Add("@ChucVu", SqlDbType.NChar).Value = chucvu;
+            command.Parameters.Add("@MANHOM", SqlDbType.Int).Value = manhom;
+            command.Parameters.Add("@MASV", SqlDbType.Int).Value = masv;
+            command.Parameters.Add("@CHUCVU", SqlDbType.NVarChar).Value = chucvu;
+            
             SqlDataReader reader = command.ExecuteReader();
+            
             dc.getConnec().Close();
+            
         }
-
-        public void SaveSVNhom(int MaSV, string TenSV, string GioiTinh, string TenKhoa)
+        public List<string> LayDB()
         {
-            using (SqlConnection connection = dc.getConnec())
+            List<string> listMaDB = new List<string>();
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT TenDB FROM DiaBan";
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                
+                string macd = reader["TenDB"].ToString();
+                listMaDB.Add(macd);
 
-
-                // Kiểm tra xem bảng tạm "" đã tồn tại hay chưa
-                string checkTableExistsQuery = "SELECT 1 FROM sys.tables WHERE name = 'SvnhomTemp'";
-
-                using (SqlCommand checkTableExistsCommand = new SqlCommand(checkTableExistsQuery, connection))
-                {
-                    object result = checkTableExistsCommand.ExecuteScalar();
-                    bool tableExists = (result != null && result != DBNull.Value);
-
-                    if (!tableExists)
-                    {
-                        // Nếu bảng tạm chưa tồn tại, thực hiện tạo bảng tạm
-                        string createTableQuery = @"
-                    CREATE TABLE SvnhomTemp (
-    MaSV INT,
-    TenSV NVARCHAR(50),
-    GioiTinh NVARCHAR(5),
-    TenKhoa NVARCHAR(50)
-);
-";
-                        using (SqlCommand createTableCommand = new SqlCommand(createTableQuery, connection))
-                        {
-                            createTableCommand.ExecuteNonQuery();
-                        }
-                    }
-                }
-
-                // Thêm dữ liệu vào bảng tạm "#Svnhom"
-                string insertDataQuery = @"
-            INSERT INTO SvnhomTemp (MaSV, TenSV, GioiTinh, TenKhoa)
-VALUES (@MaSV, @TenSV, @GioiTinh, @TenKhoa);";
-
-                using (SqlCommand insertDataCommand = new SqlCommand(insertDataQuery, connection))
-                {
-                    insertDataCommand.Parameters.AddWithValue("@MaSV", MaSV);
-                    insertDataCommand.Parameters.AddWithValue("@TenSV", TenSV);
-                    insertDataCommand.Parameters.AddWithValue("@GioiTinh", GioiTinh);
-                    insertDataCommand.Parameters.AddWithValue("@TenKhoa", TenKhoa);
-
-                    insertDataCommand.ExecuteNonQuery();
-                }
-
-                connection.Close();
             }
-        }
+            reader.Close();
+            dc.getConnec().Close();
+            return listMaDB;
 
+
+        }
+        public List<string> LayXa(string diaban)
+        {
+
+            List<string> listXa = new List<string>();
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = (string.Format("SELECT TENXA FROM XA WHERE MADB = (SELECT MADB FROM DIABAN WHERE TENDB = N'{0}')", diaban));
+           
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                string tenXa = reader["TenXa"].ToString();
+                listXa.Add(tenXa);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listXa;
+        }
+        public List<string> LayAp(string xa)
+        {
+
+            List<string> listXa = new List<string>();
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = (string.Format("SELECT TENAP FROM AP WHERE MAXA = (SELECT MAXA FROM XA WHERE TENXA = N'{0}')", xa));
+
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                string tenXa = reader["TenAp"].ToString();
+                listXa.Add(tenXa);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listXa;
+        }
         public DataTable GetAllSvThem()
         {
 

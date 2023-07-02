@@ -51,37 +51,21 @@ namespace CDMHX
         }*/
         public DataTable GetAllNhom()
         {
-
-            listNhom = createTBNhom();
-
-            SqlCommand command = new SqlCommand();
-            command.Connection = dc.getConnec();
-
-            command.CommandType = CommandType.Text;
-            command.CommandText = "select * from V_DSNHOM";
-
-
-            SqlDataReader reader = command.ExecuteReader();
-
-
-            while (reader.Read())
-            {
-                tbNhomSV nhom = new tbNhomSV();
-                // Xử lý dữ liệu lấy được từ công việc
-
-                nhom.MaNhom = (int)reader["MaNhom"];
-                nhom.TenNhom = (string)reader["TenNhom"];
-                nhom.Soluong = (int)reader["SoLuongSV"];
-                nhom.chiendich.TenCD = reader["TenCD"].ToString();
-
-
-                listNhom.Rows.Add(nhom.MaNhom, nhom.TenNhom, nhom.Soluong, nhom.chiendich.TenCD);
-            }
-
-
-            reader.Close();
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("select * from V_DSNHOM", dc.getConnec());
+            da.Fill(dt);
             dc.getConnec().Close();
-            return listNhom;
+            return dt;
+            
+        }
+        public DataTable GetAllNhom_SV(string macd)
+        {
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(string.Format("SELECT MaNhom,TenNhom,SoLuongSV,CDMHX.TenCD,Ap.TenAp FROM NhomSV,CDMHX,Ap WHERE NhomSV.MaCD = CDMHX.MaCD AND NhomSV.MaAp = Ap.MaAp AND NhomSV.MACD = {0}", macd), dc.getConnec());
+            da.Fill(dt);
+            dc.getConnec().Close();
+            return dt;
+
         }
         public DataTable GetAllSVNhom(int maNhom)
         {
