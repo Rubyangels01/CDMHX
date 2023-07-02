@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -70,6 +71,21 @@ namespace CDMHX
             listNhom.DataSource = nhomdao.GetAllNhom();
 
         }
+        public void TimKiemNhom()
+        {
+            if (Regex.IsMatch(txtTimKiem.Text, @"^\d+$"))
+            {
+                listNhom.DataSource = nhomdao.TimKiemNhom(DateTime.Now.Year.ToString(), txtTimKiem.Text);
+                if (listNhom.Rows.Count == 1)
+                {
+                    MessageBox.Show("Không tìm thấy dữ liệu!", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {// Chuỗi chỉ chứa chữ
+                MessageBox.Show("Dữ liệu không hợp lệ!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }                         
+        }
         public void ShowAllNhom_sv()
         {
             listNhom.DataSource = nhomdao.GetAllNhom_SV("2023");
@@ -84,6 +100,8 @@ namespace CDMHX
 
 
         }
+        ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+        ToolStripMenuItem menuItemDelete = new ToolStripMenuItem("Xóa");
         private void NHÓM_Load(object sender, EventArgs e)
         {
             KhoaControl();
@@ -94,14 +112,46 @@ namespace CDMHX
             else if(Program.loginLogin.Equals("GIAMSAT") || Program.loginLogin.Equals("SINHVIEN"))
             {
                 ShowAllNhom_sv();
+            }
+            
+            menuItemDelete.Click += MenuItemDelete_Click;
+            contextMenuStrip.Items.Add(menuItemDelete);
+    
+        }
+        private void MenuItemDelete_Click(object sender, EventArgs e)
+        {
+            if(Program.loginLogin.Equals("SINHVIEN") || Program.loginLogin.Equals("GIAMSAT"))
+            {
+                MessageBox.Show("Bạn Không Có Quyền Chỉnh Sửa Dữ Liệu!","THÔNG BÁO",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            } 
+            else
+            {
+                int ID;
+                index = listNhom.CurrentCell.RowIndex;
+                int.TryParse(listNhom.Rows[index].Cells[0].Value.ToString(), out ID);
+
+                if ((nhomdao.KiemTraDuLieu(ID)) == 1)
+                {
+                    MessageBox.Show("Dữ Liệu Này Không Được Xoá!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    if (MessageBox.Show("Bạn có muốn xoá nhóm này?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    {
+                        if (listNhom.SelectedCells.Count > 0)
+                        {
+                            DataGridViewCell selectedCell = listNhom.SelectedCells[0];
+                            int rowIndex = selectedCell.RowIndex;
+                            nhomdao.DeleteNhom(ID.ToString());
+                            listNhom.Rows.RemoveAt(rowIndex);
+
+                        }
+                    }
+                }
             }    
             
-            /*
-            cbSoLuong.Items.Add(3);
-            cbSoLuong.Items.Add(4);
-            cbSoLuong.Items.Add(5);
-            cbSoLuong.Items.Add(6);
-            */
+
+
         }
         int ID;
         private void listNhom_SelectionChanged(object sender, EventArgs e)
@@ -151,26 +201,9 @@ namespace CDMHX
         
 
         public bool checkData()
-        {/*
+        {
 
-            if (string.IsNullOrWhiteSpace(txtTenNhom.Text))
-            {
-                MessageBox.Show("Bạn chưa nhập tên Nhóm", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtTenNhom.Focus();
-                return false;
-            }                                                   
-            if (string.IsNullOrWhiteSpace(cbSoLuong.SelectedItem.ToString()))
-            {
-                MessageBox.Show("Bạn chưa chọn số lượng nhóm", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cbSoLuong.Focus();
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(cbChucVu.SelectedItem.ToString()))
-            {
-                MessageBox.Show("Bạn chưa chọn chức vụ nhóm", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                cbChucVu.Focus();
-                return false;
-            }*/
+            
             return true;
         }
         private void btnLuu_Click(object sender, EventArgs e)
@@ -184,6 +217,32 @@ namespace CDMHX
         {
             THEMSVNHOM myform = new THEMSVNHOM();
             myform.Show();
+        }
+
+        private void listNhom_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                listNhom.CurrentCell = listNhom.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                e.ContextMenuStrip = contextMenuStrip;
+            }
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            TimKiemNhom();
+        }
+
+        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        {
+            if (Program.loginLogin.Equals("GIAOVIEN") || Program.loginLogin.Equals("TRUONG"))
+            {
+                ShowAllNhom();
+            }
+            else if (Program.loginLogin.Equals("GIAMSAT") || Program.loginLogin.Equals("SINHVIEN"))
+            {
+                ShowAllNhom_sv();
+            }
         }
     }
 }

@@ -87,6 +87,9 @@ namespace CDMHX
 
         private void cbXa_TextChanged(object sender, EventArgs e)
         {
+            ShowAllSV_GS();
+            ShowAllGV();
+            ShowAllGVDaPC();
             btnXem.Text = "Xem DSGV";
         }
 
@@ -100,72 +103,91 @@ namespace CDMHX
         // btnthem
         private void button1_Click(object sender, EventArgs e)
         {
-            if (listSVGS.Rows.Count == 1)
+            if(listGVGS.Rows.Count > 1)
             {
-                MessageBox.Show("Vui lòng phân công giám sát sinh viên trước khi phân công giáo viên giám sát!");
-                btnThem.Enabled = false;
-            }
+                MessageBox.Show("Xã đã tồn tại giám sát!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } 
             else
             {
-                if (listGV.SelectedRows.Count != 2)
+                if (listSVGS.Rows.Count == 1)
                 {
-                    MessageBox.Show("Vui lòng chọn đủ 2 giáo viên giám sát!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Vui lòng phân công giám sát sinh viên trước khi phân công giáo viên giám sát!");
+                    btnThem.Enabled = false;
                 }
                 else
                 {
-
-                    List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
-
-                    // Lưu trữ các hàng được chọn vào danh sách tạm thời
-                    foreach (DataGridViewRow row in listGV.SelectedRows)
+                    if (listGV.SelectedRows.Count != 2)
                     {
-
-                        selectedRows.Add(row);
+                        MessageBox.Show("Vui lòng chọn đủ 2 giáo viên giám sát!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    int count = 0;
-                    bool ktra = false;
-                    foreach (DataGridViewRow rowGV in listGV.SelectedRows)
+                    else
                     {
 
-                        foreach (DataGridViewRow rowSVGS in listSVGS.Rows)
+                        List<DataGridViewRow> selectedRows = new List<DataGridViewRow>();
+
+                        // Lưu trữ các hàng được chọn vào danh sách tạm thời
+                        foreach (DataGridViewRow row in listGV.SelectedRows)
                         {
-                            if (pcgsdao.KiemTraDuLieu(rowSVGS.Cells[0].Value.ToString(),rowGV.Cells[0].Value.ToString()) == 1)
+
+                            selectedRows.Add(row);
+                        }
+                        int count = 0;
+                        bool ktra = false;
+                        foreach (DataGridViewRow rowGV in listGV.SelectedRows)
+                        {
+
+                            foreach (DataGridViewRow rowSVGS in listSVGS.Rows)
                             {
-                                MessageBox.Show("Dữ Liệu Đã Tồn Tại Trong Hệ Thống!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                ktra = true;
-                                break;
-                            }
-                            else
-                            {
-                                count += 1;
-                                pcgsdao.Insert_BGS(rowGV.Cells[0].Value.ToString(), rowSVGS.Cells[0].Value.ToString());
-                                if (count == 2)
+                                if (pcgsdao.KiemTraDuLieu(rowSVGS.Cells[0].Value.ToString(), rowGV.Cells[0].Value.ToString()) == 1)
                                 {
-                                    count = 0;
+                                    MessageBox.Show("Dữ Liệu Đã Tồn Tại Trong Hệ Thống!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    ktra = true;
                                     break;
                                 }
+                                else
+                                {
+                                    count += 1;
+                                    pcgsdao.Insert_BGS(rowGV.Cells[0].Value.ToString(), rowSVGS.Cells[0].Value.ToString());
+                                    if (count == 2)
+                                    {
+                                        count = 0;
+
+                                        break;
+
+                                    }
+                                }
+
+
                             }
-                              
-
+                            if (ktra == true)
+                            {
+                                break;
+                            }
                         }
-                        if (ktra == true)
+
+                        foreach (DataGridViewRow row in selectedRows)
                         {
-                            break;
+                            if (ktra == true)
+                            {
+                                break;
+                            }
+                            listGV.Rows.Remove(row);
                         }
-                    }
 
-                    foreach (DataGridViewRow row in selectedRows)
-                    {
-                        if (ktra == true)
+                        ShowAllGV();
+                        ShowAllGVDaPC();
+                        cbXa.Items.Remove(cbXa.Text);
+                        if(cbXa.Items.Count == 0)
                         {
-                            break;
-                        }
-                        listGV.Rows.Remove(row);
+                            cbXa.Items.Add("DANH SÁCH RỖNG");
+                            cbXa.SelectedItem = "DANH SÁCH RỖNG";
+                        }    
+                        cbXa.SelectedIndex = 0;
+                        MessageBox.Show("Vui lòng làm mới lại danh sách trước khi thêm!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        btnThem.Enabled = false;
                     }
-
-                    ShowAllGV();
-                    ShowAllGVDaPC();
                 }
+            
             }
 
 

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -54,13 +55,19 @@ namespace CDMHX
         }
         public void Timkiem()
         {
-           
-            listCV.DataSource = TimKiemCTCV(txtMaNhom.Text);
-            if (listCV.Rows.Count == 1)
+            if (Regex.IsMatch(txtMaNhom.Text, @"^\d+$"))
             {
-                MessageBox.Show("Không tìm thấy kết quả!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                listCV.DataSource = TimKiemCTCV(txtMaNhom.Text);
+                if (listCV.Rows.Count == 1)
+                {
+                    MessageBox.Show("Không tìm thấy kết quả!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
-           
+            else
+            {
+                MessageBox.Show("Dữ liệu không hợp lệ!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
 
         }
         private void HIENTHICTCV_Load(object sender, EventArgs e)
@@ -100,12 +107,12 @@ namespace CDMHX
         {
             if(string.IsNullOrEmpty(txtMaNhom.Text))
             {
-                if(Program.username == "TRUONG" || Program.username == "GIAOVIEN")
+                if(Program.loginLogin == "TRUONG" || Program.loginLogin == "GIAOVIEN")
                 {
                     ShowAllCTCV();
 
                 } 
-                else
+                else if(Program.loginLogin == "SINHVIEN" || Program.loginLogin == "GIAMSAT")
                 {
                     ShowAllCTCV_SV();
                 }    

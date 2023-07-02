@@ -58,6 +58,15 @@ namespace CDMHX
             return dt;
             
         }
+        public DataTable TimKiemNhom(string macd, string masv)
+        {
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(string.Format("EXEC SP_TIMKIEM_NHOM @MACD = {0}, @MASV = {1}",macd,masv), dc.getConnec());
+            da.Fill(dt);
+            dc.getConnec().Close();
+            return dt;
+
+        }
         public DataTable GetAllNhom_SV(string macd)
         {
             DataTable dt = new DataTable();
@@ -135,6 +144,38 @@ namespace CDMHX
             reader.Close();
             dc.getConnec().Close();
             return listSVNhom;
+        }
+        public void DeleteNhom(string manhom)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("DELETE NHOMSV WHERE MANHOM = {0}",manhom);
+            
+           
+            SqlDataReader reader = command.ExecuteReader();
+        }
+        public int KiemTraDuLieu(int manhom)
+        {
+            SqlCommand command = new SqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEU_NHOM] ({0})", manhom);
+            command.Connection = dc.getConnec();
+
+            int kq = 0;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    kq = reader.GetInt32(0);
+                }
+            }
+
+            command.Connection.Close();
+
+            return kq;
         }
     }
 }

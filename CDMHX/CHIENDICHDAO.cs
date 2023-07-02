@@ -93,6 +93,18 @@ namespace CDMHX
             dc.getConnec().Close();
             return listTimKiem;
         }
+
+        public void DeleteCD(string macd)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("DELETE CDMHX WHERE MACD = {0}", macd);
+
+
+            SqlDataReader reader = command.ExecuteReader();
+        }
         public int KiemTraDuLieu(int ma)
         {
             SqlCommand command = new SqlCommand();
