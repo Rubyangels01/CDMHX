@@ -41,25 +41,30 @@ namespace CDMHX
                 }
             }
         }
-
-        public void LayCongViec()
+        public List<tbCongViec> LayCV(string macd)
         {
-            using (SqlCommand command = new SqlCommand("SELECT TenCV FROM CongViec", connection))
-            {
-                command.CommandType = CommandType.Text;
+            List<tbCongViec> listCV = new List<tbCongViec>();
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.dc.getConnec();
 
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string tencv = reader["TenCV"].ToString();
-                        cbCV.Items.Add(tencv);
-                        cbCV.SelectedIndex = 0;
-                    }
-                    reader.Close();
-                }
+            command.CommandType = CommandType.Text;
+            command.CommandText = (string.Format("SELECT CT_CD.MaCV,CONGVIEC.TenCV FROM CT_CD,CONGVIEC WHERE CONGVIEC.MACV = CT_CD.MACV AND MACD = {0}", macd));
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                tbCongViec cv = new tbCongViec();
+                string macv = reader["MaCV"].ToString();
+                string tencv = reader["TenCV"].ToString();
+                cv.MaCV = Program.ConvertStringToInt(macv);
+                cv.TenCV = tencv;
+                listCV.Add(cv);
+
             }
+            reader.Close();
+            Program.dc.getConnec().Close();
+            return listCV;
         }
+        
 
         public void LayDB(string tenxa)
         {
@@ -126,7 +131,9 @@ namespace CDMHX
             cbXa.SelectedIndex = 0;
             cbAp.Items.AddRange(ctcvdao.LayAp(cbXa.Text).ToArray());
             cbAp.SelectedIndex = 0;
-            LayCongViec();
+            cbCV.DataSource = LayCV(cbNamCD.Text);
+            cbCV.DisplayMember = "TenCV";
+            cbCV.ValueMember = "MaCV";
             cbBuoi.Items.Add("Buổi Sáng");
             cbBuoi.Items.Add("Buổi Chiều");
             cbBuoi.Items.Add("Buổi Tối");

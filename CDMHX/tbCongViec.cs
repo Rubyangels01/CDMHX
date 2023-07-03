@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace CDMHX
 {
-    class tbCongViec
+    public class tbCongViec
     {
        public int MaCV { set; get; }
-        public DateTime NgayBD { set; get; }
-        public DateTime NgayKT { set; get; }
+       
         public string TenCV { set; get; }
 
     }

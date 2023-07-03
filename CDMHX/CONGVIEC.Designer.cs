@@ -31,16 +31,8 @@ namespace CDMHX
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.txtTenCV = new System.Windows.Forms.TextBox();
-            this.dateNgayBD = new System.Windows.Forms.DateTimePicker();
-            this.dateNgayKT = new System.Windows.Forms.DateTimePicker();
             this.listCongViec = new System.Windows.Forms.DataGridView();
-            this.MaCV = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TenCV = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NgayBD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NgayKT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnHuy = new System.Windows.Forms.Button();
@@ -50,8 +42,10 @@ namespace CDMHX
             this.btnThem = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.btnTimKiem = new System.Windows.Forms.Button();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
+            this.MaCV = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TenCV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.listCongViec)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -73,64 +67,26 @@ namespace CDMHX
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 43);
+            this.label3.Location = new System.Drawing.Point(369, 43);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 17);
             this.label3.TabIndex = 3;
             this.label3.Text = "TÊN CV";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(368, 45);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(111, 17);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "NGÀY BẮT ĐẦU";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(766, 49);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(120, 17);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "NGÀY KẾT THÚC";
-            // 
             // txtTenCV
             // 
             this.txtTenCV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTenCV.Location = new System.Drawing.Point(101, 43);
+            this.txtTenCV.Location = new System.Drawing.Point(453, 43);
             this.txtTenCV.Name = "txtTenCV";
             this.txtTenCV.Size = new System.Drawing.Size(216, 26);
             this.txtTenCV.TabIndex = 7;
-            // 
-            // dateNgayBD
-            // 
-            this.dateNgayBD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateNgayBD.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateNgayBD.Location = new System.Drawing.Point(503, 43);
-            this.dateNgayBD.Name = "dateNgayBD";
-            this.dateNgayBD.Size = new System.Drawing.Size(200, 26);
-            this.dateNgayBD.TabIndex = 8;
-            // 
-            // dateNgayKT
-            // 
-            this.dateNgayKT.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateNgayKT.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateNgayKT.Location = new System.Drawing.Point(910, 43);
-            this.dateNgayKT.Name = "dateNgayKT";
-            this.dateNgayKT.Size = new System.Drawing.Size(200, 26);
-            this.dateNgayKT.TabIndex = 9;
             // 
             // listCongViec
             // 
             this.listCongViec.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.listCongViec.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MaCV,
-            this.TenCV,
-            this.NgayBD,
-            this.NgayKT});
+            this.TenCV});
             this.listCongViec.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listCongViec.Location = new System.Drawing.Point(3, 18);
             this.listCongViec.Name = "listCongViec";
@@ -141,46 +97,10 @@ namespace CDMHX
             this.listCongViec.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.listCongViec.SelectionChanged += new System.EventHandler(this.listCongViec_SelectionChanged);
             // 
-            // MaCV
-            // 
-            this.MaCV.DataPropertyName = "MaCV";
-            this.MaCV.HeaderText = "MÃ CV";
-            this.MaCV.MinimumWidth = 6;
-            this.MaCV.Name = "MaCV";
-            this.MaCV.Width = 230;
-            // 
-            // TenCV
-            // 
-            this.TenCV.DataPropertyName = "TenCV";
-            this.TenCV.HeaderText = "TÊN CV";
-            this.TenCV.MinimumWidth = 6;
-            this.TenCV.Name = "TenCV";
-            this.TenCV.Width = 230;
-            // 
-            // NgayBD
-            // 
-            this.NgayBD.DataPropertyName = "NgayBD";
-            this.NgayBD.HeaderText = "NGÀY BẮT ĐẦU";
-            this.NgayBD.MinimumWidth = 6;
-            this.NgayBD.Name = "NgayBD";
-            this.NgayBD.Width = 230;
-            // 
-            // NgayKT
-            // 
-            this.NgayKT.DataPropertyName = "NgayKT";
-            this.NgayKT.HeaderText = "NGÀY KẾT THÚC";
-            this.NgayKT.MinimumWidth = 6;
-            this.NgayKT.Name = "NgayKT";
-            this.NgayKT.Width = 230;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.txtTenCV);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.dateNgayKT);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.dateNgayBD);
-            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Location = new System.Drawing.Point(38, 96);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1125, 96);
@@ -273,14 +193,6 @@ namespace CDMHX
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "TÌM KIẾM";
             // 
-            // txtTimKiem
-            // 
-            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimKiem.Location = new System.Drawing.Point(36, 25);
-            this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.Size = new System.Drawing.Size(367, 26);
-            this.txtTimKiem.TabIndex = 0;
-            // 
             // btnTimKiem
             // 
             this.btnTimKiem.Location = new System.Drawing.Point(441, 21);
@@ -290,6 +202,30 @@ namespace CDMHX
             this.btnTimKiem.Text = "SEARCH";
             this.btnTimKiem.UseVisualStyleBackColor = true;
             this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
+            // 
+            // txtTimKiem
+            // 
+            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTimKiem.Location = new System.Drawing.Point(36, 25);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(367, 26);
+            this.txtTimKiem.TabIndex = 0;
+            // 
+            // MaCV
+            // 
+            this.MaCV.DataPropertyName = "MaCV";
+            this.MaCV.HeaderText = "MÃ CV";
+            this.MaCV.MinimumWidth = 6;
+            this.MaCV.Name = "MaCV";
+            this.MaCV.Width = 230;
+            // 
+            // TenCV
+            // 
+            this.TenCV.DataPropertyName = "TenCV";
+            this.TenCV.HeaderText = "TÊN CV";
+            this.TenCV.MinimumWidth = 6;
+            this.TenCV.Name = "TenCV";
+            this.TenCV.Width = 230;
             // 
             // CONGVIEC
             // 
@@ -320,11 +256,7 @@ namespace CDMHX
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtTenCV;
-        private System.Windows.Forms.DateTimePicker dateNgayBD;
-        private System.Windows.Forms.DateTimePicker dateNgayKT;
         private System.Windows.Forms.DataGridView listCongViec;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -334,12 +266,10 @@ namespace CDMHX
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaCV;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TenCV;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NgayBD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NgayKT;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MaCV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TenCV;
     }
 }

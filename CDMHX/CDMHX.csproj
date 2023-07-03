@@ -188,6 +188,12 @@
     <Compile Include="tbSinhVien.cs" />
     <Compile Include="tbSVNhom.cs" />
     <Compile Include="tbThanhVienNhom.cs" />
+    <Compile Include="THEMCV_CD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="THEMCV_CD.Designer.cs">
+      <DependentUpon>THEMCV_CD.cs</DependentUpon>
+    </Compile>
     <Compile Include="THEMSVNHOM.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TAONHOMSV.resx">
       <DependentUpon>TAONHOMSV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="THEMCV_CD.resx">
+      <DependentUpon>THEMCV_CD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="THEMSVNHOM.resx">
       <DependentUpon>THEMSVNHOM.cs</DependentUpon>

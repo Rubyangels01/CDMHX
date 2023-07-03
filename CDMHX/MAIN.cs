@@ -188,5 +188,11 @@ namespace CDMHX
             dn.ShowDialog();
             
         }
+
+        private void btnThemCV_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            THEMCV_CD form = new THEMCV_CD();
+            OpenForm(form);
+        }
     }
 }

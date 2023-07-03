@@ -22,8 +22,7 @@ namespace CDMHX
             DataTable dt = new DataTable();
             dt.Columns.Add("MaCV");
             dt.Columns.Add("TenCV");
-            dt.Columns.Add("NgayBD");
-            dt.Columns.Add("NgayKT");
+            
             return dt;
         }
 
@@ -50,12 +49,11 @@ namespace CDMHX
 
                 cv.MaCV = (int)reader["MaCV"];
                 cv.TenCV = reader["TenCV"].ToString();
-                cv.NgayBD = (DateTime)reader["NgayBD"];
-                cv.NgayKT = (DateTime)reader["NgayKT"];
+                
 
                
                 
-                listCV.Rows.Add(cv.MaCV,cv.TenCV,cv.NgayBD,cv.NgayKT);
+                listCV.Rows.Add(cv.MaCV,cv.TenCV);
                
             }
 
@@ -76,8 +74,7 @@ namespace CDMHX
 
 
             command.Parameters.Add("@TenCongViec", SqlDbType.NVarChar).Value = cv1.TenCV;
-            command.Parameters.Add("@NgayBatDau", SqlDbType.Date).Value = cv1.NgayBD;
-            command.Parameters.Add("@NgayKetThuc", SqlDbType.Date).Value = cv1.NgayKT;
+            
 
             command.ExecuteNonQuery();
             dc.getConnec().Close();
@@ -96,8 +93,7 @@ namespace CDMHX
             // Thêm các tham số và truyền giá trị từ đối tượng cv1
             command.Parameters.Add("@MaCV", SqlDbType.Int).Value = cv1.MaCV;
             command.Parameters.Add("@TenCV", SqlDbType.NVarChar).Value = cv1.TenCV;
-            command.Parameters.Add("@NgayBD", SqlDbType.Date).Value = cv1.NgayBD;
-            command.Parameters.Add("@NgayKT", SqlDbType.Date).Value = cv1.NgayKT;
+            
 
             // Thực thi câu lệnh
             command.ExecuteNonQuery();
@@ -165,12 +161,11 @@ namespace CDMHX
 
                 cv.MaCV = (int)reader["MaCV"];
                 cv.TenCV = reader["TenCV"].ToString();
-                cv.NgayBD = (DateTime)reader["NgayBD"];
-                cv.NgayKT = (DateTime)reader["NgayKT"];
+                
 
 
 
-                listTimKiem.Rows.Add(cv.MaCV, cv.TenCV, cv.NgayBD, cv.NgayKT);
+                listTimKiem.Rows.Add(cv.MaCV, cv.TenCV);
 
             }
 

@@ -28,8 +28,7 @@ namespace CDMHX
             btnHuy.Enabled = false;
 
             txtTenCV.ReadOnly = true;
-            dateNgayBD.Enabled = false;
-            dateNgayKT.Enabled = false;
+            
 
             btnThem.Focus();
         }
@@ -45,8 +44,7 @@ namespace CDMHX
 
 
             txtTenCV.ReadOnly = false;
-            dateNgayBD.Enabled = true;
-            dateNgayKT.Enabled = true;
+           
             txtTenCV.Focus();
 
         }
@@ -76,8 +74,7 @@ namespace CDMHX
             UnlockControl();
             flag = "add";
             txtTenCV.Text = "";
-            dateNgayBD.Value = DateTime.Now;
-            dateNgayKT.Value = DateTime.Now;
+            
 
 
         }
@@ -87,10 +84,7 @@ namespace CDMHX
             KhoaControl();
 
             txtTenCV.Text = "";
-            dateNgayBD.Value = DateTime.Now; // Đặt giá trị mặc định là ngày hiện tại
-
-            dateNgayKT.Value = DateTime.Now;
-
+          
         }
         public bool checkData()
         {
@@ -101,13 +95,14 @@ namespace CDMHX
                 txtTenCV.Focus();
                 return false;
             }
+            /*
             if (dateNgayBD.Value.Date > dateNgayKT.Value.Date)
             {
                 // Hiển thị thông báo lỗi cho người dùng
                 MessageBox.Show("Ngày bắt đầu phải nhỏ hơn ngày kết thúc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dateNgayBD.Focus();
                 return false;
-            }
+            }*/
 
 
             return true;
@@ -121,19 +116,7 @@ namespace CDMHX
             {
                 int.TryParse(listCongViec.Rows[index].Cells[0].Value.ToString(), out ID);
                 txtTenCV.Text = listCongViec.Rows[index].Cells[1].Value.ToString();
-                DateTime ngayBD;
-                DateTime.TryParse(listCongViec.Rows[index].Cells[2].Value.ToString(), out ngayBD);
-                if (ngayBD != DateTime.MinValue)
-                {
-                    dateNgayBD.Value = ngayBD;
-                }
-               
-                DateTime ngayKT;
-                DateTime.TryParse(listCongViec.Rows[index].Cells[3].Value.ToString(), out ngayKT);
-                if (ngayKT != DateTime.MinValue)
-                {
-                    dateNgayKT.Value = ngayKT;
-                }
+                
             }
 
         }
@@ -158,8 +141,7 @@ namespace CDMHX
                     tbCongViec cv = new tbCongViec();
                     
                     cv.TenCV = txtTenCV.Text;
-                    cv.NgayBD = dateNgayBD.Value;
-                    cv.NgayKT = dateNgayKT.Value;
+                    
                     if (cvdao.ThemCV(cv))
                     {
                         ShowAllCV();
@@ -177,8 +159,7 @@ namespace CDMHX
                     tbCongViec cv = new tbCongViec();
                     cv.MaCV = ID;
                     cv.TenCV = txtTenCV.Text;
-                    cv.NgayBD = dateNgayBD.Value;
-                    cv.NgayKT = dateNgayKT.Value;
+                    
 
                     if (cvdao.UpdateCV(cv))
                     {
