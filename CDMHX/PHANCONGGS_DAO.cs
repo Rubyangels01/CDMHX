@@ -63,19 +63,23 @@ namespace CDMHX
             dc.getConnec().Close();
             return listMaCD;
         }
-        public List<string> LayDB()
+        public List<tbDiaBan> LayDB()
         {
-            List<string> listMaDB = new List<string>();
+            List<tbDiaBan> listMaDB = new List<tbDiaBan>();
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.Text;
-            command.CommandText = "SELECT TenDB FROM DiaBan";
+            command.CommandText = "SELECT MaDB, TenDB FROM DiaBan";
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                string macd = reader["TenDB"].ToString();
-                listMaDB.Add(macd);
+                tbDiaBan db = new tbDiaBan();
+                string madb = reader["MaDB"].ToString();
+                string tendb = reader["TenDB"].ToString();
+                db.MaDB = madb;
+                db.TenDB = tendb;
+                listMaDB.Add(db);
 
             }
             reader.Close();
@@ -84,10 +88,10 @@ namespace CDMHX
 
 
         }
-        public List<string> LayXa(int macd, string diaban)
+        public List<tbXa> LayXa(int macd, int madb)
         {
 
-            List<string> listXa = new List<string>();
+            List<tbXa> listXa = new List<tbXa>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -95,14 +99,18 @@ namespace CDMHX
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "SP_PCBGS_XA";
             command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
-            command.Parameters.Add("@TENDB", SqlDbType.NVarChar).Value = diaban;
+            command.Parameters.Add("@MADB", SqlDbType.Int).Value = madb;
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
+                tbXa xa = new tbXa();
+                string maxa = reader["MaXa"].ToString();
                 string tenXa = reader["TenXa"].ToString();
-                listXa.Add(tenXa);
+                xa.maxa = maxa;
+                xa.tenxa = tenXa;
+                listXa.Add(xa);
 
             }
             reader.Close();
@@ -134,7 +142,8 @@ namespace CDMHX
             dc.getConnec().Close();
             return listSV;
         }
-        public DataTable GetAllSV(int maCD, string tenxa)
+        
+        public DataTable GetAllSV(string maCD, string maxa)
         {
 
             DataTable listSV = createTBSV();
@@ -143,13 +152,13 @@ namespace CDMHX
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.Text;
-            command.CommandText = string.Format("SELECT SINHVIEN.MASV, SINHVIEN.TENSV,GIAMSAT_SV.CHUCVU FROM SINHVIEN JOIN GIAMSAT_SV ON GIAMSAT_SV.MASV = SINHVIEN.MASV WHERE GIAMSAT_SV.MACD = {0} AND GIAMSAT_SV.MAXA =(SELECT MAXA FROM XA WHERE TENXA = N'{1}')", maCD, tenxa);
+            command.CommandText = string.Format("SELECT SINHVIEN.MASV, SINHVIEN.TENSV,GIAMSAT_SV.CHUCVU FROM SINHVIEN,GIAMSAT_SV WHERE GIAMSAT_SV.MASV = SINHVIEN.MASV AND GIAMSAT_SV.MACD = {0} AND GIAMSAT_SV.MAXA = {1}", maCD, maxa);
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
-                int MaSV = (int)reader["MaSV"];
+                string MaSV = reader["MaSV"].ToString();
                 string TenSV = reader["TenSV"].ToString();
                 string ChucVu = reader["ChucVu"].ToString();
                 listSV.Rows.Add(MaSV, TenSV, ChucVu);
@@ -159,7 +168,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listSV;
         }
-        public DataTable GetAllGVDAGS(int maCD,string tenxa)
+        public DataTable GetAllGVDAGS(int maCD,string maxa)
         {
 
             DataTable listSV = createTBGS();
@@ -171,7 +180,7 @@ namespace CDMHX
             command.CommandText = "SP_DS_GV_PC";
 
             command.Parameters.Add("@MACD", SqlDbType.Int).Value = maCD;
-            command.Parameters.Add("@TENXA", SqlDbType.NVarChar).Value = tenxa;
+            command.Parameters.Add("@MAXA", SqlDbType.Int).Value = Program.ConvertStringToInt(maxa);
             SqlDataReader reader = command.ExecuteReader();
 
 

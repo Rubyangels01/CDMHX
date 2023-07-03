@@ -182,12 +182,14 @@
     <Compile Include="tbChienDich.cs" />
     <Compile Include="tbChiTietCV.cs" />
     <Compile Include="tbCongViec.cs" />
+    <Compile Include="tbDiaBan.cs" />
     <Compile Include="tbGiaoVien.cs" />
     <Compile Include="tbKhoa.cs" />
     <Compile Include="tbNhomSV.cs" />
     <Compile Include="tbSinhVien.cs" />
     <Compile Include="tbSVNhom.cs" />
     <Compile Include="tbThanhVienNhom.cs" />
+    <Compile Include="tbXa.cs" />
     <Compile Include="THEMCV_CD.cs">
       <SubType>Form</SubType>
     </Compile>

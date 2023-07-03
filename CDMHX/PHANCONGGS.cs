@@ -20,10 +20,16 @@ namespace CDMHX
 
         private void PHANCONGGS_Load(object sender, EventArgs e)
         {
-            cbDiaBan.Items.AddRange(pcgsdao.LayDB().ToArray());
-            cbDiaBan.SelectedIndex = 0;
             cbNamCD.Items.AddRange(pcgsdao.LayMaCD().ToArray());
             cbNamCD.SelectedIndex = 0;
+            cbDiaBan.DataSource = pcgsdao.LayDB();
+            cbDiaBan.DisplayMember = "TenDB";
+            cbDiaBan.ValueMember = "MaDB";
+            cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
+            cbXa.DisplayMember = "tenxa";
+            cbXa.ValueMember = "maxa";
+            MessageBox.Show(cbDiaBan.SelectedValue.ToString());
+            
             
             listGV.MultiSelect = true;
             listGVGS.MultiSelect = true;
@@ -31,10 +37,6 @@ namespace CDMHX
         }
         public void ShowAllGV()
         {
-
-            int namcd;
-            int.TryParse(cbNamCD.Text, out namcd);
-
             DataTable list = pcgsdao.GetAllGV();
 
             listGV.DataSource = list;
@@ -46,7 +48,7 @@ namespace CDMHX
             int namcd;
             int.TryParse(cbNamCD.Text, out namcd);
 
-            DataTable list = pcgsdao.GetAllGVDAGS(namcd,cbXa.Text);
+            DataTable list = pcgsdao.GetAllGVDAGS(namcd,cbXa.SelectedValue.ToString());
 
             listGVGS.DataSource = list;
 
@@ -56,10 +58,11 @@ namespace CDMHX
 
             int namcd;
             int.TryParse(cbNamCD.Text, out namcd);
-
-            DataTable list = pcgsdao.GetAllSV(namcd, cbXa.Text);
-
+          
+                DataTable list = pcgsdao.GetAllSV(cbNamCD.Text, cbXa.SelectedValue.ToString());
             listSVGS.DataSource = list;
+             
+           
 
         }
 
@@ -68,29 +71,25 @@ namespace CDMHX
         {
             if (cbDiaBan.SelectedItem != null)
             {
-                if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).Count == 0)
-                {
-                    cbXa.Items.Clear();
-                    cbXa.Items.Add("Danh Sách Rỗng");
-                    cbXa.SelectedItem = "Danh Sách Rỗng";
-                }
-                else
-                {
-                    cbXa.Items.Clear();
-                    cbXa.Items.AddRange(pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).ToArray());
-                    cbXa.SelectedIndex = 0;
-                    btnXem.Text = "Xem DSSV";
-                }
+                cbXa.DataSource = null; // Gán DataSource thành null trước khi thay đổi các mục
+                cbXa.Items.Clear();
 
+                cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
+                cbXa.DisplayMember = "tenxa";
+                cbXa.ValueMember = "maxa";
+
+                btnXem.Text = "Xem DSSV";
             }
         }
 
+
         private void cbXa_TextChanged(object sender, EventArgs e)
-        {
+        {/*
             ShowAllSV_GS();
             ShowAllGV();
             ShowAllGVDaPC();
             btnXem.Text = "Xem DSGV";
+            */
         }
 
         private void btnXem_Click(object sender, EventArgs e)
@@ -195,23 +194,19 @@ namespace CDMHX
 
         private void cbNamCD_TextChanged(object sender, EventArgs e)
         {
+
             if (cbDiaBan.SelectedItem != null)
             {
-                if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).Count == 0)
-                {
-                    cbXa.Items.Clear();
-                    cbXa.Items.Add("Danh Sách Rỗng");
-                    cbXa.SelectedItem = "Danh Sách Rỗng";
-                }
-                else
-                {
-                    cbXa.Items.Clear();
-                    cbXa.Items.AddRange(pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), cbDiaBan.Text).ToArray());
-                    cbXa.SelectedIndex = 0;
-                    btnXem.Text = "Xem DSSV";
-                }
+                cbXa.DataSource = null; // Gán DataSource thành null trước khi thay đổi các mục
+                cbXa.Items.Clear();
 
+                cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
+                cbXa.DisplayMember = "tenxa";
+                cbXa.ValueMember = "maxa";
+
+                btnXem.Text = "Xem DSSV";
             }
+
         }
     }
 }
