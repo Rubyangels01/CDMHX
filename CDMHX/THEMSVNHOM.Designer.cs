@@ -61,6 +61,9 @@ namespace CDMHX
             this.cbAp = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cbKhoa = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listSV)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -156,7 +159,6 @@ namespace CDMHX
             this.listSVNhom.RowTemplate.Height = 24;
             this.listSVNhom.Size = new System.Drawing.Size(708, 272);
             this.listSVNhom.TabIndex = 0;
-            this.listSVNhom.SelectionChanged += new System.EventHandler(this.listSVNhom_SelectionChanged);
             // 
             // MaSVNhom
             // 
@@ -224,7 +226,6 @@ namespace CDMHX
             this.btnXoa.TabIndex = 3;
             this.btnXoa.Text = "XOÁ";
             this.btnXoa.UseVisualStyleBackColor = true;
-            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // groupBox4
             // 
@@ -280,25 +281,27 @@ namespace CDMHX
             // 
             this.cbNamCD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbNamCD.FormattingEnabled = true;
-            this.cbNamCD.Location = new System.Drawing.Point(25, 35);
+            this.cbNamCD.Location = new System.Drawing.Point(612, 28);
             this.cbNamCD.Name = "cbNamCD";
-            this.cbNamCD.Size = new System.Drawing.Size(377, 28);
+            this.cbNamCD.Size = new System.Drawing.Size(295, 28);
             this.cbNamCD.TabIndex = 7;
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cbKhoa);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.btnXem);
             this.groupBox3.Controls.Add(this.cbNamCD);
-            this.groupBox3.Location = new System.Drawing.Point(1072, 117);
+            this.groupBox3.Location = new System.Drawing.Point(570, 117);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(559, 78);
+            this.groupBox3.Size = new System.Drawing.Size(1061, 78);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "NĂM CHIẾN DỊCH";
             // 
             // btnXem
             // 
-            this.btnXem.Location = new System.Drawing.Point(435, 28);
+            this.btnXem.Location = new System.Drawing.Point(940, 21);
             this.btnXem.Name = "btnXem";
             this.btnXem.Size = new System.Drawing.Size(105, 42);
             this.btnXem.TabIndex = 8;
@@ -340,6 +343,7 @@ namespace CDMHX
             this.cbXa.Name = "cbXa";
             this.cbXa.Size = new System.Drawing.Size(258, 28);
             this.cbXa.TabIndex = 11;
+            this.cbXa.SelectedIndexChanged += new System.EventHandler(this.cbXa_SelectedIndexChanged);
             this.cbXa.TextChanged += new System.EventHandler(this.cbXa_TextChanged);
             // 
             // cbDiaBan
@@ -350,6 +354,7 @@ namespace CDMHX
             this.cbDiaBan.Name = "cbDiaBan";
             this.cbDiaBan.Size = new System.Drawing.Size(258, 28);
             this.cbDiaBan.TabIndex = 10;
+            this.cbDiaBan.SelectedIndexChanged += new System.EventHandler(this.cbDiaBan_SelectedIndexChanged);
             this.cbDiaBan.TextChanged += new System.EventHandler(this.cbDiaBan_TextChanged);
             // 
             // label7
@@ -370,6 +375,7 @@ namespace CDMHX
             this.cbAp.Name = "cbAp";
             this.cbAp.Size = new System.Drawing.Size(258, 28);
             this.cbAp.TabIndex = 6;
+            this.cbAp.SelectedIndexChanged += new System.EventHandler(this.cbAp_SelectedIndexChanged);
             this.cbAp.TextChanged += new System.EventHandler(this.cbAp_TextChanged);
             // 
             // label8
@@ -391,6 +397,33 @@ namespace CDMHX
             this.label9.Size = new System.Drawing.Size(62, 17);
             this.label9.TabIndex = 0;
             this.label9.Text = "ĐỊA BÀN";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(19, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(47, 17);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "KHOA";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(466, 31);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(119, 17);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "NĂM CHIẾN DỊCH";
+            // 
+            // cbKhoa
+            // 
+            this.cbKhoa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbKhoa.FormattingEnabled = true;
+            this.cbKhoa.Location = new System.Drawing.Point(114, 31);
+            this.cbKhoa.Name = "cbKhoa";
+            this.cbKhoa.Size = new System.Drawing.Size(300, 28);
+            this.cbKhoa.TabIndex = 11;
             // 
             // THEMSVNHOM
             // 
@@ -416,6 +449,7 @@ namespace CDMHX
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
@@ -457,5 +491,8 @@ namespace CDMHX
         private System.Windows.Forms.ComboBox cbAp;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cbKhoa;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
     }
 }

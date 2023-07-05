@@ -47,6 +47,7 @@ namespace CDMHX
             this.btnDSKT = new DevExpress.XtraBars.BarButtonItem();
             this.btnXemNhom = new DevExpress.XtraBars.BarButtonItem();
             this.btnChiTietCV = new DevExpress.XtraBars.BarButtonItem();
+            this.btnThemCV = new DevExpress.XtraBars.BarButtonItem();
             this.rbTaiKhoan = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.rbTruong = new DevExpress.XtraBars.Ribbon.RibbonPage();
@@ -62,7 +63,10 @@ namespace CDMHX
             this.ribbonPageGroup8 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.pn_main = new System.Windows.Forms.Panel();
-            this.btnThemCV = new DevExpress.XtraBars.BarButtonItem();
+            this.ribbonPageGroup9 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.btnLichGS = new DevExpress.XtraBars.BarButtonItem();
+            this.ribbonPageGroup10 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.btnDSSV_GS = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,10 +92,12 @@ namespace CDMHX
             this.btnDSKT,
             this.btnXemNhom,
             this.btnChiTietCV,
-            this.btnThemCV});
+            this.btnThemCV,
+            this.btnLichGS,
+            this.btnDSSV_GS});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.Margin = new System.Windows.Forms.Padding(5);
-            this.ribbon.MaxItemId = 18;
+            this.ribbon.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.ribbon.MaxItemId = 20;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.rbTaiKhoan,
@@ -240,6 +246,14 @@ namespace CDMHX
             this.btnChiTietCV.Name = "btnChiTietCV";
             this.btnChiTietCV.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnChiTietCV_ItemClick);
             // 
+            // btnThemCV
+            // 
+            this.btnThemCV.Caption = "THÊM CÔNG VIỆC CHIẾN DỊCH";
+            this.btnThemCV.Id = 17;
+            this.btnThemCV.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnThemCV.ImageOptions.SvgImage")));
+            this.btnThemCV.Name = "btnThemCV";
+            this.btnThemCV.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnThemCV_ItemClick);
+            // 
             // rbTaiKhoan
             // 
             this.rbTaiKhoan.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -281,7 +295,8 @@ namespace CDMHX
             this.rbGiaoVien.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.ribbonPageGroup3,
             this.ribbonPageGroup6,
-            this.ribbonPageGroup7});
+            this.ribbonPageGroup7,
+            this.ribbonPageGroup9});
             this.rbGiaoVien.Name = "rbGiaoVien";
             this.rbGiaoVien.Text = "GIÁO VIÊN";
             // 
@@ -310,7 +325,8 @@ namespace CDMHX
             // rbGiamSat
             // 
             this.rbGiamSat.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroup4});
+            this.ribbonPageGroup4,
+            this.ribbonPageGroup10});
             this.rbGiamSat.Name = "rbGiamSat";
             this.rbGiamSat.Text = "GIÁM SÁT";
             // 
@@ -318,7 +334,7 @@ namespace CDMHX
             // 
             this.ribbonPageGroup4.ItemLinks.Add(this.btnBaoCao);
             this.ribbonPageGroup4.Name = "ribbonPageGroup4";
-            this.ribbonPageGroup4.Text = "ribbonPageGroup4";
+            this.ribbonPageGroup4.Text = "BÁO CÁO";
             // 
             // rbSinhVien
             // 
@@ -337,7 +353,7 @@ namespace CDMHX
             // ribbonStatusBar
             // 
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 510);
-            this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(5);
+            this.ribbonStatusBar.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
             this.ribbonStatusBar.Size = new System.Drawing.Size(1206, 30);
@@ -350,13 +366,33 @@ namespace CDMHX
             this.pn_main.Size = new System.Drawing.Size(1206, 317);
             this.pn_main.TabIndex = 2;
             // 
-            // btnThemCV
+            // ribbonPageGroup9
             // 
-            this.btnThemCV.Caption = "THÊM CÔNG VIỆC CHIẾN DỊCH";
-            this.btnThemCV.Id = 17;
-            this.btnThemCV.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem1.ImageOptions.SvgImage")));
-            this.btnThemCV.Name = "btnThemCV";
-            this.btnThemCV.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnThemCV_ItemClick);
+            this.ribbonPageGroup9.ItemLinks.Add(this.btnLichGS);
+            this.ribbonPageGroup9.Name = "ribbonPageGroup9";
+            this.ribbonPageGroup9.Text = "XEM";
+            // 
+            // btnLichGS
+            // 
+            this.btnLichGS.Caption = "LỊCH GIÁM SÁT";
+            this.btnLichGS.Id = 18;
+            this.btnLichGS.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem1.ImageOptions.SvgImage")));
+            this.btnLichGS.Name = "btnLichGS";
+            this.btnLichGS.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnLichGS_ItemClick);
+            // 
+            // ribbonPageGroup10
+            // 
+            this.ribbonPageGroup10.ItemLinks.Add(this.btnDSSV_GS);
+            this.ribbonPageGroup10.Name = "ribbonPageGroup10";
+            this.ribbonPageGroup10.Text = "XEM";
+            // 
+            // btnDSSV_GS
+            // 
+            this.btnDSSV_GS.Caption = "DSSV GIÁM SÁT";
+            this.btnDSSV_GS.Id = 19;
+            this.btnDSSV_GS.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("barButtonItem1.ImageOptions.SvgImage")));
+            this.btnDSSV_GS.Name = "btnDSSV_GS";
+            this.btnDSSV_GS.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnDSSV_GS_ItemClick);
             // 
             // MAIN
             // 
@@ -413,5 +449,9 @@ namespace CDMHX
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup8;
         private System.Windows.Forms.Panel pn_main;
         private DevExpress.XtraBars.BarButtonItem btnThemCV;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup9;
+        private DevExpress.XtraBars.BarButtonItem btnLichGS;
+        private DevExpress.XtraBars.BarButtonItem btnDSSV_GS;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup10;
     }
 }

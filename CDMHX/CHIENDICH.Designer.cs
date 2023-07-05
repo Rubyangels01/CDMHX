@@ -182,6 +182,7 @@ namespace CDMHX
             this.listChienDich.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listChienDich_CellClick);
             this.listChienDich.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.listChienDich_CellContextMenuStripNeeded);
             this.listChienDich.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.listChienDich_CellDoubleClick_1);
+            this.listChienDich.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.listChienDich_CellMouseDown);
             this.listChienDich.SelectionChanged += new System.EventHandler(this.listChienDich_SelectionChanged);
             // 
             // MaCD

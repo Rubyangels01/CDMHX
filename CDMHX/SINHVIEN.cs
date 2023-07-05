@@ -74,15 +74,12 @@ namespace CDMHX
 
             KhoaControl();
             ShowAllSV();
-            cbTenKhoa.Items.Add("CÔNG NGHỆ THÔNG TIN");
-            cbTenKhoa.Items.Add("KINH TẾ");
-            cbTenKhoa.Items.Add("VIỄN THÔNG");
-            cbGioiTinh.Items.Add("Nam");
-            cbGioiTinh.Items.Add("Nữ");
-            cbTimKiemKhoa.Items.Add("CÔNG NGHỆ THÔNG TIN");
-            cbTimKiemKhoa.Items.Add("KINH TẾ");
-            cbTimKiemKhoa.Items.Add("VIỄN THÔNG");
-            
+            cbTimKiemKhoa.DataSource = Program.LayKhoa();
+            cbTimKiemKhoa.DisplayMember = "TenKhoa";
+            cbTimKiemKhoa.ValueMember = "MaKhoa";
+            cbGioiTinh.Items.Add("NAM");
+            cbGioiTinh.Items.Add("NỮ");
+            cbGioiTinh.SelectedIndex = 0;
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -94,8 +91,16 @@ namespace CDMHX
             txtTenSV.Text = "";
             txtDiaChi.Text = "";
             txtSDT.Text = "";
-            cbGioiTinh.Text = "";
-            cbTenKhoa.Text = "";
+            cbTenKhoa.DataSource = null;
+            
+            
+            cbTenKhoa.DataSource = Program.LayKhoa();
+            cbTenKhoa.DisplayMember = "TenKhoa";
+            cbTenKhoa.ValueMember = "MaKhoa";
+            
+
+           
+            
             dateNgaySinh.Value = DateTime.Now;
         }
 
@@ -221,7 +226,7 @@ namespace CDMHX
                   sv.DiaChi =   txtDiaChi.Text;
                    sv.SDT= txtSDT.Text ;
                     sv.GioiTinh = cbGioiTinh.Text;
-                    sv.Khoa.TenKhoa = cbTenKhoa.Text;
+                    sv.Khoa.MaKhoa = cbTenKhoa.SelectedValue.ToString();
                    sv.NgaySinh = dateNgaySinh.Value;
                     if (svdao.ThemSV(sv))
                     {
@@ -244,7 +249,7 @@ namespace CDMHX
                     sv.DiaChi = txtDiaChi.Text;
                     sv.SDT = txtSDT.Text;
                     sv.GioiTinh = cbGioiTinh.Text;
-                    sv.Khoa.TenKhoa = cbTenKhoa.Text;
+                    sv.Khoa.MaKhoa = cbTenKhoa.SelectedValue.ToString();
                     sv.NgaySinh = dateNgaySinh.Value;
                     if (svdao.UpdateSV(sv))
                     {
@@ -324,7 +329,7 @@ namespace CDMHX
         {
             if (!string.IsNullOrEmpty(cbTimKiemKhoa.SelectedItem.ToString()))
             {
-                DataTable dt = svdao.TimKiemTheoKhoa(cbTimKiemKhoa.SelectedItem.ToString());
+                DataTable dt = svdao.TimKiemTheoKhoa(cbTimKiemKhoa.SelectedValue.ToString());
                 if (dt.Rows.Count > 0)
                 {
                     listSinhVien.DataSource = dt;

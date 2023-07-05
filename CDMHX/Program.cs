@@ -137,6 +137,56 @@ namespace CDMHX
 
             return result;
         }
+        public static List<tbKhoa> LayKhoa()
+        {
+            List<tbKhoa> listKhoa = new List<tbKhoa>();
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT * FROM KHOA";
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                tbKhoa kh = new tbKhoa();
+                string makh = reader["MaKhoa"].ToString();
+                string tenkh = reader["TenKhoa"].ToString();
+                kh.MaKhoa = makh;
+                kh.TenKhoa = tenkh;
+                listKhoa.Add(kh);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listKhoa;
+
+
+        }
+        public static List<tbDiaBan> LayDB()
+        {
+            List<tbDiaBan> listMaDB = new List<tbDiaBan>();
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT MaDB, TenDB FROM DiaBan";
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                tbDiaBan db = new tbDiaBan();
+                string madb = reader["MaDB"].ToString();
+                string tendb = reader["TenDB"].ToString();
+                db.MaDB = madb;
+                db.TenDB = tendb;
+                listMaDB.Add(db);
+
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listMaDB;
+
+
+        }
 
         /*
         Hàm ExecSqlDataTable này giúp thực thi truy vấn SQL và

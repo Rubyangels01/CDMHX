@@ -20,15 +20,16 @@ namespace CDMHX
 
         private void PHANCONGGS_Load(object sender, EventArgs e)
         {
-            cbNamCD.Items.AddRange(pcgsdao.LayMaCD().ToArray());
-            cbNamCD.SelectedIndex = 0;
-            cbDiaBan.DataSource = pcgsdao.LayDB();
+            cbDiaBan.DataSource = Program.LayDB();
             cbDiaBan.DisplayMember = "TenDB";
             cbDiaBan.ValueMember = "MaDB";
+            cbNamCD.Items.AddRange(Program.LayMaCD().ToArray());
+            cbNamCD.SelectedIndex = 0;
+            
             cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
             cbXa.DisplayMember = "tenxa";
             cbXa.ValueMember = "maxa";
-            MessageBox.Show(cbDiaBan.SelectedValue.ToString());
+           
             
             
             listGV.MultiSelect = true;
@@ -69,17 +70,7 @@ namespace CDMHX
 
         private void cbDiaBan_TextChanged(object sender, EventArgs e)
         {
-            if (cbDiaBan.SelectedItem != null)
-            {
-                cbXa.DataSource = null; // Gán DataSource thành null trước khi thay đổi các mục
-                cbXa.Items.Clear();
-
-                cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
-                cbXa.DisplayMember = "tenxa";
-                cbXa.ValueMember = "maxa";
-
-                btnXem.Text = "Xem DSSV";
-            }
+            
         }
 
 
@@ -94,10 +85,18 @@ namespace CDMHX
 
         private void btnXem_Click(object sender, EventArgs e)
         {
-            ShowAllSV_GS();
-            ShowAllGV();
-            ShowAllGVDaPC();
-            btnThem.Enabled = true;
+            if (cbXa.Text.Equals("Danh Sách Rỗng"))
+            {
+                MessageBox.Show("Địa bàn này chưa có sinh viên tham gia giám sát!", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                ShowAllSV_GS();
+                ShowAllGV();
+                ShowAllGVDaPC();
+                btnThem.Enabled = true;
+            }
+            
         }
         // btnthem
         private void button1_Click(object sender, EventArgs e)
@@ -195,18 +194,37 @@ namespace CDMHX
         private void cbNamCD_TextChanged(object sender, EventArgs e)
         {
 
-            if (cbDiaBan.SelectedItem != null)
+            if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString())).Count == 0)
             {
-                cbXa.DataSource = null; // Gán DataSource thành null trước khi thay đổi các mục
-                cbXa.Items.Clear();
-
+                cbXa.DataSource = null;
+                cbXa.Items.Add("Danh Sách Rỗng");
+                cbXa.SelectedItem = "Danh Sách Rỗng";
+            }
+            else
+            {
                 cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
                 cbXa.DisplayMember = "tenxa";
                 cbXa.ValueMember = "maxa";
-
                 btnXem.Text = "Xem DSSV";
             }
 
+        }
+
+        private void cbDiaBan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString())).Count == 0)
+            {
+                cbXa.DataSource = null;
+                cbXa.Items.Add("Danh Sách Rỗng");
+                cbXa.SelectedItem = "Danh Sách Rỗng";
+            }
+            else
+            {
+                cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
+                cbXa.DisplayMember = "tenxa";
+                cbXa.ValueMember = "maxa";
+                btnXem.Text = "Xem DSSV";
+            }
         }
     }
 }

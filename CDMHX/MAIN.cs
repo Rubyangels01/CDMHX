@@ -160,7 +160,7 @@ namespace CDMHX
 
         private void btnBaoCao_ItemClick(object sender, ItemClickEventArgs e)
         {
-            BAOCAO form = new BAOCAO();
+            KIEMTRAGS_BAOCAO form = new KIEMTRAGS_BAOCAO();
             OpenForm(form);
         }
 
@@ -192,6 +192,18 @@ namespace CDMHX
         private void btnThemCV_ItemClick(object sender, ItemClickEventArgs e)
         {
             THEMCV_CD form = new THEMCV_CD();
+            OpenForm(form);
+        }
+
+        private void btnLichGS_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            DSGV_GIAMSAT form = new DSGV_GIAMSAT();
+            OpenForm(form);
+        }
+
+        private void btnDSSV_GS_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            DSSV_GIAMSAT form = new DSSV_GIAMSAT();
             OpenForm(form);
         }
     }

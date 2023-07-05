@@ -35,50 +35,12 @@ namespace CDMHX
             return dt;
         }
 
-        public List<string> LayMaCD()
-        {
-            List<string> listMaCD = new List<string>();
-            SqlCommand command = new SqlCommand();
-            command.Connection = dc.getConnec();
-
-            command.CommandType = CommandType.Text;
-            command.CommandText = "SELECT MaCD FROM CDMHX WHERE MaCD >= YEAR(GETDATE())";
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                string macd = reader["MaCD"].ToString();
-                listMaCD.Add(macd);
-
-            }
-            reader.Close();
-            dc.getConnec().Close();
-            return listMaCD;
-        }
-        public List<string> LayDB()
-        {
-            List<string> listMaDB = new List<string>();
-            SqlCommand command = new SqlCommand();
-            command.Connection = dc.getConnec();
-
-            command.CommandType = CommandType.Text;
-            command.CommandText = "SELECT TenDB FROM DiaBan";
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                string macd = reader["TenDB"].ToString();
-                listMaDB.Add(macd);
-
-            }
-            reader.Close();
-            dc.getConnec().Close();
-            return listMaDB;
-
-
-        }
-        public List<string> LayXa(int macd, string diaban)
+        
+        
+        public List<tbXa> LayXa(int macd, string diaban)
         {
 
-            List<string> listXa = new List<string>();
+            List<tbXa> listXa = new List<tbXa>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -86,14 +48,18 @@ namespace CDMHX
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "SP_PCGS_XA";
             command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
-            command.Parameters.Add("@TENDB", SqlDbType.NVarChar).Value = diaban;
+            command.Parameters.Add("@MADB", SqlDbType.Int).Value = Program.ConvertStringToInt(diaban);
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
+                tbXa xa = new tbXa();
+                string maxa = reader["MaXa"].ToString();
                 string tenXa = reader["TenXa"].ToString();
-                listXa.Add(tenXa);
+                xa.maxa = maxa;
+                xa.tenxa = tenXa;
+                listXa.Add(xa);
 
             }
             reader.Close();
@@ -113,9 +79,8 @@ namespace CDMHX
             command.CommandText = "SP_PHANCONGSV_GS";
 
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
-            command.Parameters.Add("@TENXA", SqlDbType.NVarChar).Value = maXa;
+            command.Parameters.Add("@MAXA", SqlDbType.Int).Value = Program.ConvertStringToInt(maXa);
             SqlDataReader reader = command.ExecuteReader();
-
 
             while (reader.Read())
             {
@@ -141,7 +106,7 @@ namespace CDMHX
             command.CommandText = "SP_PHANCONGSV_DAGS";
 
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
-            command.Parameters.Add("@TENXA", SqlDbType.NVarChar).Value = maXa;
+            command.Parameters.Add("@MAXA", SqlDbType.Int).Value = Program.ConvertStringToInt(maXa);
             SqlDataReader reader = command.ExecuteReader();
 
 
@@ -177,7 +142,7 @@ namespace CDMHX
         {
             SqlCommand command = new SqlCommand();
             command.CommandType = CommandType.Text;
-            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEU_GS] ({0}, N'{1}')", macd, maxa);
+            command.CommandText = string.Format("SELECT [dbo].[FN_KIEMTRADULIEU_GS] ({0}, {1})", macd, maxa);
 
             command.Connection = dc.getConnec();
 
@@ -194,6 +159,17 @@ namespace CDMHX
             command.Connection.Close();
 
             return kq;
+        }
+        public void DeleteSV_GS(string masv, string macd)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("DELETE GIAMSAT_SV WHERE MASV = {0} AND MACD = {1}",masv,macd);
+            
+            SqlDataReader reader = command.ExecuteReader();
+            dc.getConnec().Close();
         }
     }
 }

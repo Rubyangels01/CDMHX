@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CDMHX
 {
-   public class tbDiaBan
+    class Ap
     {
-        public string MaDB { get; set; }
-        public string TenDB { get; set; }
+        public string MaAp { get; set; }
+        public string TenAp { get; set; }
     }
 }

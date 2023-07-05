@@ -19,25 +19,40 @@ namespace CDMHX
             
             InitializeComponent();
         }
-        public List<string> LayXa(int macd)
+        public List<tbXa> LayXa(int macd,int mags)
         {
 
-            List<string> listXa = new List<string>();
+            List<tbXa> listXa = new List<tbXa>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = Program.dc.getConnec();
 
             command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = ("XA_GS_BAOCAO");
-            command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
+            if (Program.loginLogin.Equals("GIAOVIEN") || Program.loginLogin.Equals("TRUONG"))
+            {
+                command.CommandText = "XA_GS_BAOCAO";
+                command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
+                command.Parameters.Add("@MAGV", SqlDbType.Int).Value = mags;
+            }
+            else if (Program.loginLogin.Equals("GIAMSAT"))
+            {
+                command.CommandText = "XA_GSSV_BAOCAO";
+                command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
+                command.Parameters.Add("@MASV", SqlDbType.Int).Value = mags;
+            }
+            
             
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
+                tbXa xa = new tbXa();
+                string maxa = reader["MaXa"].ToString();
                 string tenXa = reader["TenXa"].ToString();
-                listXa.Add(tenXa);
+                xa.maxa = maxa;
+                xa.tenxa = tenXa;
+                listXa.Add(xa);
 
             }
 
@@ -46,28 +61,67 @@ namespace CDMHX
             Program.dc.getConnec().Close();
             return listXa;
         }
+        public List<tbDiaBan> LayDiaBan(string maxa)
+        {
+
+            List<tbDiaBan> listXa = new List<tbDiaBan>();
+
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.dc.getConnec();
+
+                command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("SELECT DIABAN.MaDB, DIABAN.TenDB FROM XA,DIABAN WHERE DIABAN.MADB = XA.MADB AND XA.MaXa = {0}",maxa);
+                
+            
+
+
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                tbDiaBan db = new tbDiaBan();
+                string madb = reader["MaDB"].ToString();
+                string tendb = reader["TenDB"].ToString();
+                db.MaDB = madb;
+                db.TenDB = tendb;
+                listXa.Add(db);
+
+            }
+
+
+            reader.Close();
+            Program.dc.getConnec().Close();
+            return listXa;
+        }
+        KIEMTRAGS_BAOCAO parentForm = Application.OpenForms.OfType<KIEMTRAGS_BAOCAO>().FirstOrDefault();
         private void BAOCAO_Load(object sender, EventArgs e)
         {
-            cbXa.Items.AddRange(LayXa(DateTime.Now.Year).ToArray());
-            cbXa.SelectedIndex = 0;
+            
+            cbXa.DataSource = LayXa(DateTime.Now.Year,parentForm.mags);
+            cbXa.DisplayMember = "tenxa";
+            cbXa.ValueMember = "maxa";
+            cbDiaBan.DataSource = LayDiaBan(cbXa.SelectedValue.ToString());
+            cbDiaBan.DisplayMember = "TenDB";
+            cbDiaBan.ValueMember = "MaDB";
+
         }
-        public void BaoCao(string tenxa,string macd, string noidung)
+        
+        public void BaoCao(string maxa,string macd, string noidung)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = Program.dc.getConnec();
 
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = ("SP_BAOCAO");
-            command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
-            command.Parameters.Add("@NOIDUNG", SqlDbType.Text).Value = noidung;
-            command.Parameters.Add("@TENXA", SqlDbType.NVarChar).Value = tenxa;
+            command.CommandType = CommandType.Text;
+            command.CommandText = (string.Format("UPDATE GIAMSAT_SV SET NOIDUNG = N'{0}' WHERE MACD = {1} AND MAXA = {2}",noidung,macd,maxa));
+            
             SqlDataReader reader = command.ExecuteReader();
         }
         private void btnOK_Click(object sender, EventArgs e)
         {
            if(!string.IsNullOrEmpty(txtNoiDung.Text))
             {
-                BaoCao(cbXa.Text,DateTime.Now.Year.ToString(),txtNoiDung.Text);
+                BaoCao(cbXa.SelectedValue.ToString(),DateTime.Now.Year.ToString(),txtNoiDung.Text);
                 MessageBox.Show("Báo cáo thành công!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 txtNoiDung.Text = "";
             } 
@@ -75,6 +129,15 @@ namespace CDMHX
             {
                 MessageBox.Show("Vui lòng nhập nội dung!","Thông Báo",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }    
+        }
+
+        private void cbXa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            /*
+            cbDiaBan.DataSource = LayDiaBan(cbXa.SelectedValue.ToString());
+            cbDiaBan.DisplayMember = "TenDB";
+            cbDiaBan.ValueMember = "MaDB";
+            */
         }
     }
 }

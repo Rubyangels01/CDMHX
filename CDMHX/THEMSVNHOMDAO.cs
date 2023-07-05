@@ -58,7 +58,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listMaCD;
         }
-        public DataTable GetAllSV(int maCD, string maKT)
+        public DataTable GetAllSV(int maCD,string makhoa)
         {
 
             DataTable listSV = createTBSV();
@@ -70,7 +70,7 @@ namespace CDMHX
             command.CommandText = "DS_SV_CHUACONHOM";
 
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
-            
+            command.Parameters.Add("@MaKhoa", SqlDbType.Char).Value = makhoa;
             SqlDataReader reader = command.ExecuteReader();
 
 
@@ -88,7 +88,7 @@ namespace CDMHX
             return listSV;
         }
 
-        public DataTable GetAllSVDaCoNhom(int maCD)
+        public DataTable GetAllSVDaCoNhom(int maCD,string makhoa)
         {
 
             DataTable listSV2 = createTBSVNhom();
@@ -100,7 +100,7 @@ namespace CDMHX
             command.CommandText = "DS_SV_DACONHOM";
 
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
-            
+            command.Parameters.Add("@MaKhoa", SqlDbType.Char).Value = makhoa;
             SqlDataReader reader = command.ExecuteReader();
 
 
@@ -120,7 +120,7 @@ namespace CDMHX
             return listSV2;
         }
         public string manhom;
-        public void InsertNhom(string tennhom, string soluong, string macd, string tenap)
+        public void InsertNhom(string tennhom, string soluong, string macd, string maap)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -130,7 +130,7 @@ namespace CDMHX
             command.Parameters.Add("@TENNHOM", SqlDbType.NVarChar).Value = tennhom;
             command.Parameters.Add("@SOLUONG", SqlDbType.Int).Value = Program.ConvertStringToInt(soluong);
             command.Parameters.Add("@MACD", SqlDbType.Int).Value = Program.ConvertStringToInt(macd);
-            command.Parameters.Add("@TENAP", SqlDbType.NVarChar).Value = tenap;
+            command.Parameters.Add("@MAAP", SqlDbType.Int).Value = Program.ConvertStringToInt(maap);
 
             SqlParameter outputParameter = new SqlParameter("@MaNhom", SqlDbType.Int);
             outputParameter.Direction = ParameterDirection.Output;
@@ -163,19 +163,23 @@ namespace CDMHX
             dc.getConnec().Close();
             
         }
-        public List<string> LayDB()
+        public List<tbDiaBan> LayDB()
         {
-            List<string> listMaDB = new List<string>();
+            List<tbDiaBan> listMaDB = new List<tbDiaBan>();
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.Text;
-            command.CommandText = "SELECT TenDB FROM DiaBan";
+            command.CommandText = "SELECT MaDB, TenDB FROM DiaBan";
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                string macd = reader["TenDB"].ToString();
-                listMaDB.Add(macd);
+                tbDiaBan db = new tbDiaBan();
+                string madb = reader["MaDB"].ToString();
+                string tendb = reader["TenDB"].ToString();
+                db.MaDB = madb;
+                db.TenDB = tendb;
+                listMaDB.Add(db);
 
             }
             reader.Close();
@@ -184,54 +188,64 @@ namespace CDMHX
 
 
         }
-        public List<string> LayXa(string diaban)
+        
+        public List<tbXa> LayXa(string diaban)
         {
 
-            List<string> listXa = new List<string>();
+            List<tbXa> listXa = new List<tbXa>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.Text;
-            command.CommandText = (string.Format("SELECT TENXA FROM XA WHERE MADB = (SELECT MADB FROM DIABAN WHERE TENDB = N'{0}')", diaban));
+            command.CommandText = (string.Format("SELECT MaXa, TenXa FROM XA WHERE XA.MADB = {0}", Program.ConvertStringToInt(diaban)));
            
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
+                tbXa xa = new tbXa();
+                string maxa = reader["MaXa"].ToString();
                 string tenXa = reader["TenXa"].ToString();
-                listXa.Add(tenXa);
+                xa.maxa = maxa;
+                xa.tenxa = tenXa;
+                listXa.Add(xa);
 
             }
             reader.Close();
             dc.getConnec().Close();
             return listXa;
         }
-        public List<string> LayAp(string xa)
+        public List<Ap> LayAp(string xa)
         {
 
-            List<string> listXa = new List<string>();
+            List<Ap> listAp = new List<Ap>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
             command.CommandType = CommandType.Text;
-            command.CommandText = (string.Format("SELECT TENAP FROM AP WHERE MAXA = (SELECT MAXA FROM XA WHERE TENXA = N'{0}')", xa));
+            command.CommandText = (string.Format("SELECT MaAp, TenAp FROM AP WHERE Ap.MAXA = {0}", Program.ConvertStringToInt(xa)));
 
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
-                string tenXa = reader["TenAp"].ToString();
-                listXa.Add(tenXa);
+                Ap ap = new Ap();
+                string maap = reader["MaAp"].ToString();
+                string tenap = reader["TenAp"].ToString();
+                ap.MaAp = maap;
+                ap.TenAp = tenap;
+                listAp.Add(ap);
 
             }
             reader.Close();
             dc.getConnec().Close();
-            return listXa;
+            return listAp;
         }
+        /*
         public DataTable GetAllSvThem()
         {
 
@@ -304,6 +318,6 @@ namespace CDMHX
                 }
                 connection.Close();
             }
-        }
+        }*/
     }
 }

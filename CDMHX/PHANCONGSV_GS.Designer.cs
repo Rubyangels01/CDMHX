@@ -77,6 +77,7 @@ namespace CDMHX
             this.cbNamCD.Name = "cbNamCD";
             this.cbNamCD.Size = new System.Drawing.Size(381, 24);
             this.cbNamCD.TabIndex = 0;
+            this.cbNamCD.SelectedIndexChanged += new System.EventHandler(this.cbNamCD_SelectedIndexChanged);
             this.cbNamCD.TextChanged += new System.EventHandler(this.cbNamCD_TextChanged);
             // 
             // groupBox2
@@ -138,6 +139,7 @@ namespace CDMHX
             this.cbDiaBan.Name = "cbDiaBan";
             this.cbDiaBan.Size = new System.Drawing.Size(239, 24);
             this.cbDiaBan.TabIndex = 5;
+            this.cbDiaBan.SelectedIndexChanged += new System.EventHandler(this.cbDiaBan_SelectedIndexChanged);
             this.cbDiaBan.TextChanged += new System.EventHandler(this.cbDiaBan_TextChanged);
             // 
             // label1
@@ -287,6 +289,7 @@ namespace CDMHX
             this.btnXoa.TabIndex = 8;
             this.btnXoa.Text = "XOÁ";
             this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // PHANCONGSV_GS
             // 

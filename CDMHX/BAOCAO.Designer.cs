@@ -33,9 +33,11 @@ namespace CDMHX
             this.txtNoiDung = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.cbXa = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
+            this.cbDiaBan = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -72,32 +74,35 @@ namespace CDMHX
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbDiaBan);
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.cbXa);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(544, 98);
+            this.groupBox1.Location = new System.Drawing.Point(241, 98);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(443, 77);
+            this.groupBox1.Size = new System.Drawing.Size(746, 77);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "BÁO CÁO";
+            // 
+            // cbXa
+            // 
+            this.cbXa.FormattingEnabled = true;
+            this.cbXa.Location = new System.Drawing.Point(474, 30);
+            this.cbXa.Name = "cbXa";
+            this.cbXa.Size = new System.Drawing.Size(255, 24);
+            this.cbXa.TabIndex = 6;
+            this.cbXa.SelectedIndexChanged += new System.EventHandler(this.cbXa_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(35, 36);
+            this.label3.Location = new System.Drawing.Point(386, 33);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 17);
+            this.label3.Size = new System.Drawing.Size(26, 17);
             this.label3.TabIndex = 5;
-            this.label3.Text = "TÊN XÃ";
-            // 
-            // cbXa
-            // 
-            this.cbXa.FormattingEnabled = true;
-            this.cbXa.Location = new System.Drawing.Point(124, 30);
-            this.cbXa.Name = "cbXa";
-            this.cbXa.Size = new System.Drawing.Size(280, 24);
-            this.cbXa.TabIndex = 6;
+            this.label3.Text = "XÃ";
             // 
             // btnOK
             // 
@@ -110,6 +115,24 @@ namespace CDMHX
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = false;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // cbDiaBan
+            // 
+            this.cbDiaBan.FormattingEnabled = true;
+            this.cbDiaBan.Location = new System.Drawing.Point(109, 30);
+            this.cbDiaBan.Name = "cbDiaBan";
+            this.cbDiaBan.Size = new System.Drawing.Size(235, 24);
+            this.cbDiaBan.TabIndex = 8;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.Location = new System.Drawing.Point(20, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 17);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "ĐỊA BÀN";
             // 
             // BAOCAO
             // 
@@ -143,5 +166,7 @@ namespace CDMHX
         private System.Windows.Forms.ComboBox cbXa;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.ComboBox cbDiaBan;
+        private System.Windows.Forms.Label label2;
     }
 }

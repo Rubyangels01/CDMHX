@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ap.cs" />
     <Compile Include="BAOCAO.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,11 +94,23 @@
     </Compile>
     <Compile Include="DANGNHAPDAO.cs" />
     <Compile Include="DataConnection.cs" />
+    <Compile Include="DSGV_GIAMSAT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DSGV_GIAMSAT.Designer.cs">
+      <DependentUpon>DSGV_GIAMSAT.cs</DependentUpon>
+    </Compile>
     <Compile Include="DSKHENTHUONG.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DSKHENTHUONG.Designer.cs">
       <DependentUpon>DSKHENTHUONG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DSSV_GIAMSAT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DSSV_GIAMSAT.Designer.cs">
+      <DependentUpon>DSSV_GIAMSAT.cs</DependentUpon>
     </Compile>
     <Compile Include="GIAOVIEN.cs">
       <SubType>Form</SubType>
@@ -119,6 +132,12 @@
       <DependentUpon>KHENTHUONG.cs</DependentUpon>
     </Compile>
     <Compile Include="KHENTHUONGDAO.cs" />
+    <Compile Include="KIEMTRAGS_BAOCAO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KIEMTRAGS_BAOCAO.Designer.cs">
+      <DependentUpon>KIEMTRAGS_BAOCAO.cs</DependentUpon>
+    </Compile>
     <Compile Include="KIEMTRAPC_GV.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,8 +240,14 @@
     <EmbeddedResource Include="DANGNHAP.resx">
       <DependentUpon>DANGNHAP.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DSGV_GIAMSAT.resx">
+      <DependentUpon>DSGV_GIAMSAT.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DSKHENTHUONG.resx">
       <DependentUpon>DSKHENTHUONG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DSSV_GIAMSAT.resx">
+      <DependentUpon>DSSV_GIAMSAT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GIAOVIEN.resx">
       <DependentUpon>GIAOVIEN.cs</DependentUpon>
@@ -232,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KHENTHUONG.resx">
       <DependentUpon>KHENTHUONG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KIEMTRAGS_BAOCAO.resx">
+      <DependentUpon>KIEMTRAGS_BAOCAO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KIEMTRAPC_GV.resx">
       <DependentUpon>KIEMTRAPC_GV.cs</DependentUpon>

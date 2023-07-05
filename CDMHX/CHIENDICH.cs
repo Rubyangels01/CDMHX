@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace CDMHX
 {
-   
+
 
     public partial class CHIENDICH : Form
     {
-       public int MaCD1 = 0;
+        public int MaCD1 = 0;
         public bool isDetailFormOpen = false;
         int index = 0;
         CHIENDICHDAO cddao = new CHIENDICHDAO();
@@ -22,7 +22,14 @@ namespace CDMHX
         {
             InitializeComponent();
         }
-
+        
+        public void UnLock()
+        {
+            txtMaCD.Enabled = false;
+            txtTenCD.Enabled = true;
+            dateNgayBD.Enabled = true;
+            dateNgayKT.Enabled = true;
+        }
         private void label3_Click(object sender, EventArgs e)
         {
 
@@ -35,21 +42,35 @@ namespace CDMHX
             listChienDich.DataSource = listCV;
 
         }
-        ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
-        ToolStripMenuItem menuItemDelete = new ToolStripMenuItem("Xóa");
         
+        
+        private ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+        ToolStripMenuItem deleteMenuItem = new ToolStripMenuItem("Xóa");
+        ToolStripMenuItem editMenuItem = new ToolStripMenuItem("Sửa");
         private void CHIENDICH_Load(object sender, EventArgs e)
         {
-            listChienDich.CellDoubleClick += listChienDich_CellDoubleClick_1;
             ShowAllCD();
+            listChienDich.CellDoubleClick += listChienDich_CellDoubleClick_1;
+           
+            UnLock();
             cbTimKiem.Items.Add("2020");
             cbTimKiem.Items.Add("2021");
             cbTimKiem.Items.Add("2022");
             cbTimKiem.Items.Add("2023");
 
-            menuItemDelete.Click += MenuItemDelete_Click;
-            contextMenuStrip.Items.Add(menuItemDelete);
+            
+            deleteMenuItem.Click += DeleteMenuItem_Click;
+            contextMenuStrip.Items.Add(deleteMenuItem);
 
+            
+            editMenuItem.Click += EditMenuItem_Click;
+            contextMenuStrip.Items.Add(editMenuItem);
+
+            /*
+            menuItemDelete.Click += MenuItemDelete_Click;
+            menuItemEdit.Click += MenuItemEdit_Click;
+            contextMenuStrip.Items.Add(menuItemDelete);
+            */
             // Thêm các lựa chọn khác nếu cần
 
         }
@@ -57,33 +78,36 @@ namespace CDMHX
         
         private void MenuItemDelete_Click(object sender, EventArgs e)
         {
-            int ID;
-            index = listChienDich.CurrentCell.RowIndex;
-            int.TryParse(listChienDich.Rows[index].Cells[0].Value.ToString(), out ID);
             
-            if ((cddao.KiemTraDuLieu(ID)) == 1)
-            {
-                MessageBox.Show("Dữ Liệu Này Không Được Xoá!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                if (MessageBox.Show("Bạn có muốn xoá chiến dịch này?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
-                    if (listChienDich.SelectedCells.Count > 0)
-                    {
-                        DataGridViewCell selectedCell = listChienDich.SelectedCells[0];
-                        int rowIndex = selectedCell.RowIndex;
-                        cddao.DeleteCD(ID.ToString());
-                        listChienDich.Rows.RemoveAt(rowIndex);
-                       
-                    }
-                }    
-            }
 
             
         }
+        public bool checkData()
+        {
+            if(string.IsNullOrEmpty(txtTenCD.Text))
+            {
+                MessageBox.Show("Vui lòng điền đầy đủ thông tin tên chiến dịch!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtTenCD.Focus();
+                return false;
+            }    
+            if (dateNgayBD.Value.Date > dateNgayKT.Value.Date)
+            {
+                // Hiển thị thông báo lỗi cho người dùng
+                MessageBox.Show("Ngày bắt đầu phải nhỏ hơn ngày kết thúc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dateNgayBD.Focus();
+                return false;
+            }
+            return true;
+        }
+        private void MenuItemEdit_Click(object sender, EventArgs e)
+        {
+            
+            
 
-        
+
+        }
+
+
         private void listChienDich_SelectionChanged(object sender, EventArgs e)
         {
             
@@ -162,11 +186,63 @@ namespace CDMHX
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {
-                listChienDich.CurrentCell = listChienDich.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                listChienDich.ClearSelection();
+                listChienDich.Rows[e.RowIndex].Selected = true;
+
                 e.ContextMenuStrip = contextMenuStrip;
             }
         }
-        
 
+        private void listChienDich_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            
+        }
+        private void DeleteMenuItem_Click(object sender, EventArgs e)
+        {
+            int ID;
+            index = listChienDich.CurrentCell.RowIndex;
+            int.TryParse(listChienDich.Rows[index].Cells[0].Value.ToString(), out ID);
+
+            if ((cddao.KiemTraDuLieu(ID)) == 1)
+            {
+                MessageBox.Show("Dữ Liệu Này Không Được Xoá!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                if (MessageBox.Show("Bạn có muốn xoá chiến dịch này?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    if (listChienDich.SelectedCells.Count > 0)
+                    {
+                        DataGridViewCell selectedCell = listChienDich.SelectedCells[0];
+                        int rowIndex = selectedCell.RowIndex;
+                        cddao.DeleteCD(ID.ToString());
+                        listChienDich.Rows.RemoveAt(rowIndex);
+
+                    }
+                }
+            }
+        }
+
+        private void EditMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            int ID;
+            index = listChienDich.CurrentCell.RowIndex;
+            int.TryParse(listChienDich.Rows[index].Cells[0].Value.ToString(), out ID);
+
+            if (checkData() == true)
+            {
+
+                if (listChienDich.SelectedCells.Count > 0)
+                {
+                    DataGridViewCell selectedCell = listChienDich.SelectedCells[0];
+                    int rowIndex = selectedCell.RowIndex;
+                    cddao.UpdateCD(txtTenCD.Text, dateNgayBD.Value, dateNgayKT.Value, txtMaCD.Text);
+                    ShowAllCD();
+
+                }
+
+            }
+        }
     }
 }

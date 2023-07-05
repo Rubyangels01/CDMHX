@@ -55,7 +55,7 @@ namespace CDMHX
 
 
 
-                        this.Dispose();
+                        this.Hide();
 
 
                     }

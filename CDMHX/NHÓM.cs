@@ -14,7 +14,7 @@ namespace CDMHX
     public partial class NHÓM : Form
     {
         int index = 0;
-        string flag;
+       
         NHOMDAO nhomdao = new NHOMDAO();
         public NHÓM()
         {
@@ -31,41 +31,7 @@ namespace CDMHX
             // Sử dụng dữ liệu từ GridView để hiển thị trên form NHÓM
             // ...
         }
-        public void KhoaControl()
-        {/*
-            btnThem.Enabled = true;
-            btnSua.Enabled = true;
-            btnXoa.Enabled = true;
-            btnLuu.Enabled = false;
-            btnHuy.Enabled = false;
-            btnThemSV.Enabled = false;
-
-            txtMaNhom.ReadOnly = true;
-            txtTenNhom.ReadOnly = true;
-            cbSoLuong.Enabled = false;
-            cbChucVu.Enabled = false;  
-            
-            btnThem.Focus();
-            */
-        }
-
-
-        public void UnlockControl()
-        {/*
-            btnThem.Enabled = false;
-            btnSua.Enabled = false;
-            btnXoa.Enabled = false;
-            btnLuu.Enabled = true;
-            btnHuy.Enabled = true;
-            btnThemSV.Enabled = true;
-
-            txtMaNhom.ReadOnly = false;
-            txtTenNhom.ReadOnly = false;
-            cbSoLuong.Enabled = true;
-            cbChucVu.Enabled = true;
-            txtMaNhom.Focus();
-            */
-        }
+        
         public void ShowAllNhom()
         {
             listNhom.DataSource = nhomdao.GetAllNhom();
@@ -88,23 +54,15 @@ namespace CDMHX
         }
         public void ShowAllNhom_sv()
         {
-            listNhom.DataSource = nhomdao.GetAllNhom_SV("2023");
+            listNhom.DataSource = nhomdao.GetAllNhom_SV(DateTime.Now.Year.ToString());
 
         }
-        public void ShowAllSVNhom()
-        {
-
-            DataTable list = nhomdao.GetAllSvThemNhom();
-            
-            listSVNhom.DataSource = list;
-
-
-        }
+        
         ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
         ToolStripMenuItem menuItemDelete = new ToolStripMenuItem("Xóa");
         private void NHÓM_Load(object sender, EventArgs e)
         {
-            KhoaControl();
+           
             if(Program.loginLogin.Equals("GIAOVIEN") || Program.loginLogin.Equals("TRUONG"))
             {
                 ShowAllNhom();
@@ -173,52 +131,45 @@ namespace CDMHX
 
             }
         }
-
+        /*
         private void btnThem_Click(object sender, EventArgs e)
         {
-            UnlockControl();
-
-            flag = "add";
-            /*
+            
+            
             txtMaNhom.Text = "";
             txtTenNhom.Text = "";
             cbSoLuong.Text = "";
             cbChucVu.Text = "";
             btnThemSV.Text = "THÊM SV NHÓM";
-            */
+            
             DataTable emptyDataTable = new DataTable();
             emptyDataTable = nhomdao.createTBSV();
             listSVNhom.DataSource = emptyDataTable; 
         }
-
+        /*
         private void btnHuy_Click(object sender, EventArgs e)
         {
-            KhoaControl();
+            
             ShowAllNhom();
             //btnThemSV.Text = "CHỈNH SỬA DSSV NHÓM";
         }
-
+        */
         
 
-        public bool checkData()
-        {
-
-            
-            return true;
-        }
+        /*
         private void btnLuu_Click(object sender, EventArgs e)
         {
             THEMSVNHOMDAO tsvnhom = new THEMSVNHOMDAO();
             tsvnhom.XoaBangTam();
             KhoaControl();
-        }
-
+        }*/
+        /*
         private void btnThemSV_Click(object sender, EventArgs e)
         {
             THEMSVNHOM myform = new THEMSVNHOM();
             myform.Show();
         }
-
+        */
         private void listNhom_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)

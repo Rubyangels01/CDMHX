@@ -105,6 +105,17 @@ namespace CDMHX
 
             SqlDataReader reader = command.ExecuteReader();
         }
+        public void UpdateCD(string tencd, DateTime ngaybd, DateTime ngaykt, string macd)
+        {
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = string.Format("UPDATE CDMHX SET TENCD = N'{0}', NGAYBD = '{1}', NGAYKT = '{2}' WHERE MACD = '{3}'", tencd, ngaybd.ToString("yyyy-MM-dd"), ngaykt.ToString("yyyy-MM-dd"), macd);
+
+            SqlDataReader reader = command.ExecuteReader();
+        }
+
         public int KiemTraDuLieu(int ma)
         {
             SqlCommand command = new SqlCommand();

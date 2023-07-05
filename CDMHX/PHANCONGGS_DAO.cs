@@ -44,50 +44,8 @@ namespace CDMHX
 
             return dt;
         }
-        public List<string> LayMaCD()
-        {
-            List<string> listMaCD = new List<string>();
-            SqlCommand command = new SqlCommand();
-            command.Connection = dc.getConnec();
-
-            command.CommandType = CommandType.Text;
-            command.CommandText = "SELECT MaCD FROM CDMHX WHERE MaCD >= YEAR(GETDATE())";
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                string macd = reader["MaCD"].ToString();
-                listMaCD.Add(macd);
-
-            }
-            reader.Close();
-            dc.getConnec().Close();
-            return listMaCD;
-        }
-        public List<tbDiaBan> LayDB()
-        {
-            List<tbDiaBan> listMaDB = new List<tbDiaBan>();
-            SqlCommand command = new SqlCommand();
-            command.Connection = dc.getConnec();
-
-            command.CommandType = CommandType.Text;
-            command.CommandText = "SELECT MaDB, TenDB FROM DiaBan";
-            SqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                tbDiaBan db = new tbDiaBan();
-                string madb = reader["MaDB"].ToString();
-                string tendb = reader["TenDB"].ToString();
-                db.MaDB = madb;
-                db.TenDB = tendb;
-                listMaDB.Add(db);
-
-            }
-            reader.Close();
-            dc.getConnec().Close();
-            return listMaDB;
-
-
-        }
+        
+        
         public List<tbXa> LayXa(int macd, int madb)
         {
 

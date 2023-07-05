@@ -113,6 +113,7 @@ namespace CDMHX
             this.cbDiaBan.Name = "cbDiaBan";
             this.cbDiaBan.Size = new System.Drawing.Size(210, 24);
             this.cbDiaBan.TabIndex = 3;
+            this.cbDiaBan.SelectedIndexChanged += new System.EventHandler(this.cbDiaBan_SelectedIndexChanged);
             this.cbDiaBan.TextChanged += new System.EventHandler(this.cbDiaBan_TextChanged);
             // 
             // label2

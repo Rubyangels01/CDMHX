@@ -78,7 +78,7 @@ namespace CDMHX
                 command.Parameters.Add("@NgaySinh", SqlDbType.Date).Value = sv.NgaySinh;
                 command.Parameters.Add("@DiaChi", SqlDbType.NVarChar).Value = sv.DiaChi;
                 command.Parameters.Add("@SDT", SqlDbType.VarChar).Value = sv.SDT;
-                command.Parameters.Add("@TenKhoa", SqlDbType.NVarChar).Value = sv.Khoa.TenKhoa;
+                command.Parameters.Add("@MaKhoa", SqlDbType.NVarChar).Value = sv.Khoa.MaKhoa;
 
                 try
                 {
@@ -107,7 +107,7 @@ namespace CDMHX
                 command.Parameters.Add("@NgaySinh", SqlDbType.Date).Value = sv.NgaySinh;
                 command.Parameters.Add("@DiaChi", SqlDbType.NVarChar).Value = sv.DiaChi;
                 command.Parameters.Add("@SDT", SqlDbType.VarChar).Value = sv.SDT;
-                command.Parameters.Add("@TenKhoa", SqlDbType.NVarChar).Value = sv.Khoa.TenKhoa;
+                command.Parameters.Add("@MaKhoa", SqlDbType.NVarChar).Value = sv.Khoa.MaKhoa;
 
                 try
                 {
@@ -142,35 +142,7 @@ namespace CDMHX
                     return false;
                 }
             }
-        }
-
-
-
-
-
-
-        public List<string> GetKhoaList()
-        {
-            List<string> khoaList = new List<string>();
-            SqlCommand command = new SqlCommand();
-            command.Connection = dc.getConnec();
-
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "SP_GETTENKHOA";
-            SqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
-            {
-                string tenKhoa = reader["TenKhoa"].ToString();
-                khoaList.Add(tenKhoa);
-            }
-
-            reader.Close();
-            dc.getConnec().Close();
-            return khoaList;
-        }
-
-
+        }    
         public DataTable TimKiem(string Tukhoa)
         {
             DataTable listTimKiem = createTB();
@@ -214,7 +186,7 @@ namespace CDMHX
 
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "SP_TIMKIEMSVTHEOKHOA";
-            command.Parameters.Add("@TuKhoa", SqlDbType.NVarChar).Value = Tukhoa;
+            command.Parameters.Add("@TuKhoa", SqlDbType.Char).Value = Tukhoa;
 
             SqlDataReader reader = command.ExecuteReader();
 

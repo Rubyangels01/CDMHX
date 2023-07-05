@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CDMHX
 {
-    class tbXa
+    public class tbXa
     {
         public string maxa { get; set; }
         public string tenxa { get; set; }

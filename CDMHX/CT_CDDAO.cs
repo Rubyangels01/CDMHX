@@ -181,19 +181,12 @@ namespace CDMHX
 
             while (reader.Read())
             {
-
-                // Xử lý dữ liệu lấy được từ công việc
-
+            
                 string MaKT = reader["MaKT"].ToString();
                 string MucDoKT = reader["MucDoKT"].ToString();
                 string NDKT = reader["NDKT"].ToString();
                 string MaSV = reader["MaSV"].ToString();
                 string TenSV = reader["TenSV"].ToString();
-
-
-
-
-
                 listCTKT_CD.Rows.Add(MaKT, MucDoKT, NDKT, MaSV, TenSV);
 
             }
@@ -201,6 +194,15 @@ namespace CDMHX
             reader.Close();
             dc.getConnec().Close();
             return listCTKT_CD;
+        }
+
+        public DataTable GetAllDSGV_GS(int macd)
+        {
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(string.Format("EXEC DS_GVGS @MACD = {0}", macd), Program.dc.getConnec());
+            da.Fill(dt);
+            Program.dc.getConnec().Close();
+            return dt;
         }
 
     }

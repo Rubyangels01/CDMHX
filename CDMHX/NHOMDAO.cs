@@ -110,6 +110,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listSVNhom;
         }
+        /*
         public DataTable GetAllSvThemNhom()
         {
 
@@ -144,7 +145,8 @@ namespace CDMHX
             reader.Close();
             dc.getConnec().Close();
             return listSVNhom;
-        }
+        }*/
+        
         public void DeleteNhom(string manhom)
         {
             SqlCommand command = new SqlCommand();
