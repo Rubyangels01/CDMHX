@@ -14,6 +14,8 @@ namespace CDMHX
     static class Program
     {
         public static String connPublisherString = @"Data Source=ADMIN-PC;Initial Catalog=MUAHEXANH;Persist Security Info=True;User ID=me;Password=123";
+        public static String cs = @"Data Source=ADMIN-PC;Initial Catalog=MUAHEXANH;Persist Security Info=True;User ID=me;Password=123";
+
         public static SqlConnection conn = new SqlConnection();
         public static String connString = null;
         public static String login = "";

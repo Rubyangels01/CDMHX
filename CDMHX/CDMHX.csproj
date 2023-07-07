@@ -36,9 +36,13 @@
     <Reference Include="DevExpress.Data.v19.2" />
     <Reference Include="DevExpress.Utils.v19.2" />
     <Reference Include="DevExpress.Sparkline.v19.2.Core" />
+    <Reference Include="DevExpress.Xpo.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v19.2" />
     <Reference Include="DevExpress.Printing.v19.2.Core" />
+    <Reference Include="DevExpress.XtraGrid.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v19.2, Version=19.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -112,6 +116,12 @@
     <Compile Include="DSSV_GIAMSAT.Designer.cs">
       <DependentUpon>DSSV_GIAMSAT.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSaoLuuPhucHoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaoLuuPhucHoi.Designer.cs">
+      <DependentUpon>frmSaoLuuPhucHoi.cs</DependentUpon>
+    </Compile>
     <Compile Include="GIAOVIEN.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +159,11 @@
     </Compile>
     <Compile Include="MAIN.Designer.cs">
       <DependentUpon>MAIN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MUAHEXANHDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MUAHEXANHDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="NHOMDAO.cs" />
     <Compile Include="NHÓM.cs">
@@ -249,6 +264,9 @@
     <EmbeddedResource Include="DSSV_GIAMSAT.resx">
       <DependentUpon>DSSV_GIAMSAT.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmSaoLuuPhucHoi.resx">
+      <DependentUpon>frmSaoLuuPhucHoi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GIAOVIEN.resx">
       <DependentUpon>GIAOVIEN.cs</DependentUpon>
     </EmbeddedResource>
@@ -306,6 +324,17 @@
       <DependentUpon>THEMSVNHOM.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
+    <None Include="MUAHEXANHDataSet.xsc">
+      <DependentUpon>MUAHEXANHDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="MUAHEXANHDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>MUAHEXANHDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="MUAHEXANHDataSet.xss">
+      <DependentUpon>MUAHEXANHDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

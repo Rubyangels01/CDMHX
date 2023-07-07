@@ -206,5 +206,11 @@ namespace CDMHX
             DSSV_GIAMSAT form = new DSSV_GIAMSAT();
             OpenForm(form);
         }
+
+        private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            frmSaoLuuPhucHoi form = new frmSaoLuuPhucHoi();
+            OpenForm(form);
+        }
     }
 }
