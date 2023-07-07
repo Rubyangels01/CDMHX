@@ -94,8 +94,10 @@ namespace CDMHX
             SqlCommand command = new SqlCommand();
             command.Connection = Program.dc.getConnec();
 
-            command.CommandType = CommandType.Text;
-            command.CommandText = (string.Format("SELECT XA.MaXa, Xa.TenXa FROM GIAMSAT_SV,Xa,DiaBan WHERE  Xa.MAXA = GIAMSAT_SV.MAXA and xa.MaDB = DiaBan.MaDB AND MACD = {0} AND XA.MADB = {1} group by  XA.MaXa, Xa.TenXa having count(Xa.Maxa) >= 1", macd,madb));
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "SP_XA_CTCD_GS";
+            command.Parameters.Add("@MACD", SqlDbType.Int).Value = macd;
+            command.Parameters.Add("@MADB", SqlDbType.Int).Value = Program.ConvertStringToInt(madb);
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {

@@ -25,13 +25,10 @@ namespace CDMHX
             cbDiaBan.ValueMember = "MaDB";
             cbNamCD.Items.AddRange(Program.LayMaCD().ToArray());
             cbNamCD.SelectedIndex = 0;
-            
-            cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
-            cbXa.DisplayMember = "tenxa";
-            cbXa.ValueMember = "maxa";
-           
-            
-            
+
+
+
+
             listGV.MultiSelect = true;
             listGVGS.MultiSelect = true;
 
@@ -70,7 +67,20 @@ namespace CDMHX
 
         private void cbDiaBan_TextChanged(object sender, EventArgs e)
         {
-            
+            cbXa.DataSource = null;
+            if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString())).Count == 0)
+            {
+                cbXa.Items.Clear();
+                cbXa.Items.Add("Danh Sách Rỗng");
+                cbXa.SelectedIndex = 0;
+            }
+            else
+            {
+                cbXa.DataSource = pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString()));
+                cbXa.DisplayMember = "tenxa";
+                cbXa.ValueMember = "maxa";
+                btnXem.Text = "Xem DSSV";
+            }
         }
 
 
@@ -194,11 +204,12 @@ namespace CDMHX
         private void cbNamCD_TextChanged(object sender, EventArgs e)
         {
 
+            cbXa.DataSource = null;
             if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString())).Count == 0)
             {
-                cbXa.DataSource = null;
+                cbXa.Items.Clear();
                 cbXa.Items.Add("Danh Sách Rỗng");
-                cbXa.SelectedItem = "Danh Sách Rỗng";
+                cbXa.SelectedIndex = 0;
             }
             else
             {
@@ -212,6 +223,7 @@ namespace CDMHX
 
         private void cbDiaBan_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             if (pcgsdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), Program.ConvertStringToInt(cbDiaBan.SelectedValue.ToString())).Count == 0)
             {
                 cbXa.DataSource = null;
@@ -224,7 +236,7 @@ namespace CDMHX
                 cbXa.DisplayMember = "tenxa";
                 cbXa.ValueMember = "maxa";
                 btnXem.Text = "Xem DSSV";
-            }
+            }*/
         }
     }
 }

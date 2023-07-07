@@ -110,7 +110,29 @@ namespace CDMHX
 
         private void listChienDich_SelectionChanged(object sender, EventArgs e)
         {
-            
+            index = listChienDich.CurrentCell.RowIndex;
+            DataTable dt = (DataTable)listChienDich.DataSource;
+            if (dt.Rows.Count > 0 || dt.Rows != null)
+            {
+                txtMaCD.Text = listChienDich.Rows[index].Cells[0].Value.ToString();
+                int.TryParse(txtMaCD.Text, out MaCD1);
+
+                txtTenCD.Text = listChienDich.Rows[index].Cells[1].Value.ToString();
+                DateTime ngayBD;
+                DateTime.TryParse(listChienDich.Rows[index].Cells[2].Value.ToString(), out ngayBD);
+                if (ngayBD != DateTime.MinValue)
+                {
+                    dateNgayBD.Value = ngayBD;
+                }
+
+                DateTime ngayKT;
+                DateTime.TryParse(listChienDich.Rows[index].Cells[3].Value.ToString(), out ngayKT);
+                if (ngayKT != DateTime.MinValue)
+                {
+                    dateNgayKT.Value = ngayKT;
+                }
+
+            }
 
         }
 
@@ -148,6 +170,7 @@ namespace CDMHX
 
         private void listChienDich_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            /*
             if (e.RowIndex >= 0 && e.RowIndex < listChienDich.Rows.Count)
             {
                 // Lấy chỉ số dòng của ô đã nhấp đúp
@@ -159,14 +182,14 @@ namespace CDMHX
                 
                 txtTenCD.Text = listChienDich.Rows[rowIndex].Cells[1].Value.ToString();
                 DateTime ngayBD;
-                DateTime.TryParse(listChienDich.Rows[index].Cells[2].Value.ToString(), out ngayBD);
+                DateTime.TryParse(listChienDich.Rows[rowIndex].Cells[2].Value.ToString(), out ngayBD);
                 if (ngayBD != DateTime.MinValue)
                 {
                     dateNgayBD.Value = ngayBD;
                 }
 
                 DateTime ngayKT;
-                DateTime.TryParse(listChienDich.Rows[index].Cells[3].Value.ToString(), out ngayKT);
+                DateTime.TryParse(listChienDich.Rows[rowIndex].Cells[3].Value.ToString(), out ngayKT);
                 if (ngayKT != DateTime.MinValue)
                 {
                     dateNgayKT.Value = ngayKT;
@@ -179,7 +202,7 @@ namespace CDMHX
                 ctcd.Show();
                 isDetailFormOpen = true;
 
-            }
+            }*/
         }
 
         private void listChienDich_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
@@ -202,8 +225,8 @@ namespace CDMHX
             int ID;
             index = listChienDich.CurrentCell.RowIndex;
             int.TryParse(listChienDich.Rows[index].Cells[0].Value.ToString(), out ID);
-
-            if ((cddao.KiemTraDuLieu(ID)) == 1)
+            MessageBox.Show(listChienDich.Rows[index].Cells[0].Value.ToString());
+            if ((cddao.KiemTraDuLieu(Program.ConvertStringToInt(listChienDich.Rows[index].Cells[0].Value.ToString()))) == 1)
             {
                 MessageBox.Show("Dữ Liệu Này Không Được Xoá!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

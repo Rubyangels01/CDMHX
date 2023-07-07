@@ -90,7 +90,7 @@ namespace CDMHX
 
                 MessageBox.Show("Đã tồn tại giám sát trong xã!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                listsv.Rows.Clear();
+                //listsv.Rows.Clear();
                 return false;
             }
 
