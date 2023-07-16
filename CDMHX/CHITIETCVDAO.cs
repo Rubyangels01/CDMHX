@@ -15,10 +15,10 @@ namespace CDMHX
         {
             dc = new DataConnection();
         }
-        public List<string> LayXa(int macd, int magv)
+        public List<tbXa> LayXa(int macd, int magv)
         {
 
-            List<string> listXa = new List<string>();
+            List<tbXa> listXa = new List<tbXa>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -31,9 +31,13 @@ namespace CDMHX
 
 
             while (reader.Read())
-            {                              
+            {
+                tbXa xa = new tbXa();
+                string maxa = reader["MaXa"].ToString();
                     string tenXa = reader["TenXa"].ToString();
-                    listXa.Add(tenXa);
+                xa.maxa = maxa;
+                xa.tenxa = tenXa;
+                    listXa.Add(xa);
                 
             }
 
@@ -42,32 +46,57 @@ namespace CDMHX
             dc.getConnec().Close();
             return listXa;
         }
-        public List<string> LayAp(string Xa)
+        public List<Ap> LayAp(string maxa)
         {
 
-            List<string> listXa = new List<string>();
+            List<Ap> listAp = new List<Ap>();
 
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
 
-            command.CommandType = CommandType.Text;
-            command.CommandText = (string.Format("SELECT TenAp FROM Ap WHERE MaXa = (SELECT MaXa FROM Xa WHERE TenXa = N'{0}' )", Xa));
-
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "XA_CTCV";
+            command.Parameters.Add("@MAXA", SqlDbType.Int).Value = Program.ConvertStringToInt(maxa);
 
             SqlDataReader reader = command.ExecuteReader();
 
 
             while (reader.Read())
             {
+               
                 string tenap = reader["TenAp"].ToString();
-                listXa.Add(tenap);
+                string maap = reader["MaAp"].ToString();
+                Ap ap = new Ap(maap,tenap);
+                listAp.Add(ap);
 
             }
 
 
             reader.Close();
             dc.getConnec().Close();
-            return listXa;
+            return listAp;
+        }
+
+        public List<tbDiaBan> LayDB(string maxa)
+        {
+            List<tbDiaBan> listdb = new List<tbDiaBan>();
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = "DB_CTCV";
+            command.Parameters.Add("@MAXA", SqlDbType.Int).Value = Program.ConvertStringToInt(maxa);
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                string madb = reader["MaDB"].ToString();
+                string tendb = reader["TenDB"].ToString();
+                tbDiaBan db = new tbDiaBan(madb, tendb);
+                listdb.Add(db);
+            }
+            reader.Close();
+            dc.getConnec().Close();
+            return listdb;           
         }
         public List<string> LayNhom(string Xa,DateTime ngay, string buoi, int maCD)
         {
@@ -79,8 +108,8 @@ namespace CDMHX
 
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "DS_CTCV_NHOM";
-            command.Parameters.Add("@TenXa", SqlDbType.NVarChar).Value = Xa;
-            
+            command.Parameters.Add("@MaXa", SqlDbType.Int).Value = Program.ConvertStringToInt(Xa);
+
             command.Parameters.Add("@Ngay", SqlDbType.Date).Value = ngay;
             command.Parameters.Add("@Buoi", SqlDbType.NVarChar).Value = buoi;
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
@@ -110,8 +139,8 @@ namespace CDMHX
 
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "DS_CTCVDAPC_NHOM";
-            command.Parameters.Add("@TenXa", SqlDbType.NVarChar).Value = Xa;
-            
+            command.Parameters.Add("MaXa", SqlDbType.Int).Value = Program.ConvertStringToInt(Xa);
+
             command.Parameters.Add("@Ngay", SqlDbType.Date).Value = ngay;
             command.Parameters.Add("@Buoi", SqlDbType.NVarChar).Value = buoi;
             command.Parameters.Add("@MaCD", SqlDbType.Int).Value = maCD;
@@ -130,7 +159,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listNhom;
         }
-        public void PhanCongCV(string tenap, string tencv, DateTime ngay, string buoi, string tennhom)
+        public void PhanCongCV(string maap, string macv, DateTime ngay, string buoi, string tennhom)
         {
             
             {
@@ -138,8 +167,8 @@ namespace CDMHX
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add("@TenAp", SqlDbType.NVarChar).Value = tenap;
-                    command.Parameters.Add("@TenCV", SqlDbType.NVarChar).Value = tencv;
+                    command.Parameters.Add("@MaAp", SqlDbType.Int).Value = Program.ConvertStringToInt(maap);
+                    command.Parameters.Add("@MaCV", SqlDbType.Int).Value = Program.ConvertStringToInt(macv);
                     command.Parameters.Add("@Ngay", SqlDbType.Date).Value = ngay;
                     command.Parameters.Add("@Buoi", SqlDbType.NVarChar).Value = buoi;
                     command.Parameters.Add("@TenNhom", SqlDbType.NVarChar).Value = tennhom;
@@ -159,7 +188,7 @@ namespace CDMHX
             
         }
 
-        public void XOACV(string tenap, string tencv, DateTime ngay, string buoi, string tennhom)
+        public void XOACV(string maap, string macv, DateTime ngay, string buoi, string tennhom)
         {
 
             {
@@ -167,8 +196,8 @@ namespace CDMHX
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.Add("@TenAp", SqlDbType.NVarChar).Value = tenap;
-                    command.Parameters.Add("@TenCV", SqlDbType.NVarChar).Value = tencv;
+                    command.Parameters.Add("@MaAp", SqlDbType.Int).Value = Program.ConvertStringToInt(maap);
+                    command.Parameters.Add("@MaCV", SqlDbType.Int).Value = Program.ConvertStringToInt(macv);
                     command.Parameters.Add("@Ngay", SqlDbType.Date).Value = ngay;
                     command.Parameters.Add("@Buoi", SqlDbType.NVarChar).Value = buoi;
                     command.Parameters.Add("@TenNhom", SqlDbType.NVarChar).Value = tennhom;

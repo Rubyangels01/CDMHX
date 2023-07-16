@@ -35,7 +35,7 @@ namespace CDMHX
         }
         public void ShowAllGV()
         {
-            DataTable list = pcgsdao.GetAllGV();
+            DataTable list = pcgsdao.GetAllGV(cbNamCD.Text);
 
             listGV.DataSource = list;
 
@@ -95,9 +95,13 @@ namespace CDMHX
 
         private void btnXem_Click(object sender, EventArgs e)
         {
+            DataTable dt = new DataTable();
+            dt = pcgsdao.createTBSV();
             if (cbXa.Text.Equals("Danh Sách Rỗng"))
             {
+                listSVGS.DataSource = dt;
                 MessageBox.Show("Địa bàn này chưa có sinh viên tham gia giám sát!", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
             }
             else
             {
@@ -146,16 +150,9 @@ namespace CDMHX
 
                             foreach (DataGridViewRow rowSVGS in listSVGS.Rows)
                             {
-                                if (pcgsdao.KiemTraDuLieu(rowSVGS.Cells[0].Value.ToString(), rowGV.Cells[0].Value.ToString()) == 1)
-                                {
-                                    MessageBox.Show("Dữ Liệu Đã Tồn Tại Trong Hệ Thống!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    ktra = true;
-                                    break;
-                                }
-                                else
-                                {
+                                
                                     count += 1;
-                                    pcgsdao.Insert_BGS(rowGV.Cells[0].Value.ToString(), rowSVGS.Cells[0].Value.ToString());
+                                    pcgsdao.Insert_BGS(rowGV.Cells[0].Value.ToString(), rowSVGS.Cells[0].Value.ToString(),cbNamCD.Text);
                                     if (count == 2)
                                     {
                                         count = 0;
@@ -163,7 +160,7 @@ namespace CDMHX
                                         break;
 
                                     }
-                                }
+                                
 
 
                             }
@@ -192,6 +189,7 @@ namespace CDMHX
                         }    
                         cbXa.SelectedIndex = 0;
                         MessageBox.Show("Vui lòng làm mới lại danh sách trước khi thêm!", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        btnXem.Text = "Làm Mới";
                         btnThem.Enabled = false;
                     }
                 }

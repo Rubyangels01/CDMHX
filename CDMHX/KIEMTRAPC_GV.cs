@@ -19,7 +19,7 @@ namespace CDMHX
             dc = new DataConnection();
             InitializeComponent();
         }
-
+        
         public int KiemTraDuLieu(string macd, string magv)
         {
             SqlCommand command = new SqlCommand();
@@ -44,10 +44,15 @@ namespace CDMHX
         public int magv;
         private void btnXem_Click(object sender, EventArgs e)
         {
-            if(KiemTraDuLieu(cbMaCD.Text,txtMaGV.Text) == 1)
-            {                            
+            
+            if (KiemTraDuLieu(cbMaCD.Text,txtMaGV.Text) == 1)
+            {
+                int test = 0;    
                 CHITIETCV form = new CHITIETCV();
-                int.TryParse(txtMaGV.Text,out magv);
+                
+                test = Program.ConvertStringToInt(txtMaGV.Text);
+                magv = test;
+                
                 form.ShowDialog();
             } 
             else
@@ -58,6 +63,9 @@ namespace CDMHX
 
         private void KIEMTRAPC_GV_Load(object sender, EventArgs e)
         {
+              
+             txtMaGV.Text = "";
+            magv = 0;
             cbMaCD.Items.AddRange(Program.LayMaCD().ToArray());
             cbMaCD.SelectedIndex = 0;
         }

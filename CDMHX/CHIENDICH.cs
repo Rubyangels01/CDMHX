@@ -53,10 +53,8 @@ namespace CDMHX
             listChienDich.CellDoubleClick += listChienDich_CellDoubleClick_1;
            
             UnLock();
-            cbTimKiem.Items.Add("2020");
-            cbTimKiem.Items.Add("2021");
-            cbTimKiem.Items.Add("2022");
-            cbTimKiem.Items.Add("2023");
+            cbTimKiem.Items.AddRange(cddao.DSCD().ToArray());
+            cbTimKiem.SelectedIndex = 0;
 
             
             deleteMenuItem.Click += DeleteMenuItem_Click;
@@ -64,15 +62,7 @@ namespace CDMHX
 
             
             editMenuItem.Click += EditMenuItem_Click;
-            contextMenuStrip.Items.Add(editMenuItem);
-
-            /*
-            menuItemDelete.Click += MenuItemDelete_Click;
-            menuItemEdit.Click += MenuItemEdit_Click;
-            contextMenuStrip.Items.Add(menuItemDelete);
-            */
-            // Thêm các lựa chọn khác nếu cần
-
+            contextMenuStrip.Items.Add(editMenuItem);    
         }
         
         
@@ -110,6 +100,7 @@ namespace CDMHX
 
         private void listChienDich_SelectionChanged(object sender, EventArgs e)
         {
+            /*
             index = listChienDich.CurrentCell.RowIndex;
             DataTable dt = (DataTable)listChienDich.DataSource;
             if (dt.Rows.Count > 0 || dt.Rows != null)
@@ -131,8 +122,12 @@ namespace CDMHX
                 {
                     dateNgayKT.Value = ngayKT;
                 }
+                CT_CHIENDICH ctcd = new CT_CHIENDICH();
+                // Truy cập và hiển thị form chi tiết
+                ctcd.Show();
+                isDetailFormOpen = true;
 
-            }
+            }*/
 
         }
 
@@ -170,7 +165,7 @@ namespace CDMHX
 
         private void listChienDich_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            /*
+            
             if (e.RowIndex >= 0 && e.RowIndex < listChienDich.Rows.Count)
             {
                 // Lấy chỉ số dòng của ô đã nhấp đúp
@@ -197,12 +192,12 @@ namespace CDMHX
                 // Lấy các thông tin khác cần thiết
 
                 // Tạo một instance của FormChiTiet và truyền dữ liệu sang
-                CT_CHIENDICH ctcd = new CT_CHIENDICH();
+               CT_CHIENDICH ctcd = new CT_CHIENDICH();
                 // Truy cập và hiển thị form chi tiết
                 ctcd.Show();
                 isDetailFormOpen = true;
 
-            }*/
+            }
         }
 
         private void listChienDich_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)

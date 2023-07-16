@@ -75,7 +75,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listXa;
         }
-        public DataTable GetAllGV()
+        public DataTable GetAllGV(string maCD)
         {
 
             DataTable listSV = createTB();
@@ -85,6 +85,7 @@ namespace CDMHX
 
             command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "SP_DS_BGS_CHUAPC";
+            command.Parameters.Add("@MACD", SqlDbType.Int).Value = maCD;
             SqlDataReader reader = command.ExecuteReader();
 
 
@@ -155,7 +156,7 @@ namespace CDMHX
             dc.getConnec().Close();
             return listSV;
         }
-        public void Insert_BGS(string magv, string masv)
+        public void Insert_BGS(string magv, string masv,string macd)
         {
             SqlCommand command = new SqlCommand();
             command.Connection = dc.getConnec();
@@ -164,7 +165,7 @@ namespace CDMHX
             command.CommandText = "SP_INSERT_BGS";
             command.Parameters.Add("@MaGV", SqlDbType.Int).Value = magv;
             command.Parameters.Add("@MaSV", SqlDbType.Int).Value = masv;
-
+            command.Parameters.Add("@MaCD", SqlDbType.Int).Value = macd;
             SqlDataReader reader = command.ExecuteReader();
             dc.getConnec().Close();
         }

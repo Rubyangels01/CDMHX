@@ -175,11 +175,11 @@ namespace CDMHX
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                tbDiaBan db = new tbDiaBan();
+               
                 string madb = reader["MaDB"].ToString();
                 string tendb = reader["TenDB"].ToString();
-                db.MaDB = madb;
-                db.TenDB = tendb;
+                tbDiaBan db = new tbDiaBan(madb,tendb);
+                
                 listMaDB.Add(db);
 
             }

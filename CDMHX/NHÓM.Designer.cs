@@ -33,21 +33,23 @@ namespace CDMHX
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.listNhom = new System.Windows.Forms.DataGridView();
-            this.MaNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TenNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TenCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnTimKiem = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.listSVNhom = new System.Windows.Forms.DataGridView();
             this.MaSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TenKhoa = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChucVuSV = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtTimKiem = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnTimKiem = new System.Windows.Forms.Button();
+            this.MaNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TenNhom = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SoLuong = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TenCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listNhom)).BeginInit();
@@ -94,7 +96,9 @@ namespace CDMHX
             this.TenNhom,
             this.SoLuong,
             this.TenCD,
-            this.Column1});
+            this.Column1,
+            this.Column2,
+            this.Column3});
             this.listNhom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listNhom.Location = new System.Drawing.Point(3, 18);
             this.listNhom.Name = "listNhom";
@@ -105,48 +109,6 @@ namespace CDMHX
             this.listNhom.TabIndex = 0;
             this.listNhom.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.listNhom_CellContextMenuStripNeeded);
             this.listNhom.SelectionChanged += new System.EventHandler(this.listNhom_SelectionChanged);
-            // 
-            // MaNhom
-            // 
-            this.MaNhom.DataPropertyName = "MaNhom";
-            this.MaNhom.HeaderText = "MÃ NHÓM";
-            this.MaNhom.MinimumWidth = 6;
-            this.MaNhom.Name = "MaNhom";
-            this.MaNhom.ReadOnly = true;
-            this.MaNhom.Width = 200;
-            // 
-            // TenNhom
-            // 
-            this.TenNhom.DataPropertyName = "TenNhom";
-            this.TenNhom.HeaderText = "TÊN NHÓM";
-            this.TenNhom.MinimumWidth = 6;
-            this.TenNhom.Name = "TenNhom";
-            this.TenNhom.ReadOnly = true;
-            this.TenNhom.Width = 200;
-            // 
-            // SoLuong
-            // 
-            this.SoLuong.DataPropertyName = "SoLuongSV";
-            this.SoLuong.HeaderText = "SỐ LƯỢNG";
-            this.SoLuong.MinimumWidth = 6;
-            this.SoLuong.Name = "SoLuong";
-            this.SoLuong.Width = 125;
-            // 
-            // TenCD
-            // 
-            this.TenCD.DataPropertyName = "TenCD";
-            this.TenCD.HeaderText = "TÊN CD";
-            this.TenCD.MinimumWidth = 6;
-            this.TenCD.Name = "TenCD";
-            this.TenCD.Width = 200;
-            // 
-            // Column1
-            // 
-            this.Column1.DataPropertyName = "TenAp";
-            this.Column1.HeaderText = "AP";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 125;
             // 
             // groupBox3
             // 
@@ -159,6 +121,34 @@ namespace CDMHX
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "TÌM KIẾM";
+            // 
+            // btnTimKiem
+            // 
+            this.btnTimKiem.Location = new System.Drawing.Point(588, 16);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(103, 39);
+            this.btnTimKiem.TabIndex = 2;
+            this.btnTimKiem.Text = "TÌM KIẾM";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(11, 27);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(141, 17);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "NHẬP MÃ SINH VIÊN";
+            // 
+            // txtTimKiem
+            // 
+            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTimKiem.Location = new System.Drawing.Point(181, 21);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(384, 26);
+            this.txtTimKiem.TabIndex = 0;
+            this.txtTimKiem.TextChanged += new System.EventHandler(this.txtTimKiem_TextChanged);
             // 
             // groupBox5
             // 
@@ -219,33 +209,63 @@ namespace CDMHX
             this.ChucVuSV.Name = "ChucVuSV";
             this.ChucVuSV.Width = 125;
             // 
-            // txtTimKiem
+            // MaNhom
             // 
-            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimKiem.Location = new System.Drawing.Point(181, 21);
-            this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.Size = new System.Drawing.Size(384, 26);
-            this.txtTimKiem.TabIndex = 0;
-            this.txtTimKiem.TextChanged += new System.EventHandler(this.txtTimKiem_TextChanged);
+            this.MaNhom.DataPropertyName = "MaNhom";
+            this.MaNhom.HeaderText = "MÃ NHÓM";
+            this.MaNhom.MinimumWidth = 6;
+            this.MaNhom.Name = "MaNhom";
+            this.MaNhom.ReadOnly = true;
+            this.MaNhom.Width = 200;
             // 
-            // label2
+            // TenNhom
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(141, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "NHẬP MÃ SINH VIÊN";
+            this.TenNhom.DataPropertyName = "TenNhom";
+            this.TenNhom.HeaderText = "TÊN NHÓM";
+            this.TenNhom.MinimumWidth = 6;
+            this.TenNhom.Name = "TenNhom";
+            this.TenNhom.ReadOnly = true;
+            this.TenNhom.Width = 200;
             // 
-            // btnTimKiem
+            // SoLuong
             // 
-            this.btnTimKiem.Location = new System.Drawing.Point(588, 16);
-            this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(103, 39);
-            this.btnTimKiem.TabIndex = 2;
-            this.btnTimKiem.Text = "TÌM KIẾM";
-            this.btnTimKiem.UseVisualStyleBackColor = true;
-            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
+            this.SoLuong.DataPropertyName = "SoLuongSV";
+            this.SoLuong.HeaderText = "SỐ LƯỢNG";
+            this.SoLuong.MinimumWidth = 6;
+            this.SoLuong.Name = "SoLuong";
+            this.SoLuong.Width = 125;
+            // 
+            // TenCD
+            // 
+            this.TenCD.DataPropertyName = "TenCD";
+            this.TenCD.HeaderText = "TÊN CD";
+            this.TenCD.MinimumWidth = 6;
+            this.TenCD.Name = "TenCD";
+            this.TenCD.Width = 200;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "TenAp";
+            this.Column1.HeaderText = "AP";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 125;
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "TenXa";
+            this.Column2.HeaderText = "XÃ";
+            this.Column2.MinimumWidth = 6;
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 125;
+            // 
+            // Column3
+            // 
+            this.Column3.DataPropertyName = "TenDB";
+            this.Column3.HeaderText = "ĐỊA BÀN";
+            this.Column3.MinimumWidth = 6;
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 125;
             // 
             // NHÓM
             // 
@@ -283,13 +303,15 @@ namespace CDMHX
         private System.Windows.Forms.DataGridViewTextBoxColumn TenSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenKhoa;
         private System.Windows.Forms.DataGridViewTextBoxColumn ChucVuSV;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.Button btnTimKiem;
         private System.Windows.Forms.DataGridViewTextBoxColumn MaNhom;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenNhom;
         private System.Windows.Forms.DataGridViewTextBoxColumn SoLuong;
         private System.Windows.Forms.DataGridViewTextBoxColumn TenCD;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtTimKiem;
-        private System.Windows.Forms.Button btnTimKiem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }

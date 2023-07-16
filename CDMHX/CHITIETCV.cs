@@ -22,25 +22,9 @@ namespace CDMHX
             dc = new DataConnection();
             connection = dc.getConnec();
             InitializeComponent();
+            
         }
-        public void LayMaCD()
-        {         
-            using (SqlCommand command = new SqlCommand("SELECT MaCD FROM CDMHX WHERE MaCD >= YEAR(GETDATE())", connection))
-            {
-                command.CommandType = CommandType.Text;
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string maNhom = reader["MaCD"].ToString();
-                        cbNamCD.Items.Add(maNhom);
-                        cbNamCD.SelectedIndex = 0;
-                    }
-                    reader.Close();
-                }
-            }
-        }
+       
         public List<tbCongViec> LayCV(string macd)
         {
             List<tbCongViec> listCV = new List<tbCongViec>();
@@ -66,26 +50,7 @@ namespace CDMHX
         }
         
 
-        public void LayDB(string tenxa)
-        {
-            using (SqlCommand command = new SqlCommand(string.Format("SELECT TenDB FROM DIABAN WHERE MADB = (SELECT MADB FROM XA WHERE TENXA = N'{0}')",tenxa), connection))
-            {
-                command.CommandType = CommandType.Text;
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string tendb = reader["TenDB"].ToString();
-                        cbDiaBan.Items.Add(tendb);
-                        cbDiaBan.SelectedIndex = 0;
-                    }
-                    reader.Close();
-                }
-            }
-            
-
-        }
+        
 
 
         public void DSNhom()
@@ -94,7 +59,7 @@ namespace CDMHX
             int.TryParse(cbNamCD.Text, out namcd);
             
             listboxNhom.Items.Clear();
-            List<string> dsNhom = ctcvdao.LayNhom(cbXa.Text,dateNgay.Value,cbBuoi.Text, namcd);
+            List<string> dsNhom = ctcvdao.LayNhom(cbXa.SelectedValue.ToString(),dateNgay.Value,cbBuoi.Text, namcd);
 
             foreach (string nhom in dsNhom)
             {
@@ -108,7 +73,7 @@ namespace CDMHX
             int.TryParse(cbNamCD.Text, out namcd);
 
             listboxNhom2.Items.Clear();
-            List<string> dsNhom = ctcvdao.LayNhomDaPC(cbXa.Text, dateNgay.Value, cbBuoi.Text, namcd);
+            List<string> dsNhom = ctcvdao.LayNhomDaPC(cbXa.SelectedValue.ToString(), dateNgay.Value, cbBuoi.Text, namcd);
 
             foreach (string nhom in dsNhom)
             {
@@ -116,21 +81,24 @@ namespace CDMHX
                 listboxNhom2.Items.Add(nhom);
             }
         }
-        KIEMTRAPC_GV parentForm = Application.OpenForms.OfType<KIEMTRAPC_GV>().FirstOrDefault();
+        int maGV;
         private void CHITIETCV_Load(object sender, EventArgs e)
         {
-            int namcd;
+            KIEMTRAPC_GV parentForm = Application.OpenForms.OfType<KIEMTRAPC_GV>().FirstOrDefault();
+            maGV = parentForm.magv;
+            cbNamCD.Items.AddRange(Program.LayMaCD().ToArray());
+            cbNamCD.SelectedIndex = 0;
+            cbXa.DataSource = ctcvdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), maGV);
+            cbXa.DisplayMember = "tenxa";
+            cbXa.ValueMember = "maxa";
+            cbDiaBan.DataSource = ctcvdao.LayDB(cbXa.SelectedValue.ToString());
+            cbDiaBan.DisplayMember = "TenDB";
+            cbDiaBan.ValueMember = "MaDB";
             
+            cbAp.DataSource = ctcvdao.LayAp(cbXa.SelectedValue.ToString());
+            cbAp.DisplayMember = "TenAp";
+            cbAp.ValueMember = "MaAp";
             
-           
-            //cbXa.SelectedIndex = 0;
-            LayMaCD();
-           
-            
-            cbXa.Items.AddRange(ctcvdao.LayXa(Program.ConvertStringToInt(cbNamCD.Text), parentForm.magv).ToArray());
-            cbXa.SelectedIndex = 0;
-            cbAp.Items.AddRange(ctcvdao.LayAp(cbXa.Text).ToArray());
-            cbAp.SelectedIndex = 0;
             cbCV.DataSource = LayCV(cbNamCD.Text);
             cbCV.DisplayMember = "TenCV";
             cbCV.ValueMember = "MaCV";
@@ -138,48 +106,37 @@ namespace CDMHX
             cbBuoi.Items.Add("Buổi Chiều");
             cbBuoi.Items.Add("Buổi Tối");
             cbBuoi.SelectedIndex = 0;
-            LayDB(cbXa.Text);
-           
-            
-            //cbXa.SelectedIndex = 0;
+          
 
         }
         
         private void cbDiaBan_TextChanged(object sender, EventArgs e)
         {
-            /*
-            cbXa.Items.Clear();
-
-            // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
-            if (cbDiaBan.SelectedItem != null)
-            {
-               
-
-            }*/
+           
         }
 
 
         private void cbXa_TextChanged(object sender, EventArgs e)
         {
-            cbAp.Items.Clear();
 
-            // Kiểm tra xem đã chọn một danh mục trong combo box "cbDiaBan" hay chưa
-            if (cbDiaBan.SelectedItem != null)
+           /*
+            if (cbXa.SelectedItem != null)
             {
-                cbAp.Items.AddRange(ctcvdao.LayAp(cbXa.Text).ToArray());
-                cbAp.SelectedIndex = 0;
+                cbAp.DataSource = ctcvdao.LayAp(cbXa.SelectedValue.ToString());
+                cbAp.DisplayMember = "TenAp";
+                cbAp.ValueMember = "MaAp";
 
-            }
+                cbDiaBan.DataSource = ctcvdao.LayDB(cbXa.SelectedValue.ToString());
+                cbDiaBan.DisplayMember = "TenDB";
+                cbDiaBan.ValueMember = "MaDB";
+
+            }*/
             
         }
 
         private void cbDiaBan_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-                // Xóa các mục hiện có trong combo box "cbXa"
-                
-            
-
         }
 
         private void btnXem_Click(object sender, EventArgs e)
@@ -187,27 +144,48 @@ namespace CDMHX
             DSNhom();
             DSNhomDaPC();
         }
-
+        public bool checkData() 
+        {
+            THEMCV_CD tcvcd = new THEMCV_CD();
+            if (dateNgay.Value.Date < tcvcd.getDateBD(cbCV.SelectedValue.ToString()))
+            {
+                MessageBox.Show("Ngày thực hiện công việc " + cbCV.Text + " phải lớn hơn ngày " + tcvcd.getDateBD(cbCV.SelectedValue.ToString()) + " và nhỏ hơn ngày " + tcvcd.getDateKT(cbCV.SelectedValue.ToString()), "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dateNgay.Focus();
+                return false;
+            }
+            if (dateNgay.Value.Date > tcvcd.getDateKT(cbCV.SelectedValue.ToString()))
+            {
+                // Hiển thị thông báo lỗi cho người dùng
+                MessageBox.Show("Ngày thực hiện công việc " + cbCV.Text + " phải lớn hơn ngày " + tcvcd.getDateBD(cbCV.SelectedValue.ToString()) + " và nhỏ hơn ngày " + tcvcd.getDateKT(cbCV.SelectedValue.ToString()), "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dateNgay.Focus();
+                return false;
+            }
+            return true;
+        }
         private void btnThem_Click(object sender, EventArgs e)
         {
             if (listboxNhom.SelectedItem != null)
             {
-                List<string> selectedItems = new List<string>();
-
-                // Lặp qua các mục đã chọn trong listboxNhom
-                foreach (string selectedItem in listboxNhom.SelectedItems)
+                if(checkData() == true)
                 {
-                    selectedItems.Add(selectedItem);
-                }
+                    List<string> selectedItems = new List<string>();
 
-                // Thêm các mục đã chọn vào CSDL và làm các thay đổi khác
-                foreach (string selectedItem in selectedItems)
-                {
-                    ctcvdao.PhanCongCV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, selectedItem);
-                   
-                }
-                DSNhom();
-                DSNhomDaPC();
+                    // Lặp qua các mục đã chọn trong listboxNhom
+                    foreach (string selectedItem in listboxNhom.SelectedItems)
+                    {
+                        selectedItems.Add(selectedItem);
+                    }
+
+                    // Thêm các mục đã chọn vào CSDL và làm các thay đổi khác
+                    foreach (string selectedItem in selectedItems)
+                    {
+                        ctcvdao.PhanCongCV(cbAp.SelectedValue.ToString(), cbCV.SelectedValue.ToString(), dateNgay.Value, cbBuoi.Text, selectedItem);
+
+                    }
+                    DSNhom();
+                    DSNhomDaPC();
+                }    
+                
 
             }
             else
@@ -218,9 +196,7 @@ namespace CDMHX
 
 
         private void btnXoa_Click(object sender, EventArgs e)
-        {
-            
-            
+        {                   
                 if (listboxNhom2.SelectedItem != null)
                 {
                     if (MessageBox.Show("Bạn có muốn xoá sinh viên ra khỏi danh sách?", "Cảnh Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
@@ -234,7 +210,7 @@ namespace CDMHX
                         {
 
 
-                            ctcvdao.XOACV(cbAp.Text, cbCV.Text, dateNgay.Value, cbBuoi.Text, selectedItem);
+                            ctcvdao.XOACV(cbAp.SelectedValue.ToString(),cbCV.SelectedValue.ToString(), dateNgay.Value, cbBuoi.Text, selectedItem);
 
                         }
                         DSNhom();
@@ -244,11 +220,36 @@ namespace CDMHX
                 else
             {
                 MessageBox.Show("Bạn chưa chọn nhóm để xoá!", "Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Error);
-            }    
-                        
-             
+            }                                                                     
+        }
+
+        private void cbXa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbXa.SelectedItem != null)
+            { 
+                cbAp.DataSource = ctcvdao.LayAp(cbXa.SelectedValue.ToString());
+                cbAp.DisplayMember = "TenAp";
+                cbAp.ValueMember = "MaAp";
                 
-                
+                cbDiaBan.DataSource = ctcvdao.LayDB(cbXa.SelectedValue.ToString());
+                cbDiaBan.DisplayMember = "TenDB";
+                cbDiaBan.ValueMember = "MaDB";
+
+            }
+        }
+
+        private void CHITIETCV_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            KIEMTRAPC_GV parentForm = Application.OpenForms.OfType<KIEMTRAPC_GV>().FirstOrDefault();
+            // Hỏi người dùng xem có muốn thoát hay không
+            DialogResult result = MessageBox.Show("Bạn có muốn thoát khỏi form này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Nếu người dùng chọn "No", hủy sự kiện đóng form
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+            
         }
     }
     

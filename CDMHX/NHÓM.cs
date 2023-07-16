@@ -21,16 +21,7 @@ namespace CDMHX
             InitializeComponent();
         }
 
-        public NHÓM(DataGridView list1)
-        {
-            InitializeComponent();
-
-
-            listSVNhom.DataSource = list1;
-            
-            // Sử dụng dữ liệu từ GridView để hiển thị trên form NHÓM
-            // ...
-        }
+       
         
         public void ShowAllNhom()
         {

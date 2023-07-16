@@ -10,5 +10,10 @@ namespace CDMHX
     {
         public string MaDB { get; set; }
         public string TenDB { get; set; }
+        public tbDiaBan(string MaDB, string TenDB)
+        {
+            this.MaDB = MaDB;
+            this.TenDB = TenDB;
+        }
     }
 }

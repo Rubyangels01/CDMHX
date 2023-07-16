@@ -31,20 +31,20 @@ namespace CDMHX
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnTimKiem = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txtTimKiem = new System.Windows.Forms.TextBox();
-            this.listGVGS = new System.Windows.Forms.DataGridView();
             this.cbNamCD = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listGVGS = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnTimKiem = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listGVGS)).BeginInit();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -68,6 +68,17 @@ namespace CDMHX
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "NĂM CHIẾN DỊCH";
             // 
+            // cbNamCD
+            // 
+            this.cbNamCD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbNamCD.FormattingEnabled = true;
+            this.cbNamCD.Location = new System.Drawing.Point(20, 22);
+            this.cbNamCD.Name = "cbNamCD";
+            this.cbNamCD.Size = new System.Drawing.Size(323, 28);
+            this.cbNamCD.TabIndex = 0;
+            this.cbNamCD.SelectedIndexChanged += new System.EventHandler(this.cbNamCD_SelectedIndexChanged);
+            this.cbNamCD.TextChanged += new System.EventHandler(this.cbNamCD_TextChanged);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.listGVGS);
@@ -77,36 +88,6 @@ namespace CDMHX
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "DANH SÁCH ";
-            // 
-            // btnTimKiem
-            // 
-            this.btnTimKiem.Location = new System.Drawing.Point(313, 17);
-            this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(106, 39);
-            this.btnTimKiem.TabIndex = 3;
-            this.btnTimKiem.Text = "TÌM KIẾM";
-            this.btnTimKiem.UseVisualStyleBackColor = true;
-            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.txtTimKiem);
-            this.groupBox3.Controls.Add(this.btnTimKiem);
-            this.groupBox3.Location = new System.Drawing.Point(31, 100);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(425, 65);
-            this.groupBox3.TabIndex = 4;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "NHẬP MÃ GIÁO VIÊN";
-            // 
-            // txtTimKiem
-            // 
-            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimKiem.Location = new System.Drawing.Point(16, 22);
-            this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.Size = new System.Drawing.Size(259, 26);
-            this.txtTimKiem.TabIndex = 4;
-            this.txtTimKiem.TextChanged += new System.EventHandler(this.txtTimKiem_TextChanged);
             // 
             // listGVGS
             // 
@@ -123,16 +104,6 @@ namespace CDMHX
             this.listGVGS.RowTemplate.Height = 24;
             this.listGVGS.Size = new System.Drawing.Size(968, 221);
             this.listGVGS.TabIndex = 0;
-            // 
-            // cbNamCD
-            // 
-            this.cbNamCD.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbNamCD.FormattingEnabled = true;
-            this.cbNamCD.Location = new System.Drawing.Point(20, 22);
-            this.cbNamCD.Name = "cbNamCD";
-            this.cbNamCD.Size = new System.Drawing.Size(323, 28);
-            this.cbNamCD.TabIndex = 0;
-            this.cbNamCD.TextChanged += new System.EventHandler(this.cbNamCD_TextChanged);
             // 
             // Column1
             // 
@@ -166,6 +137,36 @@ namespace CDMHX
             this.Column4.Name = "Column4";
             this.Column4.Width = 200;
             // 
+            // btnTimKiem
+            // 
+            this.btnTimKiem.Location = new System.Drawing.Point(313, 17);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(106, 39);
+            this.btnTimKiem.TabIndex = 3;
+            this.btnTimKiem.Text = "TÌM KIẾM";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtTimKiem);
+            this.groupBox3.Controls.Add(this.btnTimKiem);
+            this.groupBox3.Location = new System.Drawing.Point(31, 100);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(425, 65);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "NHẬP MÃ GIÁO VIÊN";
+            // 
+            // txtTimKiem
+            // 
+            this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTimKiem.Location = new System.Drawing.Point(16, 22);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(259, 26);
+            this.txtTimKiem.TabIndex = 4;
+            this.txtTimKiem.TextChanged += new System.EventHandler(this.txtTimKiem_TextChanged);
+            // 
             // DSGV_GIAMSAT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -181,9 +182,9 @@ namespace CDMHX
             this.Load += new System.EventHandler(this.DSGV_GIAMSAT_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.listGVGS)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.listGVGS)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

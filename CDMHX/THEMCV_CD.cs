@@ -80,6 +80,54 @@ namespace CDMHX
             Program.dc.getConnec().Close();
             return listCV;
         }
+        public DateTime getDateBD(string macv)
+        {
+            DateTime ngaybdcv = new DateTime();
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = (string.Format("select NGAYBD from ct_cd  WHERE MACV = {0}", macv));
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime ngaybd;
+                if (DateTime.TryParse(reader["NGAYBD"].ToString(), out ngaybd))
+                {
+                    ngaybdcv = ngaybd;
+                }
+
+
+            }
+            reader.Close();
+            Program.dc.getConnec().Close();
+            return ngaybdcv;
+        }
+
+        public DateTime getDateKT(string macv)
+        {
+            DateTime ngayktcv = new DateTime();
+            SqlCommand command = new SqlCommand();
+            command.Connection = Program.dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = (string.Format("select NGAYKT from ct_cd  WHERE MACV = {0}", macv));
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                
+                DateTime ngaykt;
+                if (DateTime.TryParse(reader["NGAYKT"].ToString(), out ngaykt))
+                {
+                    ngayktcv = ngaykt;
+                }
+
+            }
+            reader.Close();
+            Program.dc.getConnec().Close();
+            return ngayktcv;
+        }
+        
         private void THEMCV_CD_Load(object sender, EventArgs e)
         {
             KhoaControl();

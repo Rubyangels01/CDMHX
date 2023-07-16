@@ -60,6 +60,35 @@ namespace CDMHX
             dc.getConnec().Close();
             return listCD;
         }
+        public List<string> DSCD()
+        {
+
+
+            List<string> listmacd = new List<string>();
+            SqlCommand command = new SqlCommand();
+            command.Connection = dc.getConnec();
+
+            command.CommandType = CommandType.Text;
+            command.CommandText = "SELECT MACD FROM CDMHX";
+
+
+            SqlDataReader reader = command.ExecuteReader();
+
+
+            while (reader.Read())
+            {
+                
+
+                string MaCD = reader["MaCD"].ToString();
+                listmacd.Add(MaCD);               
+
+            }
+
+            reader.Close();
+            dc.getConnec().Close();
+            return listmacd;
+        }
+
         public DataTable TimKiem(string Tukhoa)
         {
             DataTable listTimKiem = createTB();

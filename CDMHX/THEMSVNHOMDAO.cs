@@ -174,11 +174,10 @@ namespace CDMHX
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                tbDiaBan db = new tbDiaBan();
+               
                 string madb = reader["MaDB"].ToString();
                 string tendb = reader["TenDB"].ToString();
-                db.MaDB = madb;
-                db.TenDB = tendb;
+                tbDiaBan db = new tbDiaBan(madb,tendb);
                 listMaDB.Add(db);
 
             }
@@ -233,11 +232,10 @@ namespace CDMHX
 
             while (reader.Read())
             {
-                Ap ap = new Ap();
+                
                 string maap = reader["MaAp"].ToString();
                 string tenap = reader["TenAp"].ToString();
-                ap.MaAp = maap;
-                ap.TenAp = tenap;
+                Ap ap = new Ap(maap,tenap);
                 listAp.Add(ap);
 
             }

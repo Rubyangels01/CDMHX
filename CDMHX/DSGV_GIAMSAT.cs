@@ -64,7 +64,7 @@ namespace CDMHX
 
         private void cbNamCD_TextChanged(object sender, EventArgs e)
         {
-            listGVGS.DataSource = GetAllDSGV_GS(cbNamCD.Text);
+            
         }
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
@@ -73,6 +73,11 @@ namespace CDMHX
             {
                 listGVGS.DataSource = GetAllDSGV_GS(cbNamCD.Text);
             }    
+        }
+
+        private void cbNamCD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listGVGS.DataSource = GetAllDSGV_GS(cbNamCD.Text);
         }
     }
 }

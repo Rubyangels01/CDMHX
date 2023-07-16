@@ -97,6 +97,7 @@ namespace CDMHX
             // 
             // dateNgay
             // 
+            this.dateNgay.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateNgay.Location = new System.Drawing.Point(725, 44);
             this.dateNgay.Name = "dateNgay";
             this.dateNgay.Size = new System.Drawing.Size(228, 22);
@@ -203,6 +204,7 @@ namespace CDMHX
             this.cbXa.Name = "cbXa";
             this.cbXa.Size = new System.Drawing.Size(200, 24);
             this.cbXa.TabIndex = 1;
+            this.cbXa.SelectedIndexChanged += new System.EventHandler(this.cbXa_SelectedIndexChanged);
             this.cbXa.TextChanged += new System.EventHandler(this.cbXa_TextChanged);
             // 
             // cbDiaBan
@@ -315,6 +317,7 @@ namespace CDMHX
             this.Controls.Add(this.groupBox1);
             this.Name = "CHITIETCV";
             this.Text = "CHITIETCV";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CHITIETCV_FormClosing);
             this.Load += new System.EventHandler(this.CHITIETCV_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

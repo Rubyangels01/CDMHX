@@ -31,6 +31,7 @@ namespace CDMHX
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbMaCD = new System.Windows.Forms.ComboBox();
             this.dateNgayKT = new System.Windows.Forms.DateTimePicker();
             this.dateNgayBD = new System.Windows.Forms.DateTimePicker();
             this.txtTenCD = new System.Windows.Forms.TextBox();
@@ -39,8 +40,6 @@ namespace CDMHX
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnThem = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.cbMaCD = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,6 +70,15 @@ namespace CDMHX
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "TẠO CHIẾN DỊCH";
+            // 
+            // cbMaCD
+            // 
+            this.cbMaCD.FormattingEnabled = true;
+            this.cbMaCD.Location = new System.Drawing.Point(198, 44);
+            this.cbMaCD.Name = "cbMaCD";
+            this.cbMaCD.Size = new System.Drawing.Size(225, 24);
+            this.cbMaCD.TabIndex = 8;
+            this.cbMaCD.SelectedIndexChanged += new System.EventHandler(this.cbMaCD_SelectedIndexChanged);
             // 
             // dateNgayKT
             // 
@@ -136,7 +144,7 @@ namespace CDMHX
             // 
             // btnThem
             // 
-            this.btnThem.Location = new System.Drawing.Point(272, 295);
+            this.btnThem.Location = new System.Drawing.Point(470, 303);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(166, 46);
             this.btnThem.TabIndex = 4;
@@ -144,29 +152,11 @@ namespace CDMHX
             this.btnThem.UseVisualStyleBackColor = true;
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(565, 295);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(152, 46);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "SỬA CHIẾN DỊCH";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // cbMaCD
-            // 
-            this.cbMaCD.FormattingEnabled = true;
-            this.cbMaCD.Location = new System.Drawing.Point(198, 44);
-            this.cbMaCD.Name = "cbMaCD";
-            this.cbMaCD.Size = new System.Drawing.Size(225, 24);
-            this.cbMaCD.TabIndex = 8;
-            // 
             // TAOCHIENDICH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1063, 373);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.btnThem);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
@@ -192,7 +182,6 @@ namespace CDMHX
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox cbMaCD;
     }
 }

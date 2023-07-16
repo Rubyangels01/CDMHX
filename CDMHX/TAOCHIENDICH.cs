@@ -73,11 +73,16 @@ namespace CDMHX
                 MessageBox.Show("Ngày bắt đầu phải nhỏ hơn ngày kết thúc!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dateNgayBD.Focus();
                 return false;
-            }
-
-
-
+            }              
             return true;
+        }
+        public  DateTime getDateBD()
+        {
+            return dateNgayBD.Value;
+        }
+        public  DateTime getDateKT()
+        {
+            return dateNgayKT.Value;
         }
         private void btnThemCV_Click(object sender, EventArgs e)
         {
@@ -85,7 +90,13 @@ namespace CDMHX
             ctcv.ShowDialog();
         }
         public string tencv, tennhom, buoi, ngay, tenap;
-        
+
+        private void cbMaCD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dateNgayBD.Value = new DateTime(int.Parse(cbMaCD.Text), dateNgayBD.Value.Month, dateNgayBD.Value.Day);
+            dateNgayKT.Value = new DateTime(int.Parse(cbMaCD.Text), dateNgayKT.Value.Month, dateNgayKT.Value.Day);
+        }
+
         public bool ThemCD(string macd, string tencd, DateTime ngaybd, DateTime ngaykt)
         {
             SqlCommand command = new SqlCommand();

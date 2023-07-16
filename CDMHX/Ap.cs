@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace CDMHX
 {
-    class Ap
+    public class Ap
     {
         public string MaAp { get; set; }
         public string TenAp { get; set; }
+        public Ap(string MaAp , string TenAp)
+        {
+            this.MaAp = MaAp;
+            this.TenAp = TenAp;
+        }
     }
 }
