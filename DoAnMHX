@@ -1,0 +1,2603 @@
+USE [MUAHEXANH]
+GO
+/****** Object:  User [1]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE USER [1] FOR LOGIN [TRUONG] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  User [2]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE USER [2] FOR LOGIN [GIAOVIEN] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  User [3]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE USER [3] FOR LOGIN [SINHVIEN] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  User [4]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE USER [4] FOR LOGIN [GIAMSAT] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  User [6]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE USER [6] FOR LOGIN [LHT] WITH DEFAULT_SCHEMA=[dbo]
+GO
+/****** Object:  DatabaseRole [GIAMSAT]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE ROLE [GIAMSAT]
+GO
+/****** Object:  DatabaseRole [GIAOVIEN]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE ROLE [GIAOVIEN]
+GO
+/****** Object:  DatabaseRole [SINHVIEN]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE ROLE [SINHVIEN]
+GO
+/****** Object:  DatabaseRole [TRUONG]    Script Date: 7/16/2023 21:13:34 ******/
+CREATE ROLE [TRUONG]
+GO
+ALTER ROLE [TRUONG] ADD MEMBER [1]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [1]
+GO
+ALTER ROLE [GIAOVIEN] ADD MEMBER [2]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [2]
+GO
+ALTER ROLE [db_datawriter] ADD MEMBER [2]
+GO
+ALTER ROLE [SINHVIEN] ADD MEMBER [3]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [3]
+GO
+ALTER ROLE [GIAMSAT] ADD MEMBER [4]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [4]
+GO
+ALTER ROLE [db_datawriter] ADD MEMBER [4]
+GO
+ALTER ROLE [SINHVIEN] ADD MEMBER [6]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [6]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [GIAMSAT]
+GO
+ALTER ROLE [db_datawriter] ADD MEMBER [GIAMSAT]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [GIAOVIEN]
+GO
+ALTER ROLE [db_datawriter] ADD MEMBER [GIAOVIEN]
+GO
+ALTER ROLE [db_datareader] ADD MEMBER [SINHVIEN]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [TRUONG]
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEU_GS]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEU_GS]
+(@MACD INT,
+@MAXA INT)
+RETURNS INT
+AS
+BEGIN
+	
+	IF EXISTS (SELECT 1 FROM GIAMSAT_SV WHERE CHUCVU = N'ĐỘI TRƯỞNG' AND MACD = @MACD AND MAXA = @MAXA) AND NOT EXISTS (SELECT 1 FROM GIAMSAT_SV WHERE CHUCVU = N'ĐỘI PHÓ' AND MACD = @MACD AND MAXA = @MAXA)
+    RETURN 1
+ELSE IF EXISTS (SELECT 1 FROM GIAMSAT_SV WHERE CHUCVU = N'ĐỘI PHÓ' AND MACD = @MACD AND MAXA = @MAXA) AND NOT EXISTS (SELECT 1 FROM GIAMSAT_SV WHERE CHUCVU = N'ĐỘI TRƯỞNG' AND MACD = @MACD AND MAXA = @MAXA)
+    RETURN 2
+ELSE IF EXISTS (SELECT 1 FROM GIAMSAT_SV WHERE CHUCVU IN (N'ĐỘI TRƯỞNG', N'ĐỘI PHÓ') AND MACD = @MACD AND MAXA = @MAXA)
+    RETURN 3
+
+    RETURN 0
+
+
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEU_GV_GS]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEU_GV_GS]
+    (@MaCD int,
+	@MAGV INT)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM CT_GIAMSAT WHERE MaCD =  @MaCD AND MAGV = @MAGV)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEU_NHOM]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEU_NHOM]
+    (@MaNhom int)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT MaNhom FROM ThanhVienNhom WHERE MaNhom =  @MaNhom)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEU_SV_GS]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEU_SV_GS]
+    (@MaCD int,
+	@MASV INT)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM GIAMSAT_SV  WHERE MaCD =  @MaCD AND MASV = @MASV)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEUCD]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEUCD]
+    (@MaCD int)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT MaCD FROM NhomSV WHERE MaCD =  @MaCD)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEUCT_CV]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEUCT_CV]
+    (@MaCV int,
+	@MACD INT)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT MaCongViec FROM ChiTietCV JOIN CT_CD ON CT_CD.MaCV = ChiTietCV.MaCongViec WHERE MaCongViec =  @MaCV and YEAR(Ngay) = CT_CD.MACD AND CT_CD.MaCD = @MACD)
+    RETURN 1
+RETURN 0
+
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEUCT_GS]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEUCT_GS]
+    (@MaSV int,
+	@MaGV int)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM CT_GIAMSAT WHERE CT_GIAMSAT.MASV = @MaSV AND CT_GIAMSAT.MAGV = @MaGV)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEUCV]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEUCV]
+    (@MaCV int)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT MaCV FROM CT_CD WHERE MaCV =  @MaCV)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEUGV]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEUGV]
+    (@MaGV int)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT MAGV FROM CT_GIAMSAT WHERE MAGV =  @MaGV)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[FN_KIEMTRADULIEUSV]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[FN_KIEMTRADULIEUSV]
+    (@MaSV int)
+	RETURNS INT
+AS
+BEGIN
+    IF EXISTS (SELECT MaSV FROM ThanhVienNhom WHERE MaSV =  @MaSV)
+		RETURN 1
+	RETURN 0
+END
+GO
+/****** Object:  Table [dbo].[Ap]    Script Date: 7/16/2023 21:13:34 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Ap](
+	[MaAp] [int] IDENTITY(1,1) NOT NULL,
+	[TenAp] [nvarchar](50) NULL,
+	[MaXa] [int] NULL,
+ CONSTRAINT [PK__Ap__27247DAAD7079FBD] PRIMARY KEY CLUSTERED 
+(
+	[MaAp] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[CDMHX]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CDMHX](
+	[MaCD] [int] NOT NULL,
+	[TenCD] [nvarchar](100) NULL,
+	[NgayBD] [date] NULL,
+	[NgayKT] [date] NULL,
+ CONSTRAINT [PK__CDMHX__27258E0438773EA3] PRIMARY KEY CLUSTERED 
+(
+	[MaCD] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[ChiTietCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ChiTietCV](
+	[MaCongViec] [int] NOT NULL,
+	[MaNhom] [int] NOT NULL,
+	[Buoi] [nvarchar](15) NOT NULL,
+	[Ngay] [date] NOT NULL,
+	[MaAp] [int] NULL,
+ CONSTRAINT [PK_ChiTietCongViec] PRIMARY KEY CLUSTERED 
+(
+	[MaNhom] ASC,
+	[Buoi] ASC,
+	[Ngay] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[CongViec]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CongViec](
+	[MaCV] [int] IDENTITY(1,1) NOT NULL,
+	[TenCV] [nvarchar](50) NULL,
+ CONSTRAINT [PK__CongViec__27258E768FA47D53] PRIMARY KEY CLUSTERED 
+(
+	[MaCV] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[CT_CD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CT_CD](
+	[MaCD] [int] NOT NULL,
+	[MaCV] [int] NOT NULL,
+	[NgayBD] [date] NULL,
+	[NgayKT] [date] NULL,
+ CONSTRAINT [PK_CT_CD_CV] PRIMARY KEY CLUSTERED 
+(
+	[MaCD] ASC,
+	[MaCV] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[CT_GIAMSAT]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CT_GIAMSAT](
+	[MAGV] [int] NOT NULL,
+	[MASV] [int] NOT NULL,
+	[NOIDUNG] [text] NULL,
+	[MACD] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MAGV] ASC,
+	[MASV] ASC,
+	[MACD] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[CT_KhenThuong]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CT_KhenThuong](
+	[MaKT] [nchar](5) NOT NULL,
+	[MaSV] [int] NOT NULL,
+	[MaCD] [int] NULL,
+ CONSTRAINT [PK__CT_KhenT__95579F93A9187272] PRIMARY KEY CLUSTERED 
+(
+	[MaKT] ASC,
+	[MaSV] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[DiaBan]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DiaBan](
+	[MaDB] [int] IDENTITY(1,1) NOT NULL,
+	[TenDB] [nvarchar](50) NULL,
+ CONSTRAINT [PK__DiaBan__2725867B25A8A7F1] PRIMARY KEY CLUSTERED 
+(
+	[MaDB] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[GIAMSAT_SV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[GIAMSAT_SV](
+	[MASV] [int] NOT NULL,
+	[MACD] [int] NOT NULL,
+	[MAXA] [int] NULL,
+	[CHUCVU] [nvarchar](15) NULL,
+	[NOIDUNG] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MASV] ASC,
+	[MACD] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[GiaoVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[GiaoVien](
+	[MaGV] [int] IDENTITY(1,1) NOT NULL,
+	[TenGV] [nvarchar](100) NOT NULL,
+	[MaKhoa] [char](10) NOT NULL,
+ CONSTRAINT [PK__GiaoVien__2725AEF3E3C34BF1] PRIMARY KEY CLUSTERED 
+(
+	[MaGV] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Khoa]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Khoa](
+	[MaKhoa] [char](10) NOT NULL,
+	[TenKhoa] [nvarchar](20) NULL,
+ CONSTRAINT [PK__Khoa__653904058FFD0FEA] PRIMARY KEY CLUSTERED 
+(
+	[MaKhoa] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[NhaDan]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[NhaDan](
+	[MaND] [int] NOT NULL,
+	[TenND] [varchar](100) NULL,
+	[DiaChi] [varchar](200) NULL,
+	[SDT] [varchar](20) NULL,
+	[MaAp] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MaND] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[NhomSV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[NhomSV](
+	[MaNhom] [int] IDENTITY(1,1) NOT NULL,
+	[TenNhom] [nvarchar](10) NOT NULL,
+	[SoLuongSV] [int] NOT NULL,
+	[MaCD] [int] NULL,
+	[MaAp] [int] NULL,
+ CONSTRAINT [PK__NhomSV__234F91CD1DAE8BF0] PRIMARY KEY CLUSTERED 
+(
+	[MaNhom] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[QUYEN]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[QUYEN](
+	[MAQUYEN] [int] NOT NULL,
+	[TENQUYEN] [nvarchar](15) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MAQUYEN] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[SinhVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[SinhVien](
+	[MaSV] [int] IDENTITY(1,1) NOT NULL,
+	[TenSV] [nvarchar](100) NULL,
+	[GioiTinh] [nvarchar](50) NULL,
+	[NgaySinh] [date] NULL,
+	[DiaChi] [nvarchar](200) NULL,
+	[SoDT] [varchar](20) NULL,
+	[MaKhoa] [char](10) NULL,
+ CONSTRAINT [PK__SinhVien__2725081A6D556355] PRIMARY KEY CLUSTERED 
+(
+	[MaSV] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ThanhTich]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ThanhTich](
+	[MaKT] [nchar](5) NOT NULL,
+	[MucDoKT] [nvarchar](10) NULL,
+	[NDKT] [nvarchar](100) NULL,
+ CONSTRAINT [PK__ThanhTic__2725CF124E9E39A8] PRIMARY KEY CLUSTERED 
+(
+	[MaKT] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[ThanhVienNhom]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ThanhVienNhom](
+	[MaNhom] [int] NOT NULL,
+	[MaSV] [int] NOT NULL,
+	[ChucVu] [nvarchar](15) NULL,
+ CONSTRAINT [PK__ThanhVie__913DC14CCDC6F22A] PRIMARY KEY CLUSTERED 
+(
+	[MaNhom] ASC,
+	[MaSV] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Xa]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Xa](
+	[MaXa] [int] IDENTITY(1,1) NOT NULL,
+	[TenXa] [nvarchar](50) NULL,
+	[MaDB] [int] NULL,
+ CONSTRAINT [PK__Xa__272520C9FAF40F8D] PRIMARY KEY CLUSTERED 
+(
+	[MaXa] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  View [dbo].[MyTemporaryView]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[MyTemporaryView]
+AS
+SELECT MaSV, TenSV, GioiTinh, TenKhoa
+FROM SvnhomTemp;
+GO
+/****** Object:  View [dbo].[v_backupsaoluu]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create view [dbo].[v_backupsaoluu]
+as
+select name, phyname from sys.sysdevices
+GO
+/****** Object:  View [dbo].[V_DS_CTCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[V_DS_CTCV]
+AS
+SELECT dbo.CongViec.TenCV, dbo.NhomSV.MaNhom, dbo.ChiTietCV.Buoi, dbo.ChiTietCV.Ngay, dbo.Ap.TenAp, dbo.Xa.TenXa, dbo.DiaBan.TenDB
+FROM     dbo.ChiTietCV INNER JOIN
+                  dbo.CongViec ON dbo.ChiTietCV.MaCongViec = dbo.CongViec.MaCV INNER JOIN
+                  dbo.NhomSV ON dbo.ChiTietCV.MaNhom = dbo.NhomSV.MaNhom INNER JOIN
+                  dbo.Ap ON dbo.ChiTietCV.MaAp = dbo.Ap.MaAp INNER JOIN
+                  dbo.Xa ON dbo.Ap.MaXa = dbo.Xa.MaXa INNER JOIN
+                  dbo.DiaBan ON dbo.Xa.MaDB = dbo.DiaBan.MaDB
+
+GO
+/****** Object:  View [dbo].[V_DSGV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[V_DSGV] AS
+ SELECT GiaoVien.MaGV, GiaoVien.TenGV, Khoa.TenKhoa 
+    FROM GiaoVien, Khoa
+    where GiaoVien.MaKhoa = Khoa.MaKhoa;
+
+GO
+/****** Object:  View [dbo].[V_DSNHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[V_DSNHOM]
+AS
+SELECT dbo.NhomSV.MaNhom, dbo.NhomSV.TenNhom, dbo.NhomSV.SoLuongSV, dbo.CDMHX.TenCD, dbo.Ap.TenAp, dbo.Xa.TenXa, dbo.DiaBan.TenDB
+FROM     dbo.NhomSV INNER JOIN
+                  dbo.CDMHX ON dbo.NhomSV.MaCD = dbo.CDMHX.MaCD INNER JOIN
+                  dbo.Ap ON dbo.NhomSV.MaAp = dbo.Ap.MaAp INNER JOIN
+                  dbo.Xa ON dbo.Ap.MaXa = dbo.Xa.MaXa AND dbo.Ap.MaXa = dbo.Xa.MaXa INNER JOIN
+                  dbo.DiaBan ON dbo.Xa.MaDB = dbo.DiaBan.MaDB
+
+GO
+/****** Object:  View [dbo].[V_DSSV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[V_DSSV] AS
+SELECT 
+    sv.MaSV,
+    sv.TenSV,
+    sv.GioiTinh,
+    sv.SoDT,
+    sv.NgaySinh,
+    sv.DiaChi,
+    k.TenKhoa
+FROM 
+    SinhVien sv, Khoa  k
+	WHERE k.MaKhoa = sv.MaKhoa
+
+GO
+SET IDENTITY_INSERT [dbo].[Ap] ON 
+
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (1, N'KHU PHỐ 6 ', 1)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (2, N'KHU PHỐ 3', 1)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (3, N'KHU PHỐ 4', 2)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (4, N'KHU PHỐ 5', 2)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (5, N'KHU PHỐ 9', 3)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (6, N'KHU PHỐ 10', 3)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (7, N'TỈNH LỘ 43', 4)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (8, N'KHU PHỐ 1', 11)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (9, N'KHU PHỐ 7', 12)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (10, N'KHU PHỐ 8', 13)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (11, N'KHU PHỐ 2', 5)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (12, N'KHU PHỐ 11', 5)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (13, N'KHU PHỐ 14', 6)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (14, N'KHU PHỐ 3', 7)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (15, N'KHU PHỐ 5', 8)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (16, N'KHU PHỐ 6', 9)
+INSERT [dbo].[Ap] ([MaAp], [TenAp], [MaXa]) VALUES (17, N'KHU PHỐ 9', 10)
+SET IDENTITY_INSERT [dbo].[Ap] OFF
+INSERT [dbo].[CDMHX] ([MaCD], [TenCD], [NgayBD], [NgayKT]) VALUES (2020, N'Chiến Dịch Mùa Hè Xanh 2020', CAST(N'2020-05-15' AS Date), CAST(N'2020-05-30' AS Date))
+INSERT [dbo].[CDMHX] ([MaCD], [TenCD], [NgayBD], [NgayKT]) VALUES (2021, N'Chiến Dịch Mùa Hè Xanh 2021', CAST(N'2021-05-15' AS Date), CAST(N'2021-06-25' AS Date))
+INSERT [dbo].[CDMHX] ([MaCD], [TenCD], [NgayBD], [NgayKT]) VALUES (2022, N'Chiến Dịch mùa hè xanh 2022', CAST(N'2022-05-15' AS Date), CAST(N'2022-05-30' AS Date))
+INSERT [dbo].[CDMHX] ([MaCD], [TenCD], [NgayBD], [NgayKT]) VALUES (2023, N'Chiến Dịch Mùa Hè Xanh 2023', CAST(N'2023-05-15' AS Date), CAST(N'2023-05-30' AS Date))
+INSERT [dbo].[CDMHX] ([MaCD], [TenCD], [NgayBD], [NgayKT]) VALUES (2024, N'Chiến Dịch Mùa Hè Xanh 2024', CAST(N'2024-06-22' AS Date), CAST(N'2024-06-30' AS Date))
+INSERT [dbo].[ChiTietCV] ([MaCongViec], [MaNhom], [Buoi], [Ngay], [MaAp]) VALUES (10, 20, N'Buổi Sáng', CAST(N'2023-07-10' AS Date), 2)
+INSERT [dbo].[ChiTietCV] ([MaCongViec], [MaNhom], [Buoi], [Ngay], [MaAp]) VALUES (11, 21, N'Buổi Sáng', CAST(N'2023-07-10' AS Date), 15)
+INSERT [dbo].[ChiTietCV] ([MaCongViec], [MaNhom], [Buoi], [Ngay], [MaAp]) VALUES (11, 21, N'Buổi Sáng', CAST(N'2023-07-12' AS Date), 15)
+INSERT [dbo].[ChiTietCV] ([MaCongViec], [MaNhom], [Buoi], [Ngay], [MaAp]) VALUES (17, 22, N'Buổi Sáng', CAST(N'2023-07-09' AS Date), 8)
+INSERT [dbo].[ChiTietCV] ([MaCongViec], [MaNhom], [Buoi], [Ngay], [MaAp]) VALUES (10, 22, N'Buổi Sáng', CAST(N'2023-07-12' AS Date), 8)
+INSERT [dbo].[ChiTietCV] ([MaCongViec], [MaNhom], [Buoi], [Ngay], [MaAp]) VALUES (10, 22, N'Buổi Tối', CAST(N'2023-07-09' AS Date), 8)
+SET IDENTITY_INSERT [dbo].[CongViec] ON 
+
+INSERT [dbo].[CongViec] ([MaCV], [TenCV]) VALUES (10, N'Xây cầu')
+INSERT [dbo].[CongViec] ([MaCV], [TenCV]) VALUES (11, N'Dọn rác')
+INSERT [dbo].[CongViec] ([MaCV], [TenCV]) VALUES (12, N'Dạy học')
+INSERT [dbo].[CongViec] ([MaCV], [TenCV]) VALUES (17, N'Trồng cây')
+INSERT [dbo].[CongViec] ([MaCV], [TenCV]) VALUES (18, N'Thu hoạch')
+INSERT [dbo].[CongViec] ([MaCV], [TenCV]) VALUES (19, N'Gặt lúa')
+INSERT [dbo].[CongViec] ([MaCV], [TenCV]) VALUES (20, N'Trồng Rau')
+SET IDENTITY_INSERT [dbo].[CongViec] OFF
+INSERT [dbo].[CT_CD] ([MaCD], [MaCV], [NgayBD], [NgayKT]) VALUES (2020, 11, NULL, NULL)
+INSERT [dbo].[CT_CD] ([MaCD], [MaCV], [NgayBD], [NgayKT]) VALUES (2021, 11, NULL, NULL)
+INSERT [dbo].[CT_CD] ([MaCD], [MaCV], [NgayBD], [NgayKT]) VALUES (2023, 10, CAST(N'2023-07-03' AS Date), CAST(N'2023-07-30' AS Date))
+INSERT [dbo].[CT_CD] ([MaCD], [MaCV], [NgayBD], [NgayKT]) VALUES (2023, 11, CAST(N'2023-07-03' AS Date), CAST(N'2023-07-20' AS Date))
+INSERT [dbo].[CT_CD] ([MaCD], [MaCV], [NgayBD], [NgayKT]) VALUES (2023, 17, CAST(N'2023-06-16' AS Date), CAST(N'2023-07-25' AS Date))
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (3, 5, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (3, 7, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (4, 5, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (4, 7, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (6, 1, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (6, 6, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (7, 1, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (7, 6, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (9, 8, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (9, 12, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (11, 8, NULL, 2023)
+INSERT [dbo].[CT_GIAMSAT] ([MAGV], [MASV], [NOIDUNG], [MACD]) VALUES (11, 12, NULL, 2023)
+INSERT [dbo].[CT_KhenThuong] ([MaKT], [MaSV], [MaCD]) VALUES (N'TT   ', 7, 2023)
+INSERT [dbo].[CT_KhenThuong] ([MaKT], [MaSV], [MaCD]) VALUES (N'TT   ', 8, 2023)
+INSERT [dbo].[CT_KhenThuong] ([MaKT], [MaSV], [MaCD]) VALUES (N'UT   ', 2, 2023)
+INSERT [dbo].[CT_KhenThuong] ([MaKT], [MaSV], [MaCD]) VALUES (N'UT   ', 5, 2023)
+INSERT [dbo].[CT_KhenThuong] ([MaKT], [MaSV], [MaCD]) VALUES (N'UT   ', 7, 2023)
+INSERT [dbo].[CT_KhenThuong] ([MaKT], [MaSV], [MaCD]) VALUES (N'XS   ', 8, 2023)
+SET IDENTITY_INSERT [dbo].[DiaBan] ON 
+
+INSERT [dbo].[DiaBan] ([MaDB], [TenDB]) VALUES (1, N'THU DUC')
+INSERT [dbo].[DiaBan] ([MaDB], [TenDB]) VALUES (2, N'QUẬN 1')
+INSERT [dbo].[DiaBan] ([MaDB], [TenDB]) VALUES (3, N'QUẬN 3')
+INSERT [dbo].[DiaBan] ([MaDB], [TenDB]) VALUES (4, N'QUẬN 10')
+SET IDENTITY_INSERT [dbo].[DiaBan] OFF
+INSERT [dbo].[GIAMSAT_SV] ([MASV], [MACD], [MAXA], [CHUCVU], [NOIDUNG]) VALUES (1, 2023, 8, N'ĐỘI TRƯỞNG', N'tot')
+INSERT [dbo].[GIAMSAT_SV] ([MASV], [MACD], [MAXA], [CHUCVU], [NOIDUNG]) VALUES (5, 2023, 11, N'ĐỘI TRƯỞNG', NULL)
+INSERT [dbo].[GIAMSAT_SV] ([MASV], [MACD], [MAXA], [CHUCVU], [NOIDUNG]) VALUES (6, 2023, 8, N'ĐỘI PHÓ', N'tot')
+INSERT [dbo].[GIAMSAT_SV] ([MASV], [MACD], [MAXA], [CHUCVU], [NOIDUNG]) VALUES (7, 2023, 11, N'ĐỘI PHÓ', NULL)
+INSERT [dbo].[GIAMSAT_SV] ([MASV], [MACD], [MAXA], [CHUCVU], [NOIDUNG]) VALUES (8, 2023, 1, N'ĐỘI PHÓ', NULL)
+INSERT [dbo].[GIAMSAT_SV] ([MASV], [MACD], [MAXA], [CHUCVU], [NOIDUNG]) VALUES (12, 2023, 1, N'ĐỘI TRƯỞNG', NULL)
+SET IDENTITY_INSERT [dbo].[GiaoVien] ON 
+
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (1, N'Nguyễn Thị Hà', N'CQCN-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (2, N'Lương Hà Trang', N'CQMR-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (3, N'Lương Thị Thảo Vân', N'CQCN-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (4, N'Lê Thị Mỹ', N'CQVT-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (6, N'Nguyễn Thị Xuân Đào', N'CQMR-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (7, N'Lê Thị Quỳnh Trang', N'CQMR-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (8, N'Nguyễn Thị Hằng', N'CQCN-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (9, N'Nguyễn Hoàng Thuỳ My', N'CQVT-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (11, N'Trần Thị Uyên Hậu', N'CQCN-N    ')
+INSERT [dbo].[GiaoVien] ([MaGV], [TenGV], [MaKhoa]) VALUES (12, N'Nguyễn Thị Thu Hoà', N'CQCN-N    ')
+SET IDENTITY_INSERT [dbo].[GiaoVien] OFF
+INSERT [dbo].[Khoa] ([MaKhoa], [TenKhoa]) VALUES (N'CQCN-N    ', N'CÔNG NGHỆ THÔNG TIN')
+INSERT [dbo].[Khoa] ([MaKhoa], [TenKhoa]) VALUES (N'CQMR-N    ', N'KINH TẾ')
+INSERT [dbo].[Khoa] ([MaKhoa], [TenKhoa]) VALUES (N'CQVT-N    ', N'VIỄN THÔNG')
+SET IDENTITY_INSERT [dbo].[NhomSV] ON 
+
+INSERT [dbo].[NhomSV] ([MaNhom], [TenNhom], [SoLuongSV], [MaCD], [MaAp]) VALUES (20, N'NHÓM 1', 4, 2023, 1)
+INSERT [dbo].[NhomSV] ([MaNhom], [TenNhom], [SoLuongSV], [MaCD], [MaAp]) VALUES (21, N'NHÓM 2', 4, 2023, 15)
+INSERT [dbo].[NhomSV] ([MaNhom], [TenNhom], [SoLuongSV], [MaCD], [MaAp]) VALUES (22, N'Nhóm 3', 3, 2023, 8)
+SET IDENTITY_INSERT [dbo].[NhomSV] OFF
+INSERT [dbo].[QUYEN] ([MAQUYEN], [TENQUYEN]) VALUES (1, N'TRUONG')
+INSERT [dbo].[QUYEN] ([MAQUYEN], [TENQUYEN]) VALUES (2, N'GIAOVIEN')
+INSERT [dbo].[QUYEN] ([MAQUYEN], [TENQUYEN]) VALUES (3, N'SINHVIEN')
+INSERT [dbo].[QUYEN] ([MAQUYEN], [TENQUYEN]) VALUES (4, N'GIAMSAT')
+SET IDENTITY_INSERT [dbo].[SinhVien] ON 
+
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (1, N'Nguyễn Thu Hương', N'Nữ', CAST(N'2001-10-10' AS Date), N'Phường Hiệp Phú, Quận 9, TP HCM', N'0357992145', N'CQMR-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (2, N'Lương Thảo Vân', N'Nữ', CAST(N'2001-05-26' AS Date), N'115 Kha Vạn Cân, Linh Tây, Thủ Đức, TP HCM', N'0977245022', N'CQCN-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (5, N'Nguyễn Thị Hà My', N'Nữ', CAST(N'2002-12-25' AS Date), N'Thảo Điền, Quận 2, TP HCM', N'03357898962', N'CQVT-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (6, N'Lương Hà Trang', N'Nữ', CAST(N'2001-10-25' AS Date), N'Man Thiện, Hiệp Phú, Quận 9, Tp HCM', N'03357878765', N'CQMR-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (7, N'Nguyễn Hoàng Nga', N'Nữ', CAST(N'2002-01-17' AS Date), N'Tân Phú, Tân Bình, TP HCM', N'0336402527', N'CQVT-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (8, N'Nguyễn Hoàng Hiệp', N'Nam', CAST(N'2002-02-27' AS Date), N'Lê Văn Việt, Hiệp Phú, TP Thủ Đức, TP HCM', N'0327964522', N'CQCN-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (10, N'Trương Thị Nhung', N'Nữ', CAST(N'2001-10-05' AS Date), N'TÂN BÌNH, TPHCM', N'03356747489', N'CQMR-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (11, N'Đỗ Hoàng Long', N'Nam', CAST(N'2001-07-02' AS Date), N'Song Hành, Quận 2, TP HCM', N'03356567474', N'CQMR-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (12, N'Hoàng Minh Khôi', N'Nam', CAST(N'2001-07-04' AS Date), N'Đặng Văn Bi, Thủ Đức', N'03364757521', N'CQCN-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (13, N'Nguyễn Gia Bảo', N'NAM', CAST(N'2000-06-14' AS Date), N'Võ Văn Ngân, Thủ Đức', N'03354546782', N'CQCN-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (14, N'Trần Hoàng Thuỳ Linh', N'NỮ', CAST(N'2001-02-03' AS Date), N'Tân Bình, TPHCM', N'0552617918', N'CQMR-N    ')
+INSERT [dbo].[SinhVien] ([MaSV], [TenSV], [GioiTinh], [NgaySinh], [DiaChi], [SoDT], [MaKhoa]) VALUES (16, N'Trần Hà My', N'NỮ', CAST(N'2001-07-16' AS Date), N'Cao Văn Lãnh, Thủ Đức, TPHCM', N'0336552792', N'CQMR-N    ')
+SET IDENTITY_INSERT [dbo].[SinhVien] OFF
+INSERT [dbo].[ThanhTich] ([MaKT], [MucDoKT], [NDKT]) VALUES (N'TT   ', N'Khá', NULL)
+INSERT [dbo].[ThanhTich] ([MaKT], [MucDoKT], [NDKT]) VALUES (N'UT   ', N'Ưu Tú', NULL)
+INSERT [dbo].[ThanhTich] ([MaKT], [MucDoKT], [NDKT]) VALUES (N'XS   ', N'Xuất Sắc', NULL)
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (20, 2, N'Không')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (20, 8, N'Trưởng Nhóm')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (20, 12, N'Không')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (20, 13, N'Không')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (21, 1, N'Không')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (21, 6, N'Trưởng Nhóm')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (21, 10, N'Không')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (21, 11, N'Không')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (22, 5, N'Không')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (22, 7, N'Trưởng Nhóm')
+INSERT [dbo].[ThanhVienNhom] ([MaNhom], [MaSV], [ChucVu]) VALUES (22, 14, N'Không')
+SET IDENTITY_INSERT [dbo].[Xa] ON 
+
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (1, N'BÌNH CHIỂU', 1)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (2, N'LINH TÂY', 1)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (3, N'BÌNH CHÁNH', 1)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (4, N'LINH TRUNG', 1)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (5, N'TAM BÌNH', 1)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (6, N'BẾN THÀNH ', 2)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (7, N'BÙI VIỆN ', 2)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (8, N'PHƯỜNG 1', 4)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (9, N'PHƯỜNG 3', 4)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (10, N'PHƯỜNG 5', 4)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (11, N'PHƯỜNG 4', 3)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (12, N'PHƯỜNG 5', 3)
+INSERT [dbo].[Xa] ([MaXa], [TenXa], [MaDB]) VALUES (13, N'PHƯỜNG  9', 3)
+SET IDENTITY_INSERT [dbo].[Xa] OFF
+ALTER TABLE [dbo].[Ap]  WITH CHECK ADD  CONSTRAINT [FK__Ap__MaXa__182C9B23] FOREIGN KEY([MaXa])
+REFERENCES [dbo].[Xa] ([MaXa])
+GO
+ALTER TABLE [dbo].[Ap] CHECK CONSTRAINT [FK__Ap__MaXa__182C9B23]
+GO
+ALTER TABLE [dbo].[Ap]  WITH CHECK ADD  CONSTRAINT [FK_Ap_Xa] FOREIGN KEY([MaXa])
+REFERENCES [dbo].[Xa] ([MaXa])
+GO
+ALTER TABLE [dbo].[Ap] CHECK CONSTRAINT [FK_Ap_Xa]
+GO
+ALTER TABLE [dbo].[ChiTietCV]  WITH CHECK ADD  CONSTRAINT [FK_ChiTietCongViec_Ap] FOREIGN KEY([MaAp])
+REFERENCES [dbo].[Ap] ([MaAp])
+GO
+ALTER TABLE [dbo].[ChiTietCV] CHECK CONSTRAINT [FK_ChiTietCongViec_Ap]
+GO
+ALTER TABLE [dbo].[ChiTietCV]  WITH CHECK ADD  CONSTRAINT [FK_ChiTietCV_CongViec] FOREIGN KEY([MaCongViec])
+REFERENCES [dbo].[CongViec] ([MaCV])
+GO
+ALTER TABLE [dbo].[ChiTietCV] CHECK CONSTRAINT [FK_ChiTietCV_CongViec]
+GO
+ALTER TABLE [dbo].[ChiTietCV]  WITH CHECK ADD  CONSTRAINT [FK_ChiTietCV_NhomSV] FOREIGN KEY([MaNhom])
+REFERENCES [dbo].[NhomSV] ([MaNhom])
+GO
+ALTER TABLE [dbo].[ChiTietCV] CHECK CONSTRAINT [FK_ChiTietCV_NhomSV]
+GO
+ALTER TABLE [dbo].[ChiTietCV]  WITH CHECK ADD  CONSTRAINT [FK_CTCV_Ap] FOREIGN KEY([MaAp])
+REFERENCES [dbo].[Ap] ([MaAp])
+GO
+ALTER TABLE [dbo].[ChiTietCV] CHECK CONSTRAINT [FK_CTCV_Ap]
+GO
+ALTER TABLE [dbo].[ChiTietCV]  WITH CHECK ADD  CONSTRAINT [FK_CTCV_Nhom] FOREIGN KEY([MaNhom])
+REFERENCES [dbo].[NhomSV] ([MaNhom])
+GO
+ALTER TABLE [dbo].[ChiTietCV] CHECK CONSTRAINT [FK_CTCV_Nhom]
+GO
+ALTER TABLE [dbo].[ChiTietCV]  WITH CHECK ADD  CONSTRAINT [FK_Nhom_CV] FOREIGN KEY([MaCongViec])
+REFERENCES [dbo].[CongViec] ([MaCV])
+GO
+ALTER TABLE [dbo].[ChiTietCV] CHECK CONSTRAINT [FK_Nhom_CV]
+GO
+ALTER TABLE [dbo].[CT_CD]  WITH CHECK ADD  CONSTRAINT [FK_CTCD_CD] FOREIGN KEY([MaCD])
+REFERENCES [dbo].[CDMHX] ([MaCD])
+GO
+ALTER TABLE [dbo].[CT_CD] CHECK CONSTRAINT [FK_CTCD_CD]
+GO
+ALTER TABLE [dbo].[CT_CD]  WITH CHECK ADD  CONSTRAINT [FK_CTCD_CV] FOREIGN KEY([MaCV])
+REFERENCES [dbo].[CongViec] ([MaCV])
+GO
+ALTER TABLE [dbo].[CT_CD] CHECK CONSTRAINT [FK_CTCD_CV]
+GO
+ALTER TABLE [dbo].[CT_GIAMSAT]  WITH CHECK ADD  CONSTRAINT [FK_CD_CDGS] FOREIGN KEY([MACD])
+REFERENCES [dbo].[CDMHX] ([MaCD])
+GO
+ALTER TABLE [dbo].[CT_GIAMSAT] CHECK CONSTRAINT [FK_CD_CDGS]
+GO
+ALTER TABLE [dbo].[CT_GIAMSAT]  WITH CHECK ADD  CONSTRAINT [FK_GS_GS] FOREIGN KEY([MASV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
+GO
+ALTER TABLE [dbo].[CT_GIAMSAT] CHECK CONSTRAINT [FK_GS_GS]
+GO
+ALTER TABLE [dbo].[CT_GIAMSAT]  WITH CHECK ADD  CONSTRAINT [FK_GV_GS] FOREIGN KEY([MAGV])
+REFERENCES [dbo].[GiaoVien] ([MaGV])
+GO
+ALTER TABLE [dbo].[CT_GIAMSAT] CHECK CONSTRAINT [FK_GV_GS]
+GO
+ALTER TABLE [dbo].[CT_KhenThuong]  WITH CHECK ADD  CONSTRAINT [FK_CT_KhenThuong_SinhVien] FOREIGN KEY([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
+GO
+ALTER TABLE [dbo].[CT_KhenThuong] CHECK CONSTRAINT [FK_CT_KhenThuong_SinhVien]
+GO
+ALTER TABLE [dbo].[CT_KhenThuong]  WITH CHECK ADD  CONSTRAINT [FK_CT_KhenThuong_ThanhTich] FOREIGN KEY([MaKT])
+REFERENCES [dbo].[ThanhTich] ([MaKT])
+GO
+ALTER TABLE [dbo].[CT_KhenThuong] CHECK CONSTRAINT [FK_CT_KhenThuong_ThanhTich]
+GO
+ALTER TABLE [dbo].[CT_KhenThuong]  WITH CHECK ADD  CONSTRAINT [FK_CTKT_CD] FOREIGN KEY([MaCD])
+REFERENCES [dbo].[CDMHX] ([MaCD])
+GO
+ALTER TABLE [dbo].[CT_KhenThuong] CHECK CONSTRAINT [FK_CTKT_CD]
+GO
+ALTER TABLE [dbo].[CT_KhenThuong]  WITH CHECK ADD  CONSTRAINT [FK_CTKT_KT] FOREIGN KEY([MaKT])
+REFERENCES [dbo].[ThanhTich] ([MaKT])
+GO
+ALTER TABLE [dbo].[CT_KhenThuong] CHECK CONSTRAINT [FK_CTKT_KT]
+GO
+ALTER TABLE [dbo].[CT_KhenThuong]  WITH CHECK ADD  CONSTRAINT [FK_CTKT_SV] FOREIGN KEY([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
+GO
+ALTER TABLE [dbo].[CT_KhenThuong] CHECK CONSTRAINT [FK_CTKT_SV]
+GO
+ALTER TABLE [dbo].[GIAMSAT_SV]  WITH CHECK ADD  CONSTRAINT [FK_CD_GS] FOREIGN KEY([MACD])
+REFERENCES [dbo].[CDMHX] ([MaCD])
+GO
+ALTER TABLE [dbo].[GIAMSAT_SV] CHECK CONSTRAINT [FK_CD_GS]
+GO
+ALTER TABLE [dbo].[GIAMSAT_SV]  WITH CHECK ADD  CONSTRAINT [FK_SV_GS] FOREIGN KEY([MASV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
+GO
+ALTER TABLE [dbo].[GIAMSAT_SV] CHECK CONSTRAINT [FK_SV_GS]
+GO
+ALTER TABLE [dbo].[GIAMSAT_SV]  WITH CHECK ADD  CONSTRAINT [FK_XA_GS] FOREIGN KEY([MAXA])
+REFERENCES [dbo].[Xa] ([MaXa])
+GO
+ALTER TABLE [dbo].[GIAMSAT_SV] CHECK CONSTRAINT [FK_XA_GS]
+GO
+ALTER TABLE [dbo].[GiaoVien]  WITH CHECK ADD  CONSTRAINT [FK_Khoa_GV] FOREIGN KEY([MaKhoa])
+REFERENCES [dbo].[Khoa] ([MaKhoa])
+GO
+ALTER TABLE [dbo].[GiaoVien] CHECK CONSTRAINT [FK_Khoa_GV]
+GO
+ALTER TABLE [dbo].[NhaDan]  WITH CHECK ADD  CONSTRAINT [FK_Ap] FOREIGN KEY([MaAp])
+REFERENCES [dbo].[Ap] ([MaAp])
+GO
+ALTER TABLE [dbo].[NhaDan] CHECK CONSTRAINT [FK_Ap]
+GO
+ALTER TABLE [dbo].[NhomSV]  WITH CHECK ADD  CONSTRAINT [FK_Nhom_Ap] FOREIGN KEY([MaAp])
+REFERENCES [dbo].[Ap] ([MaAp])
+GO
+ALTER TABLE [dbo].[NhomSV] CHECK CONSTRAINT [FK_Nhom_Ap]
+GO
+ALTER TABLE [dbo].[NhomSV]  WITH CHECK ADD  CONSTRAINT [FK_NhomSV_CDMHX] FOREIGN KEY([MaCD])
+REFERENCES [dbo].[CDMHX] ([MaCD])
+GO
+ALTER TABLE [dbo].[NhomSV] CHECK CONSTRAINT [FK_NhomSV_CDMHX]
+GO
+ALTER TABLE [dbo].[SinhVien]  WITH CHECK ADD  CONSTRAINT [FK_Khoa] FOREIGN KEY([MaKhoa])
+REFERENCES [dbo].[Khoa] ([MaKhoa])
+GO
+ALTER TABLE [dbo].[SinhVien] CHECK CONSTRAINT [FK_Khoa]
+GO
+ALTER TABLE [dbo].[ThanhVienNhom]  WITH CHECK ADD  CONSTRAINT [FK_MaSV_ThanhVien] FOREIGN KEY([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
+GO
+ALTER TABLE [dbo].[ThanhVienNhom] CHECK CONSTRAINT [FK_MaSV_ThanhVien]
+GO
+ALTER TABLE [dbo].[ThanhVienNhom]  WITH CHECK ADD  CONSTRAINT [FK_ThanhVienNhom_Nhom] FOREIGN KEY([MaNhom])
+REFERENCES [dbo].[NhomSV] ([MaNhom])
+GO
+ALTER TABLE [dbo].[ThanhVienNhom] CHECK CONSTRAINT [FK_ThanhVienNhom_Nhom]
+GO
+ALTER TABLE [dbo].[ThanhVienNhom]  WITH CHECK ADD  CONSTRAINT [FK_ThanhVienNhom_SV] FOREIGN KEY([MaSV])
+REFERENCES [dbo].[SinhVien] ([MaSV])
+GO
+ALTER TABLE [dbo].[ThanhVienNhom] CHECK CONSTRAINT [FK_ThanhVienNhom_SV]
+GO
+ALTER TABLE [dbo].[Xa]  WITH CHECK ADD  CONSTRAINT [FK_DiaBan] FOREIGN KEY([MaDB])
+REFERENCES [dbo].[DiaBan] ([MaDB])
+GO
+ALTER TABLE [dbo].[Xa] CHECK CONSTRAINT [FK_DiaBan]
+GO
+/****** Object:  StoredProcedure [dbo].[DB_CTCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[DB_CTCV]
+	@MAXA INT
+	AS
+	BEGIN
+	SELECT MaDB, TenDB FROM DiaBan WHERE DiaBan.MaDB = (SELECT Xa.MaDB FROM Xa WHERE Xa.MaXa = @MAXA)
+	END
+GO
+/****** Object:  StoredProcedure [dbo].[DS_CTCV_NHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DS_CTCV_NHOM]
+@MaXa INT,
+@Ngay DATE, 
+@Buoi NVARCHAR(15),
+@MaCD int
+AS
+BEGIN    
+    SELECT NhomSV.TenNhom
+FROM NhomSV
+INNER JOIN Ap ON NhomSV.MaAp = Ap.MaAp
+INNER JOIN Xa ON Ap.MaXa = Xa.MaXa
+WHERE NhomSV.MaNhom NOT IN (
+    SELECT ChiTietCV.MaNhom
+    FROM ChiTietCV 
+    WHERE 
+	
+       ChiTietCV.Ngay = @Ngay
+      AND ChiTietCV.Buoi = N'' + @Buoi
+)
+AND Xa.MaXa = @MaXa
+AND NhomSV.MaCD = @MaCD;
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DS_CTCV_SV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DS_CTCV_SV]
+	(@MACD INT)
+AS
+BEGIN
+SELECT CongViec.TenCV,NhomSV.MaNhom,Buoi,Ngay,Ap.TenAp,Xa.TenXa,DiaBan.TenDB
+FROM ChiTietCV, CongViec, NhomSV,Ap,Xa,DiaBan
+WHERE ChiTietCV.MaCongViec = CongViec.MaCV
+AND NhomSV.MaNhom = ChiTietCV.MaNhom
+AND Ap.MaAp = ChiTietCV.MaAp
+AND AP.MaXa = XA.MaXa
+AND DiaBan.MaDB = XA.MaDB
+AND NHOMSV.MACD = 2023
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DS_CTCVDAPC_NHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DS_CTCVDAPC_NHOM]
+@MaXa int,
+
+@Ngay DATE, 
+@Buoi NVARCHAR(15),
+@MaCD int
+AS
+BEGIN    
+    SELECT NhomSV.TenNhom
+FROM NhomSV
+INNER JOIN Ap ON NhomSV.MaAp = Ap.MaAp
+INNER JOIN Xa ON Ap.MaXa = Xa.MaXa
+WHERE NhomSV.MaNhom IN (
+    SELECT ChiTietCV.MaNhom
+    FROM ChiTietCV 
+    WHERE 
+	
+      ChiTietCV.Ngay =  @Ngay
+      AND ChiTietCV.Buoi = N'' + @Buoi
+)
+AND Xa.MaXa = @MaXa
+AND NhomSV.MaCD = @MaCD;
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DS_GVGS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[DS_GVGS]
+@MACD INT
+AS
+BEGIN
+
+select GiaoVien.MaGV, GiaoVien.TenGV,XA.TENXA, DIABAN.TENDB from ct_giamsat,GiaoVien,XA,DIABAN,GIAMSAT_SV
+ 
+  where CT_GIAMSAT.MASV = GIAMSAT_SV.MASV
+  AND
+  CT_GIAMSAT.MAGV = GIAOVIEN.MAGV
+  AND GIAMSAT_SV.MAXA = XA.MAXA
+  AND XA.MaDB = DiaBan.MaDB
+  AND
+  CT_GIAMSAT.MACD = @MACD 
+  group by GiaoVien.MaGV, GiaoVien.TenGV,XA.TENXA, DIABAN.TENDB  having count(GiaoVien.MaGV) > 1
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DS_SV_CHUACONHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DS_SV_CHUACONHOM]
+	@MaCD int,
+	@MaKhoa char(10)
+
+AS
+BEGIN -- Lấy ra các sinh viên chưa có nhóm, có nghĩa là lấy ra các sinh viên ko có mã trong bảng thành viên nhóm
+	SELECT SinhVien.MaSV,SinhVien.TenSV,GioiTinh,Khoa.MaKhoa
+FROM SinhVien
+Join Khoa on Khoa.MaKhoa = SinhVien.MaKhoa
+WHERE
+SinhVien.MaSV NOT IN (
+    SELECT ThanhVienNhom.MaSV
+    FROM ThanhVienNhom
+	JOIN NhomSV ON NhomSV.MaNhom = ThanhVienNhom.MaNhom
+	WHERE NhomSV.MaCD = @MaCD  
+	
+)
+	AND Khoa.MaKhoa = @MaKhoa 
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DS_SV_CHUAKT]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DS_SV_CHUAKT]
+@MaKT NCHAR(5),
+@MaCD INT
+
+AS
+BEGIN    
+    SELECT SinhVien.MaSV,SinhVien.TenSV,NhomSV.TenNhom
+FROM NhomSV
+JOIN ThanhVienNhom ON ThanhVienNhom.MaNhom = NhomSV.MaNhom
+JOIN SinhVien ON SinhVien.MaSV = ThanhVienNhom.MaSV
+
+WHERE NhomSV.MaCD = @MaCD and
+SinhVien.MaSV NOT IN (
+    SELECT CT_KhenThuong.MaSV
+    FROM CT_KhenThuong 
+    WHERE 
+	CT_KhenThuong.MaKT  = @MaKT		
+)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DS_SV_DACONHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DS_SV_DACONHOM]
+	@MaCD int,
+	@MaKhoa char(10)
+AS
+BEGIN -- Lấy ra các sinh viên chưa có nhóm, có nghĩa là lấy ra các sinh viên ko có mã trong bảng thành viên nhóm
+	SELECT SinhVien.MaSV,SinhVien.TenSV,GioiTinh,Khoa.MaKhoa, NhomSV.MaNhom, ThanhVienNhom.ChucVu
+FROM SinhVien
+JOIN Khoa on Khoa.MaKhoa = SinhVien.MaKhoa 
+JOIN ThanhVienNhom ON ThanhVienNhom.MaSV = SinhVien.MaSV
+JOIN NhomSV ON NhomSV.MaNhom = ThanhVienNhom.MaNhom	
+	WHERE NhomSV.MaCD = @MaCD AND KHOA.MAKHOA = @MaKhoa 	 
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[DS_SVDAKT_NHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[DS_SVDAKT_NHOM]
+@MaKT NCHAR(5),
+@MaCD INT
+
+AS
+BEGIN    	
+    SELECT CT_KhenThuong.MaSV,SinhVien.TenSV,NhomSV.TenNhom,CT_KhenThuong.MaKT
+    FROM CT_KhenThuong , SinhVien,NhomSV, ThanhVienNhom
+	
+    WHERE CT_KhenThuong.MaSV = SinhVien.MaSV and
+	SinhVien.MaSV = ThanhVienNhom.MaSV
+	and NhomSV.MaNhom = ThanhVienNhom.MaNhom
+	and
+	CT_KhenThuong.MaKT  = @MaKT
+	AND CT_KhenThuong.MaCD = @MaCD	
+END
+GO
+/****** Object:  StoredProcedure [dbo].[DSSV_GS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[DSSV_GS]
+@MACD INT
+
+AS
+BEGIN
+SELECT SINHVIEN.MaSV, SINHVIEN.TenSV,GIAMSAT_SV.CHUCVU, XA.TenXa, DIABAN.TenDB FROM SINHVIEN,XA,DIABAN,GIAMSAT_SV
+WHERE GIAMSAT_SV.MASV = SINHVIEN.MASV
+AND GIAMSAT_SV.MAXA = XA.MAXA
+AND XA.MADB = DIABAN.MADB
+AND GIAMSAT_SV.MACD  = @MACD
+
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[GetAllSVNhom]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GetAllSVNhom]
+   @MaNhom int
+AS
+BEGIN
+    SELECT TN.MaNhom,TN.ChucVu ,SV.MaSV, SV.TenSV, K.TenKhoa
+    FROM ThanhVienNhom TN
+    JOIN SinhVien SV ON TN.MaSV = SV.MaSV
+    JOIN Khoa K ON SV.MaKhoa = K.MaKhoa
+	
+	where TN.MaNhom = @MaNhom;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[hienThiChiTietDSCD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[hienThiChiTietDSCD]
+	@MaCD int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT * from CDMHX where MaCD = @MaCD
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[hienThiDSCD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[hienThiDSCD]
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT * from CDMHX
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[INSERT_CTCD_CV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[INSERT_CTCD_CV]
+	@MACD INT,
+	@MACV INT,
+	@NGAYBD DATE,
+	@NGAYKT DATE
+
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+	INSERT INTO CT_CD(MACD, MACV, NgayBD,NgayKT)
+	VALUES(@MACD,@MACV,@NGAYBD,@NGAYKT)
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SearchCongViec]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SearchCongViec]
+    @TuKhoa NVARCHAR(100)
+AS
+BEGIN
+    SELECT * FROM CongViec
+    WHERE TenCV LIKE '%' + @TuKhoa + '%'
+        OR CAST(MaCV AS NVARCHAR(100)) LIKE '%' + @TuKhoa + '%'
+       
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ChinhSuaGiaoVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ChinhSuaGiaoVien]
+    @MaGV INT,
+    @TenGV NVARCHAR(100),
+    @TenKhoa NVARCHAR(100)
+AS
+BEGIN
+    DECLARE @MaKhoa CHAR(50)
+
+    -- Truy vấn để lấy mã khoa dựa trên tên khoa
+    SELECT @MaKhoa = MaKhoa FROM Khoa WHERE TenKhoa = @TenKhoa
+
+    -- Cập nhật thông tin giáo viên trong cơ sở dữ liệu
+    UPDATE GiaoVien
+    SET TenGV = @TenGV, MaKhoa = @MaKhoa
+    WHERE MaGV = @MaGV
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ChinhSuaSinhVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ChinhSuaSinhVien]
+    @MaSV INT,
+    @TenSinhVien NVARCHAR(50),
+    @GioiTinh NVARCHAR(10),
+    @NgaySinh DATE,
+    @DiaChi NVARCHAR(100),
+    @SDT NVARCHAR(20),
+    @MaKhoa CHAR(10)
+AS
+BEGIN
+    -- Cập nhật thông tin sinh viên trong bảng SinhVien
+    UPDATE SinhVien
+    SET TenSV = @TenSinhVien,
+        GioiTinh = @GioiTinh,
+        NgaySinh = @NgaySinh,
+        DiaChi = @DiaChi,
+        SoDT = @SDT,
+        MaKhoa = @MaKhoa
+    WHERE MaSV = @MaSV
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DANGNHAP]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_DANGNHAP]
+@TENLOGIN NVARCHAR (50)
+AS
+DECLARE @TENUSER NVARCHAR(50)
+SELECT @TENUSER=NAME FROM sys.sysusers WHERE sid = SUSER_SID(@TENLOGIN)
+
+	SELECT USERNAME = @TENUSER,TENNHOM=NAME
+FROM sys.sysusers
+WHERE UID = (SELECT TOP 1 GROUPUID FROM SYS.SYSMEMBERS WHERE MEMBERUID = (SELECT TOP 1 UID FROM sys.sysusers WHERE NAME = @TENUSER))
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DANHSACH_CD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_DANHSACH_CD]
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT * FROM CDMHX
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DELETE_SV_KT]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_DELETE_SV_KT]
+	@MaSV int,
+	@MaCD int,
+	@MaKT nchar(8)
+AS
+BEGIN
+	DELETE CT_KhenThuong
+	where CT_KhenThuong.MaSV = @MaSV
+	AND CT_KhenThuong.MaCD = @MaCD
+	AND CT_KhenThuong.MaKT =@MaKT
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DS_BGS_CHUAPC]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_DS_BGS_CHUAPC]
+@MACD INT
+AS
+BEGIN --CHO BIẾT CÁC ĐỊA BÀN ĐÃ THAM GIA TRONG CHIẾN DỊCH ĐÓ, NẾU SV CỦA CHIẾN DỊCH NÀY NẰM TRONG CT_GIAMSAT THÌ NGHĨA LÀ XÃ ĐÓ ĐÃ TỒN TẠI ĐẦY ĐỦ GIÁO VIÊN VÀ SINH VIÊN GIÁM SÁT
+	SELECT GiaoVien.MAGV, GIAOVIEN.TENGV,GiaoVien.MaKhoa FROM GIAOVIEN
+	WHERE
+	 GiaoVien.MaGV  NOT IN (SELECT CT_GIAMSAT.MAGV FROM CT_GIAMSAT WHERE MACD = @MACD)
+
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DS_GV_PC]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_DS_GV_PC]
+@MACD INT,
+@MAXA INT
+AS
+BEGIN --CHO BIẾT CÁC ĐỊA BÀN ĐÃ THAM GIA TRONG CHIẾN DỊCH ĐÓ, NẾU SV CỦA CHIẾN DỊCH NÀY NẰM TRONG CT_GIAMSAT THÌ NGHĨA LÀ XÃ ĐÓ ĐÃ TỒN TẠI ĐẦY ĐỦ GIÁO VIÊN VÀ SINH VIÊN GIÁM SÁT
+	SELECT GiaoVien.MAGV, GIAOVIEN.TENGV, GiaoVien.MaKhoa, GIAMSAT_SV.MAXA
+FROM GIAOVIEN
+JOIN CT_GIAMSAT ON CT_GIAMSAT.MAGV = GiaoVien.MaGV
+JOIN GIAMSAT_SV ON GIAMSAT_SV.MASV = CT_GIAMSAT.MASV
+WHERE CT_GIAMSAT.MACD = @MACD
+AND GIAMSAT_SV.MAXA = @MAXA
+GROUP BY GiaoVien.MAGV, GIAOVIEN.TENGV, GiaoVien.MaKhoa, GIAMSAT_SV.MAXA
+HAVING COUNT(GiaoVien.MAGV) >= 1
+
+
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DSCV_CD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_DSCV_CD] 
+	@MaNam INT
+AS
+BEGIN
+	SELECT CongViec.TenCV, ChiTietCV.MaNhom,ChiTietCV.Buoi,ChiTietCV.Ngay,Ap.TenAp 
+	FROM  CongViec, ChiTietCV, Ap, NhomSV
+	WHERE CongViec.MaCV = ChiTietCV.MaCongViec
+    AND NhomSV.MaNhom = ChiTietCV.MaNhom
+	AND ChiTietCV.MaAp = Ap.MaAp
+    AND NhomSV.MaCD = @MaNam;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DSDIABAN_CD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_DSDIABAN_CD]
+	@MaNam INT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+
+	SELECT Xa.MaDB, DiaBan.TenDB
+	From NhomSV,Xa,DiaBan,Ap
+	WHERE NhomSV.MaAp = Ap.MaAp
+	AND AP.MaXa = XA.MaXa
+	AND XA.MaDB = DiaBan.MaDB
+	and NhomSV.MaCD = @MaNam
+	
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DSKT_CD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_DSKT_CD]
+	@MaNam INT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    SELECT ThanhTich.MaKT, ThanhTich.MucDoKT,ThanhTich.NDKT, SinhVien.MaSV, SinhVien.TenSV
+FROM CT_KhenThuong
+JOIN SinhVien on SinhVien.MaSV = CT_KhenThuong.MaSV
+JOIN ThanhTich on ThanhTich.MaKT = CT_KhenThuong.MaKT
+WHERE CT_KhenThuong.MaCD = @MaNam
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DSNHOM_CD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_DSNHOM_CD] 
+	@MaNam INT
+AS
+BEGIN
+	SELECT MaNhom,TenNhom,SoLuongSV FROM NhomSV
+WHERE MaCD = @MaNam
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_DSSV_KT]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_DSSV_KT]
+	@MaNam INT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    SELECT ThanhTich.MucDoKT,ThanhTich.NDKT, SinhVien.MaSV, SinhVien.TenSV, NhomSV.TenNhom
+FROM CT_KhenThuong
+JOIN SinhVien on SinhVien.MaSV = CT_KhenThuong.MaSV -- LẤY RA CÁC SINH VIÊN ĐƯỢC KHEN THƯỞNG
+JOIN ThanhVienNhom ON SinhVien.MaSV = ThanhVienNhom.MaSV --SINH VIÊN ĐÓ THUỘC NHÓM NÀO
+JOIN NhomSV ON NhomSV.MaNhom = ThanhVienNhom.MaNhom -- LẤY RA NHÓM CỦA SINH VIÊN ĐÓ
+JOIN ThanhTich on ThanhTich.MaKT = CT_KhenThuong.MaKT --LẤY RA MÃ KHEN THƯỞNG
+WHERE CT_KhenThuong.MaCD = @MaNam
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_GETTENKHOA]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_GETTENKHOA]
+AS
+	BEGIN
+		SELECT TenKhoa FROM Khoa
+	END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_INSERT_BGS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_INSERT_BGS]
+	@MaGV int,
+	@MaSV int,
+	@MaCD int
+AS
+BEGIN
+	INSERT INTO CT_GIAMSAT(MAGV,MASV,MACD)
+	VALUES (@MaGV,@MaSV,@MaCD)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_INSERTKT]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_INSERTKT]
+	@MaSV int,
+	@MaCD int,
+	@MaKT nchar(8)
+AS
+BEGIN
+	INSERT INTO CT_KhenThuong(MaKT,MaSV,MaCD)
+	VALUES (@MaKT,@MaSV,@MaCD)
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_INSERTNHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_INSERTNHOM]
+	@TENNHOM NVARCHAR(10),
+	@SOLUONG INT,
+	@MACD INT,
+	@MAAP INT,
+	@MaNhom INT OUTPUT
+AS
+BEGIN
+	INSERT INTO NhomSV(TenNhom, SoLuongSV, MaCD, MaAp)
+	VALUES (@TENNHOM, @SOLUONG, @MACD, @MAAP)
+
+	SET @MaNhom = SCOPE_IDENTITY()
+
+	-- Trả về mã nhóm
+	RETURN @MaNhom
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_INSERTSV_GS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_INSERTSV_GS]
+	@MaSV int,
+	@MaCD int,
+	@MaXa int,
+	@ChucVu nvarchar(15)
+
+AS
+BEGIN
+	INSERT INTO GIAMSAT_SV(MASV, MACD,MAXA,CHUCVU)
+	VALUES (@MaSV,@MaCD,@MaXa,@ChucVu)
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_INSERTSV_NHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_INSERTSV_NHOM]
+	@MANHOM INT,
+	@MASV INT,
+	@CHUCVU NVARCHAR(15)
+AS
+BEGIN
+	
+	INSERT INTO ThanhVienNhom(MaNhom,MaSV,ChucVu)
+	VALUES (@MANHOM,@MASV,@CHUCVU)	  
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_PCBGS_XA]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_PCBGS_XA]
+@MACD INT,
+@MADB INT
+AS
+BEGIN --CHO BIẾT CÁC ĐỊA BÀN ĐÃ THAM GIA TRONG CHIẾN DỊCH ĐÓ, NẾU SV CỦA CHIẾN DỊCH NÀY NẰM TRONG CT_GIAMSAT THÌ NGHĨA LÀ XÃ ĐÓ ĐÃ TỒN TẠI ĐẦY ĐỦ GIÁO VIÊN VÀ SINH VIÊN GIÁM SÁT
+	SELECT Xa.MaXa, Xa.TenXa
+FROM GIAMSAT_SV
+JOIN XA ON GIAMSAT_SV.MAXA = XA.MaXa
+JOIN AP ON AP.MaXa = XA.MaXa
+JOIN DIABAN ON XA.MaDB = DiaBan.MaDB
+WHERE 
+
+ GIAMSAT_SV.MACD = @MACD AND DiaBan.MaDB = @MADB
+-- AND XA.MaXa NOT IN (SELECT GIAMSAT_SV.MAXA FROM GIAMSAT_SV JOIN CT_GIAMSAT ON GIAMSAT_SV.MASV = CT_GIAMSAT.MASV WHERE GIAMSAT_SV.MACD = @MACD)
+
+GROUP BY Xa.TenXa,Xa.MaXa
+HAVING COUNT(Xa.MaXa) >= 1;
+
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_PCGS_XA]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_PCGS_XA]
+@MACD INT,
+@MADB int
+AS
+BEGIN --LẤY DANH SÁCH XÃ MÀ ĐÃ CÓ NHÓM THAM GIA CHIẾN DỊCH ĐÓ VÀ KO BAO GỒM NHỮNG XÃ THUỘC CHIẾN DỊCH ĐÓ MÀ ĐÃ CÓ GIÁM SÁT
+	SELECT Xa.MaXa,Xa.TenXa
+FROM NhomSV
+
+JOIN Ap ON NhomSV.MaAp = Ap.MaAp
+JOIN Xa ON Ap.MaXa = Xa.MaXa
+JOIN DiaBan ON Xa.MaDb = DiaBan.MaDb
+
+WHERE NhomSV.MaCD = @MACD AND DiaBan.MaDB = @MADB
+AND XA.MaXa NOT IN (SELECT GIAMSAT_SV.MAXA FROM GIAMSAT_SV WHERE GIAMSAT_SV.MACD = @MACD
+GROUP BY GIAMSAT_SV.MAXA
+HAVING COUNT(GIAMSAT_SV.MAXA) = 2)
+GROUP BY Xa.MaXa,Xa.TenXa
+HAVING COUNT(Xa.MaXa) >= 1;
+
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_PHANCONGCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_PHANCONGCV]
+@MaCV INT,
+@TenNhom NVARCHAR(10),
+@Buoi NVARCHAR(20),
+@Ngay DATE,
+@MaAp INT
+AS
+	BEGIN
+	INSERT INTO ChiTietCV(MaCongViec,MaNhom,Buoi,Ngay,MaAp)
+	VALUES (@MaCV,
+	(SELECT MaNhom FROM NhomSV WHERE TenNhom = @TenNhom), @Buoi,@Ngay,
+	@MaAp)
+	END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_PHANCONGSV_DAGS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_PHANCONGSV_DAGS]
+@MACD INT,
+@MAXA INT
+AS
+BEGIN
+	SELECT SinhVien.MaSV, SinhVien.TENSV, GIAMSAT_SV.MaXa, GIAMSAT_SV.CHUCVU
+FROM SinhVien, GIAMSAT_SV
+WHERE
+    GIAMSAT_SV.MASV = SinhVien.MASV
+    
+    AND GIAMSAT_SV.MaCD = 2023
+    AND GIAMSAT_SV.MAXA = (
+        SELECT TOP 1 MAXA
+        FROM GIAMSAT_SV
+        WHERE GIAMSAT_SV.MAXA = 1
+    )
+	GROUP BY SinhVien.MaSV, SinhVien.TENSV, GIAMSAT_SV.MaXa, GIAMSAT_SV.CHUCVU
+	HAVING COUNT(SINHVIEN.MASV) >= 1
+
+
+END
+SELECT  * FROM GIAMSAT_SV
+GO
+/****** Object:  StoredProcedure [dbo].[SP_PHANCONGSV_GS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_PHANCONGSV_GS]
+@MACD INT,
+@MAXA INT
+AS
+BEGIN -- LẤY CÁC SINH VIÊN ĐÃ CÓ NHÓM THUỘC CHIẾN DỊCH ĐÓ 
+-- VÀ KO BAO GỒM NHỮNG SINH VIÊN ĐÃ THAM GIA 
+	SELECT SinhVien.MaSV, SinhVien.TenSV,Xa.MaXa
+FROM SinhVien,Xa, ThanhVienNhom,NHOMSV,AP
+WHERE  SinhVien.MaSV = ThanhVienNhom.MASV
+AND THANHVIENNHOM.MANHOM = NHOMSV.MANHOM
+AND NHOMSV.MAAP = AP.MAAP
+AND NhomSV.MaCD = @MACD
+AND AP.MAXA = XA.MAXA
+AND XA.MaXa  = @MAXA
+AND SINHVIEN.MASV NOT IN (SELECT GIAMSAT_SV.MASV FROM GIAMSAT_SV WHERE GIAMSAT_SV.MACD = @MACD)
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_TENCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_TENCV]
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT TenCV FROM CongViec
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SP_THEMCD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_THEMCD]
+    @MaCD INT,
+    @NgayBD DATE,
+    @NgayKT DATE,
+    @TenCD NVARCHAR(100)
+    
+AS
+BEGIN
+    SET NOCOUNT ON;
+	IF EXISTS (SELECT 1 FROM CDMHX WHERE MaCD = @MaCD)
+		begin
+			return;
+		end
+	ELSE
+	BEGIN 
+		INSERT INTO CDMHX (MaCD, TenCD, NgayBD,NgayKT)
+    VALUES (@MaCD,@TenCD,@NgayBD,@NgayKT);
+	END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ThemCongViec]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ThemCongViec]
+    @TenCongViec NVARCHAR(100),
+   
+    @MaCongViec INT OUTPUT -- Thêm tham số output để lưu mã công việc tự động
+    
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO CongViec (TenCV)
+    VALUES (@TenCongViec);
+
+    -- Lấy mã công việc tự động
+    SET @MaCongViec = SCOPE_IDENTITY();
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ThemGiaoVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ThemGiaoVien]
+    @TenGiaoVien NVARCHAR(100),
+    @TenKhoa NVARCHAR(100),
+   
+    @MaGiaoVien INT OUTPUT -- Thêm tham số output để lưu mã công việc tự động
+    
+AS
+BEGIN
+    SET NOCOUNT ON;
+	DECLARE @MaKhoa CHAR(50)
+	-- Truy vấn để lấy mã khoa dựa trên tên khoa
+    SELECT @MaKhoa = MaKhoa FROM Khoa WHERE TenKhoa = @TenKhoa
+
+    INSERT INTO GiaoVien(TenGV, MaKhoa)
+    VALUES (@TenGiaoVien, @MaKhoa);
+
+    -- Lấy mã công việc tự động
+    SET @MaGiaoVien = SCOPE_IDENTITY();
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_ThemSinhVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_ThemSinhVien]
+    @TenSinhVien NVARCHAR(50),
+    @GioiTinh NVARCHAR(10),
+    @NgaySinh DATE,
+    @DiaChi NVARCHAR(100),
+    @SDT NVARCHAR(20),
+    @MaKhoa char(10)
+AS
+BEGIN
+    DECLARE @MaSinhVien INT
+
+    -- Thêm sinh viên vào bảng SinhVien
+    INSERT INTO SinhVien (TenSV, GioiTinh, NgaySinh, DiaChi, SoDT, MaKhoa)
+    VALUES (@TenSinhVien, @GioiTinh, @NgaySinh, @DiaChi, @SDT, @MaKhoa)
+
+    -- Lấy mã sinh viên vừa được thêm
+    SET @MaSinhVien = SCOPE_IDENTITY()
+
+    -- Trả về mã sinh viên
+    SELECT @MaSinhVien AS MaSinhVien
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_TIMKIEM_CD]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_TIMKIEM_CD]
+	@TuKhoa INT
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+	SELECT * FROM CDMHX
+    WHERE MaCD = @TuKhoa
+        
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_TIMKIEM_NHOM]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_TIMKIEM_NHOM]
+@MACD INT,
+@MASV INT
+AS
+BEGIN
+
+SELECT NHOMSV.MANHOM, NhomSV.TenNhom, NhomSV.SoLuongSV,CDMHX.TenCD, Ap.TenAp
+FROM NHOMSV,CDMHX,Ap,ThanhVienNhom
+
+WHERE CDMHX.MaCD = NhomSV.MaCD
+AND AP.MaAp = NhomSV.MaAp
+AND ThanhVienNhom.MaNhom = NhomSV.MaNhom
+
+AND THANHVIENNHOM.MASV = @MASV AND NHOMSV.MACD = @MACD
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_TIMKIEMSVTHEOKHOA]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_TIMKIEMSVTHEOKHOA]
+    @TuKhoa CHAR(10)
+AS
+BEGIN
+    -- Chuyển đổi từ khóa sang dạng chữ hoa
+   
+
+    -- Tìm kiếm sinh viên dựa trên khoa
+    SELECT 
+        sv.MaSV,
+        sv.TenSV,
+        sv.GioiTinh,
+        sv.SoDT,
+        sv.NgaySinh,
+        sv.DiaChi,
+        k.TenKhoa
+    FROM 
+        SinhVien sv
+    JOIN
+        Khoa k ON sv.MaKhoa = k.MaKhoa
+    WHERE
+	k.MaKhoa = @TuKhoa
+       
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_TIMKIEMTHEOKHOA]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_TIMKIEMTHEOKHOA]
+    @TuKhoa NVARCHAR(100)
+AS
+BEGIN
+    DECLARE @MaKhoa CHAR(50)
+
+    SELECT @MaKhoa = MaKhoa FROM Khoa WHERE TenKhoa = @TuKhoa
+
+    SELECT GiaoVien.MaGV, GiaoVien.TenGV, Khoa.TenKhoa
+    FROM GiaoVien
+    JOIN Khoa ON Khoa.MaKhoa = GiaoVien.MaKhoa
+    WHERE GiaoVien.MaKhoa = @MaKhoa
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_XA_CTCD_GS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_XA_CTCD_GS]
+@MACD INT,
+@MADB INT
+AS
+BEGIN
+SELECT XA.MaXa, Xa.TenXa 
+ FROM GIAMSAT_SV,Xa 
+ WHERE  Xa.MAXA = GIAMSAT_SV.MAXA AND MACD = @MACD AND XA.MADB = @MADB 
+ group by  XA.MaXa, Xa.TenXa  
+ having count(Xa.Maxa) >= 1
+
+ 
+
+
+ END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_XA_CTCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_XA_CTCV]
+@MACD INT,
+@MAGV INT
+AS
+	BEGIN
+		SELECT Xa.MaXa, XA.TenXa FROM CT_GIAMSAT 
+		JOIN GIAMSAT_SV ON GIAMSAT_SV.MASV = CT_GIAMSAT.MASV
+		JOIN XA ON XA.MAXA = GIAMSAT_SV.MAXA
+		WHERE CT_GIAMSAT.MAGV = @MAGV AND CT_GIAMSAT.MACD = @MACD
+		GROUP BY Xa.MaXa, XA.TenXa
+		HAVING COUNT(Xa.MaXa) > 1
+	END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_XOA_CTCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[SP_XOA_CTCV]
+@MaCV INT,
+@TenNhom NVARCHAR(10),
+@Buoi NVARCHAR(20),
+@Ngay DATE,
+@MaAp INT
+AS
+	BEGIN
+	DELETE ChiTietCV WHERE MaCongViec = @MaCV
+	AND MaNhom = (SELECT MaNhom from NhomSV where TenNhom =N'' + @TenNhom)
+	AND Buoi =N'' + @Buoi
+	AND Ngay = @Ngay
+	AND MaAp = @MaAp
+	END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_XoaGiaoVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_XoaGiaoVien]
+    @MaGV int
+AS
+BEGIN
+    -- Xoá giáo viên từ bảng tbGiaoVien
+    DELETE FROM GiaoVien
+    WHERE MaGV = @MaGV
+END
+GO
+/****** Object:  StoredProcedure [dbo].[SP_XoaSinhVien]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SP_XoaSinhVien]
+    @MaSV INT
+AS
+BEGIN
+    -- Xoá sinh viên khỏi bảng SinhVien
+    DELETE FROM SinhVien
+    WHERE MaSV = @MaSV
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TamSVNhom]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[TamSVNhom]
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	CREATE TABLE #Svnhom (
+        MaSV INT,
+        TenSV NVARCHAR(50),
+        GioiTinh NVARCHAR(5),
+        TenKhoa NVARCHAR(50)
+       
+    )
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEM_CTCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[TIMKIEM_CTCV]
+	(@MANHOM INT)
+AS
+BEGIN
+SELECT CongViec.TenCV,NhomSV.TenNhom,Buoi,Ngay,Ap.TenAp,Xa.TenXa,DiaBan.TenDB
+FROM ChiTietCV, CongViec, NhomSV,Ap,Xa,DiaBan
+WHERE ChiTietCV.MaCongViec = CongViec.MaCV
+AND NhomSV.MaNhom = ChiTietCV.MaNhom
+AND Ap.MaAp = ChiTietCV.MaAp
+AND AP.MaXa = XA.MaXa
+AND DiaBan.MaDB = XA.MaDB
+AND NHOMSV.MACD = 2023 
+AND NHOMSV.MaNhom = @MANHOM
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEM_GVGS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[TIMKIEM_GVGS]
+@MACD INT,
+@MAGV INT
+AS
+BEGIN
+
+select GiaoVien.MaGV, GiaoVien.TenGV,XA.TENXA, DIABAN.TENDB from ct_giamsat,GiaoVien,XA,DIABAN,GIAMSAT_SV
+ 
+  where CT_GIAMSAT.MASV = GIAMSAT_SV.MASV
+  AND
+  CT_GIAMSAT.MAGV = GIAOVIEN.MAGV
+  AND GIAMSAT_SV.MAXA = XA.MAXA
+  AND XA.MaDB = DiaBan.MaDB
+  AND
+  GIAMSAT_SV.MACD = @MACD 
+  and CT_GIAMSAT.MAGV = @MAGV
+  group by GiaoVien.MaGV, GiaoVien.TenGV,XA.TENXA, DIABAN.TENDB  having count(GiaoVien.MaGV) > 1
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEM_SVGS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[TIMKIEM_SVGS]
+@MACD INT,
+@MASV INT
+AS
+BEGIN
+SELECT SINHVIEN.MaSV, SINHVIEN.TenSV,GIAMSAT_SV.CHUCVU, XA.TenXa, DIABAN.TenDB FROM SINHVIEN,XA,DIABAN,GIAMSAT_SV
+WHERE GIAMSAT_SV.MASV = SINHVIEN.MASV
+AND GIAMSAT_SV.MAXA = XA.MAXA
+AND XA.MADB = DIABAN.MADB
+AND GIAMSAT_SV.MACD  = @MACD
+AND GIAMSAT_SV.MASV = @MASV
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEMDSGV_GS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[TIMKIEMDSGV_GS]
+@MACD INT,
+@TUKHOA NVARCHAR(50)
+AS
+BEGIN
+SET @TUKHOA = UPPER(@TUKHOA)
+select GiaoVien.MaGV, GiaoVien.TenGV,XA.TENXA, DIABAN.TENDB from ct_giamsat,GiaoVien,XA,DIABAN,GIAMSAT_SV
+ 
+  where CT_GIAMSAT.MASV = GIAMSAT_SV.MASV
+  AND
+  CT_GIAMSAT.MAGV = GIAOVIEN.MAGV
+  AND GIAMSAT_SV.MAXA = XA.MAXA
+  AND XA.MaDB = DiaBan.MaDB
+  AND
+  GIAMSAT_SV.MACD = @MACD 
+  AND  (DiaBan.TENDB LIKE '%' +N'' + @TUKHOA + '%'
+or  Xa.TENXA LIKE '%' + N'' + @TUKHOA + '%')
+  group by GiaoVien.MaGV, GiaoVien.TenGV,XA.TENXA, DIABAN.TENDB  having count(GiaoVien.MaGV) > 1
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEMDSSV_GS]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[TIMKIEMDSSV_GS]
+@MACD INT,
+@TUKHOA NVARCHAR(50)
+AS
+BEGIN
+SET @TUKHOA = UPPER(@TUKHOA)
+SELECT SINHVIEN.MaSV, SINHVIEN.TenSV,GIAMSAT_SV.CHUCVU, XA.TenXa, DIABAN.TenDB FROM SINHVIEN,XA,DIABAN,GIAMSAT_SV
+WHERE GIAMSAT_SV.MASV = SINHVIEN.MASV
+AND GIAMSAT_SV.MAXA = XA.MAXA
+AND XA.MADB = DIABAN.MADB
+AND GIAMSAT_SV.MACD  = @MACD
+AND (DiaBan.TENDB LIKE '%' +N'' + @TUKHOA + '%'
+OR  Xa.TenXa LIKE '%' +N'' + @TUKHOA + '%')
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEMGV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[TIMKIEMGV]
+    @TuKhoa NVARCHAR(100)
+AS
+BEGIN
+	DECLARE @MaKhoa CHAR(50)
+	SELECT @MaKhoa = MaKhoa FROM Khoa WHERE TenKhoa = @TuKhoa
+    SELECT GiaoVien.MaGV, GiaoVien.TenGV, Khoa.TenKhoa 
+	FROM GiaoVien
+    JOIN Khoa ON Khoa.MaKhoa = GiaoVien.MaKhoa
+    WHERE TenGV LIKE '%' + @TuKhoa + '%'
+        OR CAST(MaGV AS NVARCHAR(100)) LIKE '%' + @TuKhoa + '%'
+       
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEMSV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[TIMKIEMSV]
+    @TuKhoa NVARCHAR(100)
+AS
+BEGIN
+	SET @TuKhoa = UPPER(@TuKhoa)
+    -- Tìm kiếm sinh viên dựa trên từ khóa (theo tên sinh viên hoặc mã sinh viên)
+	DECLARE @MaKhoa CHAR(50)
+	SELECT @MaKhoa = MaKhoa FROM Khoa WHERE TenKhoa = @TuKhoa
+    SELECT 
+        sv.MaSV,
+        sv.TenSV,
+        sv.GioiTinh,
+        sv.SoDT,
+        sv.NgaySinh,
+        sv.DiaChi,
+        k.TenKhoa
+    FROM 
+        SinhVien sv
+    JOIN
+        Khoa k ON sv.MaKhoa = k.MaKhoa
+    WHERE
+        UPPER(sv.TenSV) LIKE '%' + @TuKhoa + '%' OR
+        CONVERT(NVARCHAR(20), sv.MaSV) LIKE '%' + @TuKhoa + '%'
+END
+GO
+/****** Object:  StoredProcedure [dbo].[TIMKIEMSVKT]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[TIMKIEMSVKT]
+    @TuKhoa NVARCHAR(100),
+	@MaNam INT
+AS
+BEGIN
+	SET @TuKhoa = UPPER(@TuKhoa)
+    -- Tìm kiếm sinh viên dựa trên từ khóa (theo tên sinh viên hoặc mã sinh viên)
+	SELECT ThanhTich.MucDoKT,ThanhTich.NDKT, SinhVien.MaSV, SinhVien.TenSV, NhomSV.TenNhom
+FROM CT_KhenThuong
+   JOIN SinhVien on SinhVien.MaSV = CT_KhenThuong.MaSV -- LẤY RA CÁC SINH VIÊN ĐƯỢC KHEN THƯỞNG
+JOIN ThanhVienNhom ON SinhVien.MaSV = ThanhVienNhom.MaSV --SINH VIÊN ĐÓ THUỘC NHÓM NÀO
+JOIN NhomSV ON NhomSV.MaNhom = ThanhVienNhom.MaNhom -- LẤY RA NHÓM CỦA SINH VIÊN ĐÓ
+JOIN ThanhTich on ThanhTich.MaKT = CT_KhenThuong.MaKT --LẤY RA MÃ KHEN THƯỞNG
+WHERE CT_KhenThuong.MaCD = @MaNam
+and UPPER(SinhVien.TenSV) LIKE '%' + @TuKhoa + '%' OR
+UPPER(ThanhTich.MucDoKT) LIKE '%' + @TuKhoa + '%' or
+        CONVERT(NVARCHAR(3), SinhVien.MaSV) LIKE '%' + @TuKhoa + '%'
+   
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UPDATE_CTCD_CV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UPDATE_CTCD_CV]
+	@MACD INT,
+	@MACV INT,
+	@NGAYBD DATE,
+	@NGAYKT DATE,
+	@MACU INT
+AS
+BEGIN
+	
+	SET NOCOUNT ON;
+	UPDATE CT_CD
+	SET MACV = @MACV,
+	NGAYBD = @NGAYBD,
+	NGAYKT = @NGAYKT
+	WHERE MACD = @MACD AND MaCV = @MACU
+END
+GO
+/****** Object:  StoredProcedure [dbo].[UpdateCongViec]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateCongViec]
+    @MaCV INT,
+    @TenCV NVARCHAR(50)
+    
+AS
+BEGIN
+    UPDATE CongViec
+    SET TenCV = @TenCV
+        
+    WHERE MaCV = @MaCV;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[XA_CTCV]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[XA_CTCV]
+	@MAXA INT
+	AS
+	BEGIN
+	SELECT MaAp,TenAp FROM Ap WHERE MaXa = @MAXA
+	END
+GO
+/****** Object:  StoredProcedure [dbo].[XA_GS_BAOCAO]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[XA_GS_BAOCAO]
+@MACD INT,
+@MAGV INT
+AS
+BEGIN
+
+select Xa.MaXa, Xa.TenXa from GIAMSAT_SV,XA,CT_GIAMSAT where GIAMSAT_SV.MACD = @MACD AND GIAMSAT_SV.MAXA = Xa.MaXa
+AND GIAMSAT_SV.MASV = CT_GIAMSAT.MASV
+AND CT_GIAMSAT.MAGV = @MAGV
+GROUP BY Xa.MaXa, Xa.TenXa
+HAVING COUNT(Xa.MaXa) > 1
+END
+GO
+/****** Object:  StoredProcedure [dbo].[XA_GSSV_BAOCAO]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROC [dbo].[XA_GSSV_BAOCAO]
+@MACD INT,
+@MASV INT
+AS
+BEGIN
+
+select Xa.MaXa, Xa.TenXa from GIAMSAT_SV,XA where GIAMSAT_SV.MACD = @MACD AND GIAMSAT_SV.MAXA = Xa.MaXa
+AND GIAMSAT_SV.MASV = @MASV
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[XoaCongViec]    Script Date: 7/16/2023 21:13:35 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[XoaCongViec]
+    @MaCV INT
+AS
+BEGIN
+    DELETE FROM CongViec WHERE MaCV = @MaCV;
+END
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = -480
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "ChiTietCV"
+            Begin Extent = 
+               Top = 7
+               Left = 48
+               Bottom = 170
+               Right = 242
+            End
+            DisplayFlags = 280
+            TopColumn = 1
+         End
+         Begin Table = "CongViec"
+            Begin Extent = 
+               Top = 5
+               Left = 670
+               Bottom = 168
+               Right = 864
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "NhomSV"
+            Begin Extent = 
+               Top = 217
+               Left = 672
+               Bottom = 380
+               Right = 866
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Ap"
+            Begin Extent = 
+               Top = 304
+               Left = 81
+               Bottom = 445
+               Right = 275
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Xa"
+            Begin Extent = 
+               Top = 224
+               Left = 313
+               Bottom = 365
+               Right = 507
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "DiaBan"
+            Begin Extent = 
+               Top = 474
+               Left = 665
+               Bottom = 593
+               Right = 859
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'V_DS_CTCV'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane2', @value=N'
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'V_DS_CTCV'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=2 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'V_DS_CTCV'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[65] 4[6] 2[22] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "NhomSV"
+            Begin Extent = 
+               Top = 54
+               Left = 369
+               Bottom = 217
+               Right = 563
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "CDMHX"
+            Begin Extent = 
+               Top = 38
+               Left = 76
+               Bottom = 201
+               Right = 270
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Ap"
+            Begin Extent = 
+               Top = 44
+               Left = 738
+               Bottom = 220
+               Right = 932
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "DiaBan"
+            Begin Extent = 
+               Top = 302
+               Left = 856
+               Bottom = 429
+               Right = 1050
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Xa"
+            Begin Extent = 
+               Top = 278
+               Left = 507
+               Bottom = 407
+               Right = 701
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900
+         Table = 1176
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1356
+         SortOrder = 1416
+         GroupBy = 1350
+         Filter = 1356
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'V_DSNHOM'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane2', @value=N'
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'V_DSNHOM'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=2 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'V_DSNHOM'
+GO
